@@ -26,7 +26,7 @@ export default function Admin() {
   useEffect(() => { if (me?.role === "admin") { loadOv(); loadGames(); loadUsers(); } }, [me, loadOv, loadGames, loadUsers]);
 
   if (!me) return <div className="empty"><Icon name="lock" /><div style={{ fontWeight: 750, marginBottom: 12 }}>Administrator sign-in required</div><Link href="/login" className="btn g">Sign in</Link></div>;
-  if (me.role !== "admin" || denied) return <div className="empty"><Icon name="shield" /><div style={{ fontWeight: 750 }}>403 â€” Administrator role required</div><div className="xs" style={{ marginTop: 8 }}>This route is protected on the server, not only in the interface.</div><Link href="/" className="btn o s" style={{ marginTop: 14 }}>â† Home</Link></div>;
+  if (me.role !== "admin" || denied) return <div className="empty"><Icon name="shield" /><div style={{ fontWeight: 750 }}>403  Administrator role required</div><div className="xs" style={{ marginTop: 8 }}>This route is protected on the server, not only in the interface.</div><Link href="/" className="btn o s" style={{ marginTop: 14 }}> Home</Link></div>;
 
   const saveGame = async () => {
     const r = await fetch("/api/admin/games", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, sort: Number(form.sort) || 0, id: form.id || undefined }) });
@@ -71,7 +71,7 @@ export default function Admin() {
           </div>
           <div className="grid g2">
             <div className="card pad">
-              <h3 className="h3">Bets Â· last 7 days</h3>
+              <h3 className="h3">Bets  last 7 days</h3>
               <div className="row" style={{ alignItems: "flex-end", height: 140, gap: 9 }}>
                 {ov.days.map((v: number, i: number) => (
                   <div key={i} style={{ flex: 1, textAlign: "center" }}>
@@ -117,7 +117,7 @@ export default function Admin() {
           </div>
           <div className="bt wrap">
             <button className="btn g" onClick={() => { setForm(BLANK); setEditing(true); }}><Icon name="plus" />Add game</button>
-            <input className="in" style={{ maxWidth: 260 }} placeholder="Search catalogueâ€¦" value={q} onChange={e => setQ(e.target.value)} />
+            <input className="in" style={{ maxWidth: 260 }} placeholder="Search catalogue" value={q} onChange={e => setQ(e.target.value)} />
           </div>
           <div className="card pad scroll">
             <table className="tbl">
@@ -128,7 +128,7 @@ export default function Admin() {
                   <td className="xs dim">{g.provider}</td>
                   <td className="xs" style={{ textTransform: "capitalize" }}>{g.category}</td>
                   <td><span className={"tag " + (g.status === "connected" ? "j" : g.status === "disabled" ? "e" : "n")}>{g.status}</span></td>
-                  <td className="xxs faint clip" style={{ maxWidth: 220 }}>{g.launch_url || "â€”"}</td>
+                  <td className="xxs faint clip" style={{ maxWidth: 220 }}>{g.launch_url || ""}</td>
                   <td><div className="row" style={{ gap: 5 }}>
                     <button className="btn o x" onClick={() => { setForm({ ...g }); setEditing(true); }}><Icon name="edit" /></button>
                     <button className="btn d x" onClick={() => delGame(g.id)}><Icon name="trash" /></button>
@@ -154,7 +154,7 @@ export default function Admin() {
                 <td><span className={"tag " + (u.banned ? "e" : "j")}>{u.banned ? "SUSPENDED" : "ACTIVE"}</span></td>
                 <td><div className="row wrap" style={{ gap: 5 }}>
                   <button className="btn o x" onClick={() => act(u.id, "credit", 1000)}>+1k</button>
-                  <button className="btn o x" onClick={() => act(u.id, "debit", 1000)}>âˆ’1k</button>
+                  <button className="btn o x" onClick={() => act(u.id, "debit", 1000)}>1k</button>
                   <button className="btn o x" onClick={() => act(u.id, "role", u.role === "admin" ? "user" : "admin")}>{u.role === "admin" ? "Demote" : "Promote"}</button>
                   <button className="btn d x" disabled={u.id === me.id} onClick={() => act(u.id, u.banned ? "unban" : "ban")}>{u.banned ? "Restore" : "Suspend"}</button>
                 </div></td>
@@ -182,8 +182,8 @@ export default function Admin() {
                   <td className="xxs dim">Signed contract with your aggregator</td></tr>
                 <tr><td><b className="xs">Database</b><div className="xxs faint">Production persistence</div></td><td className="mono xxs">POSTGRES_URL</td>
                   <td><span className={"tag " + (ov.providers.database.configured ? "j" : "g")}>{ov.providers.database.configured ? "POSTGRES CONNECTED" : "LOCAL FILE (DEV)"}</span></td>
-                  <td className="xxs"><a href="https://neon.tech" target="_blank" rel="noreferrer" style={{ color: "var(--gold-hi)" }}>neon.tech</a> Â· free tier</td></tr>
-                <tr><td><b className="xs">Payments</b></td><td className="mono xxs">â€”</td>
+                  <td className="xxs"><a href="https://neon.tech" target="_blank" rel="noreferrer" style={{ color: "var(--gold-hi)" }}>neon.tech</a>  free tier</td></tr>
+                <tr><td><b className="xs">Payments</b></td><td className="mono xxs"></td>
                   <td><span className="tag v">DISABLED BY DESIGN</span></td><td className="xxs dim">No real payment integration exists</td></tr>
               </tbody>
             </table>

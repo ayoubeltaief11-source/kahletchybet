@@ -1,4 +1,4 @@
-# VORTEX BET â€” project kahlatchyBET
+# kahlatchybet  project kahlatchyBET
 
 Premium sportsbook + casino **demonstration platform**. Virtual credits (CR) only.
 No real money, no payment provider, no real gambling.
@@ -9,8 +9,8 @@ No real money, no payment provider, no real gambling.
 Open http://localhost:3000
 
 Seeded accounts (created on first request):
-- player@vortexbet.demo / Player123!
-- admin@vortexbet.demo / ChangeMe123!  (change ADMIN_PASSWORD in .env.local)
+- player@kahlatchybet.demo / Player123!
+- admin@kahlatchybet.demo / ChangeMe123!  (change ADMIN_PASSWORD in .env.local)
 
 ## Environment
 Copy `.env.example` to `.env.local` and fill in. All variables are server-only.

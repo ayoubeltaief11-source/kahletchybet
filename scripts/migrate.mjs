@@ -8,7 +8,7 @@ if (existsSync(envPath)) {
   }
 }
 const url = process.env.POSTGRES_URL;
-if (!url) { console.log("No POSTGRES_URL set â€” local file store will be used. Nothing to migrate."); process.exit(0); }
+if (!url) { console.log("No POSTGRES_URL set  local file store will be used. Nothing to migrate."); process.exit(0); }
 const { default: postgres } = await import("postgres");
 const sql = postgres(url, { ssl: "require", max: 1 });
 const { SCHEMA } = await import("../lib/schema.mjs");

@@ -19,7 +19,7 @@ export default function Category() {
     <div className="col">
       <div className="bt wrap">
         <h1 className="h2" style={{ margin: 0, color: def?.hue }}><Icon name={def?.glyph ?? "casino"} />{def ? (lang === "ar" ? def.ar : lang === "fr" ? def.fr : def.en) : category}</h1>
-        <Link href="/casino" className="btn o s">â† Full lobby</Link>
+        <Link href="/casino" className="btn o s"> Full lobby</Link>
       </div>
       <div className="note g">These catalogue slots activate the moment you connect an authorized provider launch URL in the Admin console.</div>
       {loading && <div className="grid g4">{[0, 1, 2, 3].map(i => <div key={i} className="skel" style={{ height: 230 }} />)}</div>}

@@ -28,7 +28,7 @@ export default function Wallet() {
     setBusy(false);
     if (!d.ok) return toast(d.error ?? "Operation failed", "e");
     setRows(d.ledger ?? []); refresh(); setModal(null);
-    toast(`${modal === "DEPOSIT" ? "Credited" : "Debited"} ${fmt(a)} â€” simulation only`, "j");
+    toast(`${modal === "DEPOSIT" ? "Credited" : "Debited"} ${fmt(a)}  simulation only`, "j");
   };
 
   const sum = (k: string[]) => rows.filter(r => k.includes(r.kind)).reduce((a, r) => a + r.amount, 0);
@@ -74,7 +74,7 @@ export default function Wallet() {
               return (<tr key={r.id}>
                 <td><span className={"tag " + (out ? "e" : "j")}>{r.kind}</span></td>
                 <td className="xs dim">{r.note}</td>
-                <td className="mono" style={{ color: out ? "var(--ember)" : "var(--jade)", fontWeight: 800 }}>{out ? "âˆ’" : "+"}{fmt(r.amount)}</td>
+                <td className="mono" style={{ color: out ? "var(--ember)" : "var(--jade)", fontWeight: 800 }}>{out ? "" : "+"}{fmt(r.amount)}</td>
                 <td className="mono xxs faint">{r.before.toFixed(2)}</td>
                 <td className="mono xs">{r.after.toFixed(2)}</td>
                 <td className="xxs faint">{new Date(r.created).toLocaleString()}</td>
@@ -89,14 +89,14 @@ export default function Wallet() {
         <div className="modal" onClick={() => setModal(null)}>
           <div className="modalbox" onClick={e => e.stopPropagation()}>
             <h3 className="h2">{modal === "DEPOSIT" ? "Demo deposit" : "Demo withdrawal"}</h3>
-            <div className="note g mb">SIMULATION ONLY â€” no card, bank, crypto or payment network is involved at any point.</div>
+            <div className="note g mb">SIMULATION ONLY  no card, bank, crypto or payment network is involved at any point.</div>
             <label className="f"><span>Amount (CR)</span><input className="in mono" type="number" min={1} value={amount} onChange={e => setAmount(e.target.value)} autoFocus /></label>
             <label className="f"><span>Simulated method</span>
               <select className="in" value={method} onChange={e => setMethod(e.target.value)}>
                 <option>Demo Card</option><option>Demo Bank Transfer</option><option>Demo Crypto</option><option>Demo Voucher</option>
               </select></label>
             <div className="chipline mb">{[500, 1000, 5000, 25000].map(v => <button key={v} className="btn o s" onClick={() => setAmount(String(v))}>{v}</button>)}</div>
-            <div className="row"><button className="btn j grow" disabled={busy} onClick={submit}>{busy ? "Processingâ€¦" : "Confirm"}</button><button className="btn o" onClick={() => setModal(null)}>Cancel</button></div>
+            <div className="row"><button className="btn j grow" disabled={busy} onClick={submit}>{busy ? "Processing" : "Confirm"}</button><button className="btn o" onClick={() => setModal(null)}>Cancel</button></div>
           </div>
         </div>
       )}

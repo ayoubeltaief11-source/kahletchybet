@@ -10,11 +10,11 @@ const Ctx = createContext<{ me: Me; lang: Lang; setLang: (l: Lang) => void; refr
 export const useApp = () => useContext(Ctx);
 
 const NAV = [
-  { href: "/", key: "home", icon: "home", label: { en: "Home", ar: "Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©", fr: "Accueil" } },
-  { href: "/sports", key: "sports", icon: "football", label: null },
-  { href: "/casino", key: "casino", icon: "casino", label: null },
-  { href: "/wallet", key: "wallet", icon: "wallet", label: null },
-  { href: "/dashboard", key: "dashboard", icon: "user", label: null },
+  { href: "/", key: "home", icon: "home" },
+  { href: "/sports", key: "sports", icon: "football" },
+  { href: "/casino", key: "casino", icon: "casino" },
+  { href: "/wallet", key: "wallet", icon: "wallet" },
+  { href: "/dashboard", key: "dashboard", icon: "user" },
 ] as const;
 
 export default function Shell({ children }: { children: React.ReactNode }) {
@@ -29,7 +29,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const saved = (typeof localStorage !== "undefined" && localStorage.getItem("vbx_lang")) as Lang | null;
+    const saved = (typeof localStorage !== "undefined" && localStorage.getItem("kb_lang")) as Lang | null;
     const l: Lang = saved === "ar" || saved === "fr" ? saved : "en";
     setLangState(l); document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
     refresh();
@@ -38,12 +38,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   }, [refresh]);
 
   const setLang = (l: Lang) => {
-    setLangState(l); localStorage.setItem("vbx_lang", l);
+    setLangState(l); localStorage.setItem("kb_lang", l);
     document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
   };
   const toast = (m: string, k = "g") => { setMsg({ m, k }); setTimeout(() => setMsg(null), 3400); };
   const on = (h: string) => (h === "/" ? path === "/" : path.startsWith(h));
-  const label = (n: typeof NAV[number]) => (n.label ? n.label[lang] : tr(lang, n.key as any));
 
   const signOut = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -56,11 +55,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <aside className="side">
           <Link href="/" className="brand">
             <div className="crest" />
-            <div className="wordmark">VORTEX <i>BET</i><small>DEMO PLATFORM</small></div>
+            <div className="wordmark">kahlatchy<i>bet</i><small>DEMO PLATFORM</small></div>
           </Link>
           {NAV.map(n => (
             <Link key={n.href} href={n.href} className={"nav" + (on(n.href) ? " on" : "")}>
-              <Icon name={n.icon} /><span>{label(n)}</span>
+              <Icon name={n.icon} /><span>{tr(lang, n.key as any)}</span>
             </Link>
           ))}
           {me?.role === "admin" && (
@@ -80,9 +79,9 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
         <div className="main">
           <header className="top">
-            <Link href="/" className="wordmark" style={{ fontSize: 16 }}>VORTEX <i>BET</i></Link>
+            <Link href="/" className="wordmark" style={{ fontSize: 16 }}>kahlatchy<i>bet</i></Link>
             <nav className="toplinks">
-              {NAV.map(n => <Link key={n.href} href={n.href} className={on(n.href) ? "on" : ""}>{label(n)}</Link>)}
+              {NAV.map(n => <Link key={n.href} href={n.href} className={on(n.href) ? "on" : ""}>{tr(lang, n.key as any)}</Link>)}
               {me?.role === "admin" && <Link href="/admin" className={on("/admin") ? "on" : ""}>{tr(lang, "admin")}</Link>}
             </nav>
             <div className="langs">
@@ -92,7 +91,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             </div>
             {!busy && (me ? (
               <>
-                <Link href="/wallet" className="purse"><Icon name="wallet" className="" />{fmt(me.balance)}</Link>
+                <Link href="/wallet" className="purse"><Icon name="wallet" />{fmt(me.balance)}</Link>
                 <Link href="/dashboard" className="ava" title={me.name}>{me.name.slice(0, 1).toUpperCase()}</Link>
                 <button className="btn o s" onClick={signOut}><Icon name="logout" /></button>
               </>
@@ -109,15 +108,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <footer className="foot">
             <div>{tr(lang, "demo")}</div>
             <div style={{ marginTop: 6 }}>
-              <Link href="/legal/terms">Terms</Link>Â·<Link href="/legal/privacy">Privacy</Link>Â·<Link href="/legal/responsible">Responsible Play</Link>Â·<Link href="/legal/integrations">Integrations</Link>
+              <Link href="/legal/terms">Terms</Link>-<Link href="/legal/privacy">Privacy</Link>-<Link href="/legal/responsible">Responsible Play</Link>-<Link href="/legal/integrations">Integrations</Link>
             </div>
-            <div style={{ marginTop: 6 }}>Â© {new Date().getFullYear()} VORTEX BET â€” kahlatchyBET project. 18+ educational demonstration.</div>
+            <div style={{ marginTop: 6 }}>(c) {new Date().getFullYear()} kahlatchybet - 18+ educational demonstration.</div>
           </footer>
         </div>
 
         <nav className="dock">
           {NAV.map(n => (
-            <Link key={n.href} href={n.href} className={on(n.href) ? "on" : ""}><Icon name={n.icon} /><span>{label(n)}</span></Link>
+            <Link key={n.href} href={n.href} className={on(n.href) ? "on" : ""}><Icon name={n.icon} /><span>{tr(lang, n.key as any)}</span></Link>
           ))}
         </nav>
       </div>

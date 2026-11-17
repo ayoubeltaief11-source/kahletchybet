@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Icon from "./Icon";
 import { useApp } from "./Shell";
 
@@ -9,33 +10,30 @@ export default function GameTile({ game }: { game: any }) {
   const { toast, me } = useApp();
   const hue = HUE[game.category] ?? "#E8B33C";
   const connected = game.status === "connected" && game.launchable;
+  const href = "/play/" + game.id;
 
-  const launch = async () => {
-    if (!me) return toast("Sign in to launch a game", "e");
-    if (!connected) return toast("Awaiting a licensed provider integration", "g");
-    const r = await fetch("/api/games/launch", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: game.id }) });
-    const d = await r.json();
-    if (!d.ok) return toast(d.error ?? "Launch failed", "e");
-    window.open(d.url, "_blank", "noopener,noreferrer");
+  const guard = (e: React.MouseEvent) => {
+    if (!me) { e.preventDefault(); toast("Sign in to play", "e"); return; }
+    if (!connected) { e.preventDefault(); toast("Awaiting provider integration", "g"); }
   };
 
   return (
     <div className="tile">
       {game.featured && <span className="badge tag g">FEATURED</span>}
-      <div className="thumb" style={{ background: `linear-gradient(150deg, ${hue}44, ${hue}12 55%, #06080B)` }}>
-        {game.thumbnail
-          ? <img src={game.thumbnail} alt={game.name} loading="lazy" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
-          : <Icon name={GLYPH[game.category] ?? "casino"} className="glyph" />}
-        <div className="lock"><span>{connected ? "LAUNCH DEMO" : "AWAITING INTEGRATION"}</span></div>
-      </div>
+      <Link href={href} onClick={guard}>
+        <div className="thumb" style={{ background: `linear-gradient(150deg, ${hue}44, ${hue}12 55%, #06080B)` }}>
+          {game.thumbnail
+            ? <img src={game.thumbnail} alt={game.name} loading="lazy" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+            : <Icon name={GLYPH[game.category] ?? "casino"} className="glyph" />}
+          <div className="lock"><span>{connected ? "PLAY NOW" : "COMING SOON"}</span></div>
+        </div>
+      </Link>
       <div className="tilebody">
-        <div className="bt"><b style={{ fontSize: 13.5 }} className="clip">{game.name}</b></div>
+        <b style={{ fontSize: 13.5 }} className="clip">{game.name}</b>
         <div className="xxs faint clip">{game.provider}</div>
         <div className="bt" style={{ marginTop: "auto", paddingTop: 6 }}>
-          <span className={"tag " + (connected ? "j" : game.status === "disabled" ? "e" : "n")}>
-            {connected ? "CONNECTED" : game.status === "pending" ? "PENDING" : game.status === "disabled" ? "DISABLED" : "COMING SOON"}
-          </span>
-          <button className={"btn " + (connected ? "g" : "o") + " s"} onClick={launch}>{connected ? "Play" : "Notify"}</button>
+          <span className={"tag " + (connected ? "j" : game.status === "disabled" ? "e" : "n")}>{connected ? "CONNECTED" : (game.status ?? "awaiting").toUpperCase()}</span>
+          <Link href={href} onClick={guard} className={"btn " + (connected ? "g" : "o") + " s"}>{connected ? "Play" : "Info"}</Link>
         </div>
       </div>
     </div>

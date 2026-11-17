@@ -64,7 +64,7 @@ export default function Casino() {
             <button key={k} className={"tab" + (only === k ? " on" : "")} onClick={() => setOnly(k)}>{l}</button>
           ))}
         </div>
-        <input className="in" style={{ maxWidth: 250 }} placeholder="Search catalogueâ€¦" value={q} onChange={e => setQ(e.target.value)} />
+        <input className="in" style={{ maxWidth: 250 }} placeholder="Search catalogue" value={q} onChange={e => setQ(e.target.value)} />
       </div>
 
       {loading && <div className="grid g4">{[0, 1, 2, 3, 4, 5, 6, 7].map(i => <div key={i} className="skel" style={{ height: 230 }} />)}</div>}

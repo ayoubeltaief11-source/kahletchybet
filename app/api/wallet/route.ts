@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const p = Body.safeParse(await req.json());
     if (!p.success) return bad("Enter a valid demo amount");
     const { kind, amount, method } = p.data;
-    const r = await db.post(g.user!.id, kind, amount, `${kind === "DEPOSIT" ? "Demo deposit" : "Demo withdrawal"} Â· ${method} (simulation)`);
+    const r = await db.post(g.user!.id, kind, amount, `${kind === "DEPOSIT" ? "Demo deposit" : "Demo withdrawal"}  ${method} (simulation)`);
     if (!r.ok) return bad(r.msg);
     const u = await db.userById(g.user!.id);
     return ok({ user: publicUser(u!), ledger: await db.ledger(g.user!.id) });

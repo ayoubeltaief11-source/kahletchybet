@@ -21,14 +21,14 @@ export async function POST(req: Request) {
     const combo = selections.reduce((a, s) => a * s.price, 1);
     const created: string[] = [];
     if (mode === "combo") {
-      const r = await db.post(g.user!.id, "BET", stake, `Demo combo Ã— ${selections.length}`);
+      const r = await db.post(g.user!.id, "BET", stake, `Demo combo  ${selections.length}`);
       if (!r.ok) return bad(r.msg);
       const id = nid();
       await db.addBet({ id, user_id: g.user!.id, payload: JSON.stringify(selections), stake, odds: combo, potential: Math.round(stake * combo * 100) / 100, status: "OPEN", created: now(), settled: null });
       created.push(id);
     } else {
       for (const s of selections) {
-        const r = await db.post(g.user!.id, "BET", stake, `Demo single Â· ${s.pick}`);
+        const r = await db.post(g.user!.id, "BET", stake, `Demo single  ${s.pick}`);
         if (!r.ok) return bad(r.msg);
         const id = nid();
         await db.addBet({ id, user_id: g.user!.id, payload: JSON.stringify([s]), stake, odds: s.price, potential: Math.round(stake * s.price * 100) / 100, status: "OPEN", created: now(), settled: null });

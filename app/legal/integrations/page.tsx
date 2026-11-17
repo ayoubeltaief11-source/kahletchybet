@@ -27,7 +27,7 @@ export default function Integrations() {
       <h3 className="h3">Adding a casino game</h3>
       <ol className="xs dim" style={{ lineHeight: 2.1, paddingInlineStart: 22 }}>
         <li>Obtain the launch URL, game ID, thumbnail URL and allowed domains from your licensed provider.</li>
-        <li>Sign in as administrator and open <b>Admin â†’ Game integrations â†’ Add game</b>.</li>
+        <li>Sign in as administrator and open <b>Admin  Game integrations  Add game</b>.</li>
         <li>Paste the values, set status to <b>connected</b>, and save. The title activates immediately in the lobby.</li>
         <li>The launch route validates the HTTPS URL and the allowed-domain list before opening the provider session in demo mode.</li>
       </ol>

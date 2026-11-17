@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { randomBytes } from "node:crypto";
 import { db, ensureSeed, hashToken, nid, now, type User } from "./db";
 
-const COOKIE = "vbx_session";
+const COOKIE = "kb_session";
 const TTL = 1000 * 60 * 60 * 24 * 7;
 
 export async function currentUser(): Promise<User | null> {

@@ -26,19 +26,19 @@ export default function Login() {
         <div className="ctr mb">
           <div className="crest" style={{ width: 58, height: 58, margin: "0 auto 14px" }} />
           <h1 className="h2" style={{ justifyContent: "center" }}>{tr(lang, "signin")}</h1>
-          <p className="xs dim" style={{ margin: 0 }}>Access your VORTEX BET demo account</p>
+          <p className="xs dim" style={{ margin: 0 }}>Access your kahlatchybet demo account</p>
         </div>
         <form onSubmit={submit}>
           <label className="f"><span>Email</span><input className="in" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" /></label>
-          <label className="f"><span>Password</span><input className="in" type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" /></label>
+          <label className="f"><span>Password</span><input className="in" type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="" /></label>
           {err && <div className="note e mb">{err}</div>}
-          <button className="btn j w" disabled={busy}>{busy ? "Signing inâ€¦" : tr(lang, "signin")}</button>
+          <button className="btn j w" disabled={busy}>{busy ? "Signing in" : tr(lang, "signin")}</button>
         </form>
         <div className="ctr mt xs"><span className="dim">No account? </span><Link href="/register" style={{ color: "var(--gold-hi)", fontWeight: 800 }}>{tr(lang, "register")}</Link></div>
         <div className="card pad mt" style={{ background: "var(--void)" }}>
           <div className="xxs dim mb" style={{ fontWeight: 800, letterSpacing: 1 }}>SEEDED DEMO ACCOUNTS</div>
-          <div className="xxs mono">player@vortexbet.demo Â· Player123!</div>
-          <div className="xxs mono">admin@vortexbet.demo Â· ChangeMe123!</div>
+          <div className="xxs mono">player@kahlatchybet.demo  Player123!</div>
+          <div className="xxs mono">admin@kahlatchybet.demo  ChangeMe123!</div>
         </div>
         <div className="note g mt">{tr(lang, "demo")}</div>
       </div>

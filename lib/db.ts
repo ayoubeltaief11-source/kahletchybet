@@ -203,15 +203,15 @@ function normG(r: any): Game { return { ...r, featured: r.featured === true || r
 let seeded = false;
 export async function ensureSeed() {
   if (seeded) return; seeded = true;
-  const email = (process.env.ADMIN_EMAIL || "admin@vortexbet.demo").toLowerCase();
+  const email = (process.env.ADMIN_EMAIL || "admin@kahlatchybet.demo").toLowerCase();
   if (!(await db.userByEmail(email))) {
     const id = nid();
     await db.createUser({ id, email, name: "Administrator", password: hashPassword(process.env.ADMIN_PASSWORD || "ChangeMe123!"), role: "admin", avatar: "shield", balance: 100000, banned: false, created: now() });
     await db.post(id, "BONUS", 100000, "Administrator opening demo balance");
   }
-  if (!(await db.userByEmail("player@vortexbet.demo"))) {
+  if (!(await db.userByEmail("player@kahlatchybet.demo"))) {
     const id = nid();
-    await db.createUser({ id, email: "player@vortexbet.demo", name: "Demo Player", password: hashPassword("Player123!"), role: "user", avatar: "bolt", balance: 10000, banned: false, created: now() });
+    await db.createUser({ id, email: "player@kahlatchybet.demo", name: "Demo Player", password: hashPassword("Player123!"), role: "user", avatar: "bolt", balance: 10000, banned: false, created: now() });
     await db.post(id, "BONUS", 10000, "Welcome demo credit");
   }
   if ((await db.games()).length === 0) {

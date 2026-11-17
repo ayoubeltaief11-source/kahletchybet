@@ -8,7 +8,7 @@ export default function Responsible() {
       <h3 className="h3">Healthy habits</h3>
       <ul className="xs dim" style={{ lineHeight: 2.1, paddingInlineStart: 22 }}>
         <li>Treat simulated outcomes as mathematics, never as a prediction of real betting success.</li>
-        <li>Every commercial game carries a house edge â€” long-run expectation is negative by design.</li>
+        <li>Every commercial game carries a house edge  long-run expectation is negative by design.</li>
         <li>Take breaks and never chase losses, even with virtual credits.</li>
         <li>Do not move from a simulation to real-money gambling expecting the same experience.</li>
       </ul>

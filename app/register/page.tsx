@@ -16,7 +16,7 @@ export default function Register() {
     const r = await fetch("/api/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, name, password }) });
     const d = await r.json(); setBusy(false);
     if (!d.ok) return setErr(d.error ?? "Registration failed");
-    refresh(); toast("Account created â€” 10,000 demo credits added", "j"); router.push("/dashboard"); router.refresh();
+    refresh(); toast("Account created  10,000 demo credits added", "j"); router.push("/dashboard"); router.refresh();
   };
 
   return (
@@ -30,9 +30,9 @@ export default function Register() {
         <form onSubmit={submit}>
           <label className="f"><span>Display name</span><input className="in" required minLength={3} value={name} onChange={e => setName(e.target.value)} placeholder="Your name" /></label>
           <label className="f"><span>Email</span><input className="in" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" /></label>
-          <label className="f"><span>Password (8+ characters)</span><input className="in" type="password" required minLength={8} value={password} onChange={e => setPassword(e.target.value)} placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" /></label>
+          <label className="f"><span>Password (8+ characters)</span><input className="in" type="password" required minLength={8} value={password} onChange={e => setPassword(e.target.value)} placeholder="" /></label>
           {err && <div className="note e mb">{err}</div>}
-          <button className="btn g w" disabled={busy}>{busy ? "Creatingâ€¦" : tr(lang, "register")}</button>
+          <button className="btn g w" disabled={busy}>{busy ? "Creating" : tr(lang, "register")}</button>
         </form>
         <div className="ctr mt xs"><span className="dim">Already registered? </span><Link href="/login" style={{ color: "var(--gold-hi)", fontWeight: 800 }}>{tr(lang, "signin")}</Link></div>
         <div className="note g mt">{tr(lang, "demo")}</div>

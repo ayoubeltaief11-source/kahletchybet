@@ -53,13 +53,13 @@ export default function Dashboard() {
       <div className="tabs">
         <button className={"tab" + (tab === "bets" ? " on" : "")} onClick={() => setTab("bets")}>Bet history</button>
         <button className={"tab" + (tab === "settings" ? " on" : "")} onClick={() => setTab("settings")}>Account settings</button>
-        <Link href="/wallet" className="tab">Wallet â†’</Link>
-        {me.role === "admin" && <Link href="/admin" className="tab">Admin console â†’</Link>}
+        <Link href="/wallet" className="tab">Wallet </Link>
+        {me.role === "admin" && <Link href="/admin" className="tab">Admin console </Link>}
       </div>
 
       {tab === "bets" && (
         <div className="col">
-          <div className="note a">Demo bets remain <b>OPEN</b>. Automatic settlement activates only when a verified result feed is connected â€” outcomes are never invented.</div>
+          <div className="note a">Demo bets remain <b>OPEN</b>. Automatic settlement activates only when a verified result feed is connected  outcomes are never invented.</div>
           {!bets.length && <div className="empty"><Icon name="ticket" /><div>No bets yet.</div><Link href="/sports" className="btn g s" style={{ marginTop: 14 }}>Open sportsbook</Link></div>}
           {bets.map(b => {
             let sels: any[] = []; try { sels = JSON.parse(b.payload); } catch {}
@@ -71,7 +71,7 @@ export default function Dashboard() {
                 </div>
                 <div className="col" style={{ gap: 6 }}>
                   {sels.map((s, i) => (
-                    <div key={i} className="bt xs"><span className="dim clip grow">{s.label} Â· <b style={{ color: "var(--ink)" }}>{s.pick}</b></span><b className="mono" style={{ color: "var(--jade)" }}>{Number(s.price).toFixed(2)}</b></div>
+                    <div key={i} className="bt xs"><span className="dim clip grow">{s.label}  <b style={{ color: "var(--ink)" }}>{s.pick}</b></span><b className="mono" style={{ color: "var(--jade)" }}>{Number(s.price).toFixed(2)}</b></div>
                   ))}
                 </div>
                 <div className="grid g3 mt xs">

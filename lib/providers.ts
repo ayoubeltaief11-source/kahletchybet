@@ -113,7 +113,7 @@ export function mapOddsApi(events: any[], sport: string): Fixture[] {
       home: e.home_team ?? "Home", away: e.away_team ?? "Away", homeLogo: "", awayLogo: "",
       kickoff: e.commence_time, state: nowMs < start ? "UPCOMING" : nowMs < start + 8_100_000 ? "LIVE" : "FINISHED",
       minute: null, scoreHome: null, scoreAway: null,
-      markets, provider: books[0]?.title ? `The Odds API Â· ${books[0].title}` : "The Odds API", updated: nowMs,
+      markets, provider: books[0]?.title ? `The Odds API  ${books[0].title}` : "The Odds API", updated: nowMs,
     } as Fixture;
   }).filter((f) => f.markets.length > 0);
 }

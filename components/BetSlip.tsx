@@ -17,7 +17,7 @@ export default function BetSlip({ selections, remove, clear }: { selections: Sel
   const ret = mode === "combo" ? amt * combo : selections.reduce((a, s) => a + amt * s.price, 0);
 
   const place = async () => {
-    if (!me) return toast(tr(lang, "signin") + " first", "e");
+    if (!me) return toast("Sign in to place a demo bet", "e");
     if (!selections.length) return;
     if (amt < 10) return toast("Minimum stake is 10 CR", "e");
     setBusy(true);
@@ -26,7 +26,7 @@ export default function BetSlip({ selections, remove, clear }: { selections: Sel
         body: JSON.stringify({ selections: selections.map(s => ({ fixture: s.fixture, label: s.label, market: s.market, pick: s.pick, price: s.price })), stake: amt, mode }) });
       const d = await r.json();
       if (!r.ok || !d.ok) toast(d.error ?? "Bet failed", "e");
-      else { toast("Demo bet recorded â€” stays OPEN until settlement data is connected", "j"); clear(); refresh(); }
+      else { toast("Demo bet recorded - " + selections.length + " selection(s)", "j"); clear(); refresh(); }
     } catch { toast("Network error", "e"); }
     setBusy(false);
   };
@@ -38,21 +38,21 @@ export default function BetSlip({ selections, remove, clear }: { selections: Sel
         <span className="tag j">{selections.length}</span>
       </div>
       {!selections.length ? (
-        <div className="empty" style={{ padding: "34px 14px" }}><Icon name="ticket" /><div className="xs">Select real odds from the list to build a demo bet.</div></div>
+        <div className="empty" style={{ padding: "34px 14px" }}><Icon name="ticket" /><div className="xs">Tap any odds button to build your demo bet.</div></div>
       ) : (
         <>
           {selections.length > 1 && (
             <div className="tabs" style={{ marginBottom: 11 }}>
-              <button className={"tab" + (mode === "combo" ? " on" : "")} onClick={() => setMode("combo")}>Combo Ã—{selections.length}</button>
+              <button className={"tab" + (mode === "combo" ? " on" : "")} onClick={() => setMode("combo")}>Combo x{selections.length}</button>
               <button className={"tab" + (mode === "single" ? " on" : "")} onClick={() => setMode("single")}>Singles</button>
             </div>
           )}
-          <div className="col" style={{ maxHeight: 300, overflowY: "auto", marginBottom: 13, gap: 8 }}>
+          <div className="col" style={{ maxHeight: 320, overflowY: "auto", marginBottom: 13, gap: 8 }}>
             {selections.map(s => (
               <div key={s.key} className="sel">
                 <div className="bt"><div className="xxs faint clip grow">{s.label}</div><button className="btn d x" onClick={() => remove(s.key)}><Icon name="x" /></button></div>
                 <div className="bt xs" style={{ marginTop: 4 }}><b className="clip">{s.pick}</b><b className="mono" style={{ color: "var(--jade)" }}>{s.price.toFixed(2)}</b></div>
-                <div className="xxs faint">{s.market}</div>
+                <div className="xxs faint clip">{s.market}</div>
               </div>
             ))}
           </div>
@@ -68,8 +68,8 @@ export default function BetSlip({ selections, remove, clear }: { selections: Sel
           <div className="bt mb" style={{ padding: "11px 13px", borderRadius: 11, background: "rgba(232,179,60,.09)", border: "1px solid rgba(232,179,60,.3)" }}>
             <span className="xs dim">Potential return</span><b className="mono" style={{ color: "var(--gold-hi)", fontSize: 17 }}>{fmt(Math.round(ret * 100) / 100)}</b>
           </div>
-          <button className="btn j w" disabled={busy} onClick={place}>{busy ? "Placingâ€¦" : tr(lang, "place")}</button>
-          <div className="xxs faint ctr" style={{ marginTop: 9 }}>Virtual credits Â· no real money Â· bets remain OPEN</div>
+          <button className="btn j w" disabled={busy} onClick={place}>{busy ? "Placing..." : tr(lang, "place")}</button>
+          <div className="xxs faint ctr" style={{ marginTop: 9 }}>Virtual credits - no real money</div>
         </>
       )}
     </div>
