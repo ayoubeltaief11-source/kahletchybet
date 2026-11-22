@@ -16,7 +16,28 @@ const SETS: Record<string, [string, string, string][]> = {
   obsidian: [["#fff2c4","#f0b429","#7a4a06"],["#e8e8f0","#8290ad","#2a3050"],["#ffe0e0","#ef3b52","#7a0d1c"],["#e6d6ff","#9b5cf6","#3d1a7a"],["#d6f5ff","#2fb6e8","#0b4a66"],["#d6fff2","#17c9a4","#065a48"],["#ffd0e8","#ff4fa3","#8a0f47"],["#e2ffd6","#3fcf5f","#0d5a24"]]
 };
 
+import { useState, useEffect } from "react";
+import { symbolUrl } from "@/src/kb3/assets/gameAssets";
 export function LineSym({ k, set, size = 56 }: { k: number; set: string; size?: number }) {
+  const [slug, setSlug] = useState("");
+  const [ok, setOk] = useState(false);
+  useEffect(function () {
+    try {
+      const m = window.location.pathname.match(/\/casino\/[a-z0-9]+\/([a-z0-9-]+)/);
+      if (m && m[1]) setSlug(m[1]);
+    } catch (e) { /* ignore */ }
+  }, []);
+  const realSrc = slug ? symbolUrl(slug, k) : "";
+  useEffect(function () {
+    if (!realSrc) { setOk(false); return; }
+    const im = new Image();
+    im.onload = function () { setOk(true); };
+    im.onerror = function () { setOk(false); };
+    im.src = realSrc;
+  }, [realSrc]);
+  if (ok && realSrc) {
+    return <img src={realSrc} width={size} height={size} alt="" draggable={false} style={{ objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,.5))" }}/>;
+  }
   const pal = SETS[set] || SETS.jade;
   if (k === 8) {
     return (
