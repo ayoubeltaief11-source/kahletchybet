@@ -190,7 +190,7 @@ export default function PlinkoEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="kp-body">
-        <div className="kp-table" style={{ background: cfg.felt }}>
+        <div className="kp-table" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="kp-rays"/>
           
           <canvas ref={canvasRef} width={600} height={500} className="kp-canvas"/>
@@ -256,7 +256,7 @@ export default function PlinkoEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="kp-modal">
-          <div className="kp-intro" style={{ background: cfg.felt }}>
+          <div className="kp-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="kp-introboard">
               <div className="kp-intropeg"/>
               <div className="kp-intropeg"/>

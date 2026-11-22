@@ -178,7 +178,7 @@ export default function MinesEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="mn-body">
-        <div className="mn-table" style={{ background: cfg.felt }}>
+        <div className="mn-table" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="mn-rays"/>
           
           <div className="mn-grid" ref={gridRef}>
@@ -256,7 +256,7 @@ export default function MinesEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="mn-modal">
-          <div className="mn-intro" style={{ background: cfg.felt }}>
+          <div className="mn-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="mn-introgrid">
               {[0, 6, 12, 18, 24].map(function (i) { return <div key={i} className="mn-introcell"><span className="mn-gem">💎</span></div>; })}
             </div>

@@ -158,7 +158,7 @@ export default function Instant2Engine({ slug }: { slug: string }) {
       </div>
 
       <div className="k2-body">
-        <div className="k2-stage" style={{ background: cfg.felt }}>
+        <div className="k2-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k2-rays"/>
           
           <div className="k2-display" ref={displayRef}>
@@ -252,7 +252,7 @@ export default function Instant2Engine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="k2-modal">
-          <div className="k2-intro" style={{ background: cfg.felt }}>
+          <div className="k2-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="k2-introdisplay">
               {cfg.type === "keno" ? <div className="k2-introkeno">1-80</div> : <div className="k2-introtower">8×8</div>}
             </div>

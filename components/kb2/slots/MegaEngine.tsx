@@ -177,7 +177,7 @@ export default function MegaEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="k7-body">
-        <div className="k7-stage" style={{ background: cfg.felt }}>
+        <div className="k7-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k7-rays"/>
           <div className="k7-mascot"><LineMascot hue={cfg.accent} hue2={cfg.accent2}/></div>
           <div className="k7-frame" style={{ borderColor: cfg.frame }}>
@@ -255,7 +255,7 @@ export default function MegaEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="k7-modal">
-          <div className="k7-intro" style={{ background: cfg.felt }}>
+          <div className="k7-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <LineMascot hue={cfg.accent} hue2={cfg.accent2} size={146}/>
             <h2>{cfg.name}</h2>
             <p className="k7-imax">WIN UP TO <b>{cfg.maxWin}</b> YOUR BET</p>

@@ -172,7 +172,7 @@ export default function ClassicEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="ka-body">
-        <div className="ka-stage" style={{ background: cfg.felt }}>
+        <div className="ka-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="ka-rays"/>
           <div className="ka-frame" style={{ borderColor: cfg.frame }}>
             <span className="ka-cn tl"/><span className="ka-cn tr"/><span className="ka-cn bl"/><span className="ka-cn br"/>
@@ -245,7 +245,7 @@ export default function ClassicEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="ka-modal">
-          <div className="ka-intro" style={{ background: cfg.felt }}>
+          <div className="ka-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="ka-introreels">{[4,2,5].map(function (k, i) { return <div key={i}><Fruit k={k} size={64}/></div>; })}</div>
             <h2>{cfg.name}</h2>
             <p className="ka-imax">WIN UP TO <b>{cfg.maxWin}</b> YOUR BET</p>

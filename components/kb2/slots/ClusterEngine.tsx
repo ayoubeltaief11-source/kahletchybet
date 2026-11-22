@@ -184,7 +184,7 @@ export default function ClusterEngine({ slug }: Props) {
       </div>
 
       <div className="k5-body">
-        <div className="k5-stagewrap" style={{ background: cfg.felt }}>
+        <div className="k5-stagewrap" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k5-rays"/>
           <div className="k5-mascot"><Mascot hue={cfg.accent} slug={slug}/></div>
           <div className="k5-frame" style={{ borderColor: cfg.frame }}>
@@ -256,7 +256,7 @@ export default function ClusterEngine({ slug }: Props) {
 
       {intro && (
         <div className="k5-modal">
-          <div className="k5-intro" style={{ background: cfg.felt }}>
+          <div className="k5-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <Mascot hue={cfg.accent} slug={slug} size={150}/>
             <h2>{cfg.name}</h2>
             <p className="k5-intromax">WIN UP TO <b>{cfg.maxWin}</b> YOUR BET</p>

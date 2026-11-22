@@ -186,7 +186,7 @@ export default function LineEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="k6-body">
-        <div className="k6-stage" style={{ background: cfg.felt }}>
+        <div className="k6-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k6-rays"/>
           <div className="k6-mascot"><LineMascot hue={cfg.accent} hue2={cfg.accent2}/></div>
           <div className="k6-frame" style={{ borderColor: cfg.frame }}>
@@ -265,7 +265,7 @@ export default function LineEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="k6-modal">
-          <div className="k6-intro" style={{ background: cfg.felt }}>
+          <div className="k6-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <LineMascot hue={cfg.accent} hue2={cfg.accent2} size={148}/>
             <h2>{cfg.name}</h2>
             <p className="k6-imax">WIN UP TO <b>{cfg.maxWin}</b> YOUR BET</p>

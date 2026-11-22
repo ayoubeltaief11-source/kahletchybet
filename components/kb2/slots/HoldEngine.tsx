@@ -191,7 +191,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="k9-body">
-        <div className="k9-stage" style={{ background: cfg.felt }}>
+        <div className="k9-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k9-rays"/>
           <div className="k9-cracks"/>
           <div className="k9-frame" style={{ borderColor: cfg.frame }}>
@@ -256,7 +256,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="k9-modal">
-          <div className="k9-intro" style={{ background: cfg.felt }}>
+          <div className="k9-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="k9-introjp">
               {JACKPOTS.slice().reverse().map(function (j) { return <div key={j.key} style={{ ["--jp" as string]: j.hue }}><span>{j.label}</span><b>{j.value}x</b></div>; })}
             </div>

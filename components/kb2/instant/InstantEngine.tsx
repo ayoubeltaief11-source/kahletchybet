@@ -136,7 +136,7 @@ export default function InstantEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="ki-body">
-        <div className="ki-stage" style={{ background: cfg.felt }}>
+        <div className="ki-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="ki-rays"/>
           
           <div className="ki-display" ref={displayRef}>
@@ -220,7 +220,7 @@ export default function InstantEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="ki-modal">
-          <div className="ki-intro" style={{ background: cfg.felt }}>
+          <div className="ki-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="ki-introdisplay">
               {cfg.type === "hilo" && <div className="ki-introcard">A♠</div>}
               {cfg.type === "coin" && <div className="ki-introcoin">H</div>}

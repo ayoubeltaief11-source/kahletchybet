@@ -190,7 +190,7 @@ export default function SicBoEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="sb-body">
-        <div className="sb-table" ref={tableRef} style={{ background: cfg.felt }}>
+        <div className="sb-table" ref={tableRef} style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="sb-rays"/>
           
           <div className="sb-dicearea">
@@ -309,7 +309,7 @@ export default function SicBoEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="sb-modal">
-          <div className="sb-intro" style={{ background: cfg.felt }}>
+          <div className="sb-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="sb-introdice">
               <Die value={1} rolling={false} size={56}/>
               <Die value={2} rolling={false} size={56}/>

@@ -137,7 +137,7 @@ export default function DiceEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="kd-body">
-        <div className="kd-stage" style={{ background: cfg.felt }}>
+        <div className="kd-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="kd-rays"/>
           
           <div className="kd-display" ref={displayRef}>
@@ -228,7 +228,7 @@ export default function DiceEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="kd-modal">
-          <div className="kd-intro" style={{ background: cfg.felt }}>
+          <div className="kd-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="kd-introdisplay">
               <div className="kd-introroll">0.00</div>
             </div>

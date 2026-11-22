@@ -142,7 +142,7 @@ export default function BaccaratEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="ba-body">
-        <div className="ba-table" ref={tableRef} style={{ background: cfg.felt }}>
+        <div className="ba-table" ref={tableRef} style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="ba-rays"/>
           
           <div className="ba-section banker">
@@ -217,7 +217,7 @@ export default function BaccaratEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="ba-modal">
-          <div className="ba-intro" style={{ background: cfg.felt }}>
+          <div className="ba-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <div className="ba-introcards">
               <CardView card={{rank:"A",suit:"S",value:1}} size={64}/>
               <CardView card={{rank:"9",suit:"H",value:9}} size={64}/>

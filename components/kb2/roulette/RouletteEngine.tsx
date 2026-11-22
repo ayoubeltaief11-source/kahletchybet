@@ -352,7 +352,7 @@ export default function RouletteEngine({ slug }: { slug: string }) {
 
       {intro && (
         <div className="kr-modal">
-          <div className="kr-intro" style={{ background: cfg.felt }}>
+          <div className="kr-intro" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
             <WheelSVG number={0} spinning={false} hue={cfg.accent}/>
             <h2>{cfg.name}</h2>
             <p className="kr-imax">WIN UP TO <b>{cfg.maxWin}</b> YOUR BET</p>
