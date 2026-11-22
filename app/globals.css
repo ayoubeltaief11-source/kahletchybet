@@ -2569,3 +2569,12 @@ html[lang="ar"] .k2-btn,html[lang="ar"] .k2-chip,html[lang="ar"] .k2-win,html[la
 .k5-cell.win img,.k6-cell.win img,.k7-cell.win img{filter:drop-shadow(0 0 14px var(--acc,#ffd97a)) drop-shadow(0 0 4px #fff);transform:scale(1.08)}
 .k5-cell.dim,.k6-cell.dim,.k7-cell.dim{opacity:.35}
 .k5-fallback,.k6-fallback,.k7-fallback{width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.18),transparent 60%),linear-gradient(135deg,#2a3550,#0d1220);border-radius:6px;color:#ffd97a;font:900 65% "Orbitron",system-ui;text-shadow:0 0 8px rgba(255,217,122,.6)}
+
+/* == KB3 HOLD CELLS == */
+.k9-cell{position:relative;background:linear-gradient(180deg,rgba(8,12,22,.5),rgba(4,6,12,.7));border-radius:10px;overflow:hidden;display:grid;place-items:center;transition:transform .18s ease-out,box-shadow .18s ease-out}
+.k9-cell.held{box-shadow:inset 0 0 0 2px rgba(255,217,122,.55),0 0 18px rgba(255,217,122,.25)}
+.k9-cell.fresh{animation:kb9pop .42s cubic-bezier(.2,1.4,.4,1)}
+@keyframes kb9pop{0%{transform:scale(.4) translateY(-26px);opacity:0}60%{transform:scale(1.12) translateY(0);opacity:1}100%{transform:scale(1)}}
+.k9-cell.jackpot{box-shadow:inset 0 0 0 2px #ffd97a,0 0 26px rgba(255,217,122,.6);animation:kb9jp 1.1s ease-in-out infinite}
+@keyframes kb9jp{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35)}}
+.k9-empty{width:60%;height:60%;border-radius:8px;background:radial-gradient(circle at 40% 35%,rgba(255,255,255,.06),transparent 70%);opacity:.5}
