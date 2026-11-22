@@ -1,4 +1,5 @@
 "use client";
+import { GameCharacter } from "@/lib/kb2/imageLoader";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
@@ -171,6 +172,7 @@ export default function MinesEngine({ slug }: { slug: string }) {
       <div className="mn-top">
         <Link href="/casino" className="mn-back">Lobby</Link>
         <span className="mn-demo">DEMO - no real money</span>
+        <img src={"/assets/" + slug + "/logo.png"} alt="" className="mn-logo" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
         <b className="mn-title">{cfg.name}</b>
         <div className="mn-sp"/>
         <div className="mn-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)} TD</b></div>
@@ -180,6 +182,7 @@ export default function MinesEngine({ slug }: { slug: string }) {
       <div className="mn-body">
         <div className="mn-table" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="mn-rays"/>
+          <div className="mn-mascot"><GameCharacter slug={slug} hue={cfg.accent} size={190} mood="idle"/></div>
           
           <div className="mn-grid" ref={gridRef}>
             {cells.map(function (i) {

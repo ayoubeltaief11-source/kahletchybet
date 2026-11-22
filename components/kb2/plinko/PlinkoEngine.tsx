@@ -1,4 +1,5 @@
 "use client";
+import { GameCharacter } from "@/lib/kb2/imageLoader";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
@@ -183,6 +184,7 @@ export default function PlinkoEngine({ slug }: { slug: string }) {
       <div className="kp-top">
         <Link href="/casino" className="kp-back">Lobby</Link>
         <span className="kp-demo">DEMO - no real money</span>
+        <img src={"/assets/" + slug + "/logo.png"} alt="" className="kp-logo" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
         <b className="kp-title">{cfg.name}</b>
         <div className="kp-sp"/>
         <div className="kp-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)} TD</b></div>
@@ -192,6 +194,7 @@ export default function PlinkoEngine({ slug }: { slug: string }) {
       <div className="kp-body">
         <div className="kp-table" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="kp-rays"/>
+          <div className="kp-mascot"><GameCharacter slug={slug} hue={cfg.accent} size={190} mood="idle"/></div>
           
           <canvas ref={canvasRef} width={600} height={500} className="kp-canvas"/>
 
