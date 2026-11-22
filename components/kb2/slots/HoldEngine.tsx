@@ -1,4 +1,5 @@
 "use client";
+import { GameCharacter } from "@/lib/kb2/imageLoader";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
@@ -169,6 +170,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
       <div className="k9-top">
         <Link href="/casino" className="k9-back">Lobby</Link>
         <span className="k9-demo">DEMO - no real money</span>
+        <img src={"/assets/" + slug + "/logo.png"} alt="" className="k9-logo" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
         <b className="k9-title">{cfg.name}</b>
         <div className="k9-sp"/>
         <div className="k9-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)} TD</b></div>
@@ -194,6 +196,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
         <div className="k9-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k9-rays"/>
           <div className="k9-cracks"/>
+          <div className="k9-mascot"><GameCharacter slug={slug} hue={cfg.accent} size={210} mood="idle"/></div>
           <div className="k9-frame" style={{ borderColor: cfg.frame }}>
             <span className="k9-cn tl"/><span className="k9-cn tr"/><span className="k9-cn bl"/><span className="k9-cn br"/>
             <div className="k9-banner">FILL ALL {CELLS} POSITIONS FOR THE GRAND</div>
