@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     if (await db.userByEmail(e)) return bad("That email is already registered");
     const id = nid();
     await db.createUser({ id, email: e, name: name.trim(), password: hashPassword(password), role: "user", avatar: "bolt", balance: 0, banned: false, created: now() });
-    await db.post(id, "BONUS", 10000, "Welcome demo credit");
+    // zero-start policy: admin funds accounts manually
     await startSession(id);
     const u = await db.userById(id);
     return ok({ user: publicUser(u!) });

@@ -18,7 +18,7 @@ const IDS = [
 ];
 const TITLES = [
   "Golden Reels", "Neon Cascade", "Sky Rush", "Lucky Vault", "Crystal Storm", "Mega Bazaar",
-  "Vortex Spin", "Diamond Bay", "Royal Fortune", "Thunder Vault", "Emerald Rush", "Sunset Jackpot",
+  "kahlatchy Spin", "Diamond Bay", "Royal Fortune", "Thunder Vault", "Emerald Rush", "Sunset Jackpot",
 ];
 const CATS = ["slots", "slots", "crash", "slots", "instant", "slots", "crash", "instant", "table", "slots", "instant", "slots"];
 

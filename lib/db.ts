@@ -207,26 +207,26 @@ export async function ensureSeed() {
   if (!(await db.userByEmail(email))) {
     const id = nid();
     await db.createUser({ id, email, name: "Administrator", password: hashPassword(process.env.ADMIN_PASSWORD || "ChangeMe123!"), role: "admin", avatar: "shield", balance: 100000, banned: false, created: now() });
-    await db.post(id, "BONUS", 100000, "Administrator opening demo balance");
+    // ZERO START POLICY: Admin funds only
   }
   if (!(await db.userByEmail("player@kahlatchybet.demo"))) {
     const id = nid();
-    await db.createUser({ id, email: "player@kahlatchybet.demo", name: "Demo Player", password: hashPassword("Player123!"), role: "user", avatar: "bolt", balance: 10000, banned: false, created: now() });
-    await db.post(id, "BONUS", 10000, "Welcome demo credit");
+    await db.createUser({ id, email: "player@kahlatchybet.demo", name: "Demo Player", password: hashPassword("Player123!"), role: "user", avatar: "bolt", balance: 0, banned: false, created: now() });
+    // zero-start policy: no welcome credit
   }
   if ((await db.games()).length === 0) {
     const seedGames: [string, string, string, boolean][] = [
-      ["Vortex Lightning Roulette", "Evolution", "live", true],
-      ["Vortex Speed Blackjack", "Evolution", "live", true],
-      ["Vortex Baccarat Salon", "Pragmatic Play Live", "live", false],
-      ["Vortex Mega Wheel", "Pragmatic Play Live", "live", false],
+      ["kahlatchy Lightning Roulette", "Evolution", "live", true],
+      ["kahlatchy Speed Blackjack", "Evolution", "live", true],
+      ["kahlatchy Baccarat Salon", "Pragmatic Play Live", "live", false],
+      ["kahlatchy Mega Wheel", "Pragmatic Play Live", "live", false],
       ["Golden Pharaoh Deluxe", "Awaiting Provider", "slots", true],
       ["Olympus Thunder", "Awaiting Provider", "slots", true],
       ["Sweet Cascade", "Awaiting Provider", "slots", false],
       ["Big Bass Voyage", "Awaiting Provider", "slots", false],
       ["Sugar Nebula", "Awaiting Provider", "slots", false],
       ["Starlight Fortune", "Awaiting Provider", "slots", false],
-      ["Vortex Aviator", "Awaiting Provider", "crash", true],
+      ["kahlatchy Aviator", "Awaiting Provider", "crash", true],
       ["Jet Horizon", "Awaiting Provider", "crash", false],
       ["Rocket Ascent", "Awaiting Provider", "crash", false],
       ["European Roulette Pro", "Awaiting Provider", "roulette", true],
@@ -237,7 +237,7 @@ export async function ensureSeed() {
       ["Baccarat Punto Banco", "Awaiting Provider", "table", false],
       ["Sic Bo Grand", "Awaiting Provider", "table", false],
       ["Video Poker Aces", "Awaiting Provider", "table", false],
-      ["Plinko Vortex", "Awaiting Provider", "instant", false],
+      ["Plinko kahlatchy", "Awaiting Provider", "instant", false],
       ["Mines Deep Field", "Awaiting Provider", "instant", true],
       ["Dice Precision", "Awaiting Provider", "instant", false],
       ["Keno Rapid", "Awaiting Provider", "instant", false],

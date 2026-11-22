@@ -1,0 +1,272 @@
+﻿=== PHASE 0 REPORT ===
+root: C:\Users\jqck\Desktop\kahlatchybet
+next          ^16.4.6
+react         ^19.3.1
+pixi.js       NO
+gsap          NO
+matter-js     NO
+howler        NO
+lottie-web    NO
+old games     160
+old engines   13
+routes        46
+lobby bytes   7423
+lobby Phase1  YES
+prefs.ts      YES
+HeroCarousel  YES
+WinTicker     YES
+GameShell     YES
+css KB2       YES
+kb2 folder    NO
+public folder NO
+
+=== FULL TREE (no node_modules / .next / .git / backups) ===
+.data\store.json
+.env.example
+.env.local
+.gitignore
+.vercel\README.txt
+.vercel\repo.json
+.vercelignore
+app\admin\kb-rtp\page.tsx
+app\admin\page.tsx
+app\admin\rtp\page.tsx
+app\admin\td\page.tsx
+app\api\admin\games\route.ts
+app\api\admin\overview\route.ts
+app\api\admin\rtp\route.ts
+app\api\admin\sync-games\route.ts
+app\api\admin\td\route.ts
+app\api\admin\users\route.ts
+app\api\auth\login\route.ts
+app\api\auth\logout\route.ts
+app\api\auth\me\route.ts
+app\api\auth\register\route.ts
+app\api\bets\route.ts
+app\api\casino\rtp\route.ts
+app\api\games\launch\route.ts
+app\api\games\route.ts
+app\api\kb\admin\route.ts
+app\api\kb\round\route.ts
+app\api\kb\rtp\route.ts
+app\api\profile\route.ts
+app\api\sports\fixture\route.ts
+app\api\sports\route.ts
+app\api\wallet\route.ts
+app\api\winners\route.ts
+app\casino\[category]\page.tsx
+app\casino\blackjack\page.tsx
+app\casino\page.tsx
+app\casino\play\[id]\page.tsx
+app\casino\roulette\page.tsx
+app\casino\slots\page.tsx
+app\dashboard\page.tsx
+app\globals.css
+app\layout.tsx
+app\legal\integrations\page.tsx
+app\legal\privacy\page.tsx
+app\legal\responsible\page.tsx
+app\legal\simulation\page.tsx
+app\legal\terms\page.tsx
+app\login\page.tsx
+app\not-found.tsx
+app\page.tsx
+app\play\[id]\page.tsx
+app\register\page.tsx
+app\sports\[sport]\[id]\page.tsx
+app\sports\[sport]\page.tsx
+app\sports\page.tsx
+app\wallet\page.tsx
+audit.txt
+components\BetSlip.tsx
+components\CasinoStage.tsx
+components\CasinoStagePro.tsx
+components\EmbeddedStage.tsx
+components\GameTile.tsx
+components\Icon.tsx
+components\kb\Art.tsx
+components\kb\audio.ts
+components\kb\CrashGame.tsx
+components\kb\DiceGame.tsx
+components\kb\GameShell.tsx
+components\kb\HeroCarousel.tsx
+components\kb\HiLoGame.tsx
+components\kb\MinesGame.tsx
+components\kb\PlinkoGame.tsx
+components\kb\RouletteGame.tsx
+components\kb\SlotsGame.tsx
+components\kb\Sym.tsx
+components\kb\TableGame.tsx
+components\kb\WinTicker.tsx
+components\Shell.tsx
+components\SlotSymbols.tsx
+components\Winners.tsx
+lib\auth.ts
+lib\casino-catalog.ts
+lib\casino-catalog-honest.ts
+lib\casino-engine.ts
+lib\casino-massive-catalog.ts
+lib\catalog.ts
+lib\db.ts
+lib\gd-games.ts
+lib\guard.ts
+lib\house.ts
+lib\kb\catalog.ts
+lib\kb\engine.ts
+lib\kb\prefs.ts
+lib\kb\rtp.ts
+lib\kb\sig.ts
+lib\kb\wheel.ts
+lib\providers.ts
+lib\rtp-config.ts
+lib\schema.mjs
+lib\sim.ts
+lib\td-store.ts
+next.config.mjs
+next-env.d.ts
+package.json
+package-lock.json
+README.md
+scripts\migrate.mjs
+tsconfig.json
+
+=== package.json ===
+{
+  "name": "kahlatchybet",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "migrate": "node scripts/migrate.mjs",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "framer-motion": "^14.14.0",
+    "next": "^16.4.6",
+    "phaser": "^4.2.1",
+    "postgres": "3.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "typescript": "5.7.2"
+  }
+}
+
+=== app/layout.tsx (first 40) ===
+import "./globals.css";
+import type { Metadata, Viewport } from "next";
+import Shell from "@/components/Shell";
+
+export const metadata: Metadata = {
+  title: "kahlatchybet - Sports & Casino Demo Platform",
+  description: "Premium educational demonstration of a sportsbook and casino platform. Virtual credits only, no real-money gambling.",
+  keywords: ["kahlatchybet", "sportsbook demo", "casino platform", "educational simulation"],
+  openGraph: { title: "kahlatchybet", description: "Sports & Casino demo platform - virtual credits only.", type: "website" },
+  robots: { index: true, follow: true },
+};
+export const viewport: Viewport = { themeColor: "#06080B", width: "device-width", initialScale: 1, viewportFit: "cover" };
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" dir="ltr" suppressHydrationWarning>
+      <head><meta charSet="utf-8" /></head>
+      <body><div className="fx" aria-hidden /><Shell>{children}</Shell></body>
+    </html>
+  );
+}
+
+=== components/Shell.tsx (first 45) ===
+"use client";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, createContext, useContext, useCallback } from "react";
+import Icon from "./Icon";
+import { SPORTS, tr, fmt, type Lang } from "@/lib/catalog";
+
+type Me = { id: string; email: string; name: string; role: string; avatar: string; balance: number } | null;
+const Ctx = createContext<{ me: Me; lang: Lang; setLang: (l: Lang) => void; refresh: () => void; toast: (m: string, k?: string) => void }>({ me: null, lang: "en", setLang: () => {}, refresh: () => {}, toast: () => {} });
+export const useApp = () => useContext(Ctx);
+
+const NAV = [
+  { href: "/", key: "home", icon: "home" },
+  { href: "/sports", key: "sports", icon: "football" },
+  { href: "/casino", key: "casino", icon: "casino" },
+  { href: "/wallet", key: "wallet", icon: "wallet" },
+  { href: "/dashboard", key: "dashboard", icon: "user" },
+] as const;
+
+export default function Shell({ children }: { children: React.ReactNode }) {
+  const path = usePathname(); const router = useRouter();
+  const [me, setMe] = useState<Me>(null);
+  const [lang, setLangState] = useState<Lang>("en");
+  const [msg, setMsg] = useState<{ m: string; k: string } | null>(null);
+  const [busy, setBusy] = useState(true);
+
+  const refresh = useCallback(() => {
+    fetch("/api/auth/me", { cache: "no-store" }).then(r => r.json()).then(d => { setMe(d.user ?? null); setBusy(false); }).catch(() => setBusy(false));
+  }, []);
+
+  useEffect(() => {
+    const saved = (typeof localStorage !== "undefined" && localStorage.getItem("kb_lang")) as Lang | null;
+    const l: Lang = saved === "ar" || saved === "fr" ? saved : "en";
+    setLangState(l); document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+    refresh();
+    const iv = setInterval(refresh, 25000);
+    return () => clearInterval(iv);
+  }, [refresh]);
+
+  const setLang = (l: Lang) => {
+    setLangState(l); localStorage.setItem("kb_lang", l);
+    document.documentElement.lang = l; document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+  };
+  const toast = (m: string, k = "g") => { setMsg({ m, k }); setTimeout(() => setMsg(null), 3400); };
+  const on = (h: string) => (h === "/" ? path === "/" : path.startsWith(h));
+
+=== lib/kb/catalog.ts (first 8) ===
+export type Family = "crash" | "slots" | "roulette" | "table" | "instant";
+export type Variant = "jet"|"rocket"|"zeppelin"|"heli"|"classic3"|"mega5"|"cluster6"|"jackpot5"|"tumble5"|"holdwin"|"wood"|"neon"|"vip"|"blackjack"|"baccarat"|"sicbo"|"mines"|"plinko"|"hilo"|"dice";
+export interface KBGame { id: string; name: string; family: Family; variant: Variant; syms: string[]; hue: string; sky: [string,string]; jp: string[]; vol: string; reels: number; rows: number; }
+export const KB_GAMES: KBGame[] = [
+  { id:"k1", name:"Sky Ascent", family:"crash", variant:"jet", syms:["coin"], hue:"#FF6FB5", sky:["#2b1055","#8e6fd8"], jp:[""], vol:"High", reels:0, rows:0 },
+  { id:"k2", name:"Jet Horizon", family:"crash", variant:"jet", syms:["coin"], hue:"#F97316", sky:["#0f2027","#4a7fa5"], jp:[""], vol:"Medium", reels:0, rows:0 },
+  { id:"k3", name:"Falcon Rush", family:"crash", variant:"jet", syms:["coin"], hue:"#A855F7", sky:["#3a1c71","#d76d77"], jp:[""], vol:"Low", reels:0, rows:0 },
+  { id:"k4", name:"Afterburner", family:"crash", variant:"jet", syms:["coin"], hue:"#12D18E", sky:["#141e30","#3f72af"], jp:[""], vol:"High", reels:0, rows:0 },
+
+=== app/casino/page.tsx (first 30) ===
+"use client";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+import { useApp } from "@/components/Shell";
+import { KB_GAMES, kbById } from "@/lib/kb/catalog";
+import type { KBGame } from "@/lib/kb/catalog";
+import { sigOf, PATH_NAME, ENV_NAME, FRAME_NAME, FEATURE_NAME } from "@/lib/kb/sig";
+import { usePrefs } from "@/lib/kb/prefs";
+import Poster from "@/components/kb/Art";
+import HeroCarousel from "@/components/kb/HeroCarousel";
+import WinTicker from "@/components/kb/WinTicker";
+
+const FAM: [string, string][] = [["all", "All games"], ["crash", "Crash"], ["slots", "Slots"], ["roulette", "Roulette"], ["table", "Table"], ["instant", "Instant"]];
+const VAR: Record<string, string> = { jet: "JET", rocket: "ROCKET", zeppelin: "AIRSHIP", heli: "HELI", classic3: "3x3 LINES", mega5: "MEGAWAYS", cluster6: "CLUSTER", jackpot5: "JACKPOT", tumble5: "TUMBLE", holdwin: "HOLD+WIN", wood: "CLASSIC WHEEL", neon: "NEON WHEEL", vip: "VIP WHEEL", blackjack: "BLACKJACK", baccarat: "BACCARAT", sicbo: "SIC BO", mines: "MINES", plinko: "PLINKO", hilo: "HI-LO", dice: "DICE" };
+
+export default function KBLobby() {
+  const { me } = useApp();
+  const { p: prefs, toggleFav, pushRecent } = usePrefs();
+  const [q, setQ] = useState("");
+  const [f, setF] = useState("all");
+  const [v, setV] = useState("all");
+  const [n, setN] = useState(30);
+  const [onlyFav, setOnlyFav] = useState(false);
+
+  const variants = useMemo(function () {
+    const s: string[] = [];
+    KB_GAMES.forEach(function (g) { if (s.indexOf(g.variant) < 0 && (f === "all" || g.family === f)) s.push(g.variant); });
+    return s;
+  }, [f]);
+

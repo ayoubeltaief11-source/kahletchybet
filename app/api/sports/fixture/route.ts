@@ -26,7 +26,6 @@ export async function GET(req: Request) {
       }
     }
     if (id.startsWith("oa-")) {
-      const raw = id.slice(3);
       for (const sp of ["basketball", "tennis", "baseball", "hockey", "mma", "esports", "volleyball", "football"]) {
         const r = await oddsApi(sp);
         if (r.configured && r.ok) {
@@ -37,10 +36,9 @@ export async function GET(req: Request) {
           }
         }
       }
-      void raw;
     }
-    const any = simFixtures("football", "all").find(f => f.id === id);
-    if (any) return ok({ fixture: any, simulated: true, source: "kahlatchybet Simulation Engine" });
+    const anyFix = simFixtures("football", "all").find(f => f.id === id);
+    if (anyFix) return ok({ fixture: anyFix, simulated: true, source: "kahlatchybet Simulation Engine" });
     return bad("Fixture not found", 404);
   } catch (e) { logErr("fixture", e); return bad("Could not load fixture", 500); }
 }

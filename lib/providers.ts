@@ -1,6 +1,3 @@
-/* SERVER-ONLY provider adapters. Keys never reach the browser.
-   Endpoints below are the documented public endpoints of each provider. */
-
 export interface Pick { label: string; price: number }
 export interface Market { key: string; name: string; picks: Pick[] }
 export interface Fixture {
@@ -22,7 +19,7 @@ async function cached(key: string, fn: () => Promise<any>) {
   return body;
 }
 
-/* ---- API-Football v3 (api-sports.io) ---- */
+/* 1. API-Football v3 */
 const AF_BASE = "https://v3.football.api-sports.io";
 function afState(short: string): Fixture["state"] {
   if (["1H", "HT", "2H", "ET", "BT", "P", "LIVE"].includes(short)) return "LIVE";
@@ -75,7 +72,7 @@ export function mapApiFootballOdds(rows: any[]): Map<number, Market[]> {
   return out;
 }
 
-/* ---- The Odds API v4 ---- */
+/* 2. The Odds API v4 */
 const OA_BASE = "https://api.the-odds-api.com/v4";
 export const OA_SPORTS: Record<string, string> = {
   basketball: "basketball_nba", tennis: "tennis_atp_french_open", volleyball: "volleyball_cev_champions_league",
@@ -86,7 +83,7 @@ export async function oddsApi(sportKey: string) {
   const key = process.env.ODDS_API_KEY;
   if (!key) return { configured: false as const };
   const mapped = OA_SPORTS[sportKey];
-  if (!mapped) return { configured: true as const, ok: false as const, error: "This sport is not mapped to a documented The Odds API sport key.", events: [] };
+  if (!mapped) return { configured: true as const, ok: false as const, error: "Sport not mapped to The Odds API.", events: [] };
   const url = `${OA_BASE}/sports/${mapped}/odds/?regions=eu&markets=h2h,totals&oddsFormat=decimal&apiKey=${key}`;
   return cached("oa:" + mapped, async () => {
     const r = await fetch(url, { cache: "no-store" });
@@ -113,7 +110,22 @@ export function mapOddsApi(events: any[], sport: string): Fixture[] {
       home: e.home_team ?? "Home", away: e.away_team ?? "Away", homeLogo: "", awayLogo: "",
       kickoff: e.commence_time, state: nowMs < start ? "UPCOMING" : nowMs < start + 8_100_000 ? "LIVE" : "FINISHED",
       minute: null, scoreHome: null, scoreAway: null,
-      markets, provider: books[0]?.title ? `The Odds API  ${books[0].title}` : "The Odds API", updated: nowMs,
+      markets, provider: books[0]?.title ? `The Odds API - ${books[0].title}` : "The Odds API", updated: nowMs,
     } as Fixture;
   }).filter((f) => f.markets.length > 0);
+}
+
+/* 3. Sportmonks v3 */
+const SM_BASE = "https://api.sportmonks.com/v3/football";
+export async function sportmonks(path: string, params: Record<string, string> = {}) {
+  const key = process.env.SPORTMONKS_API_KEY;
+  if (!key) return { configured: false as const };
+  const qs = new URLSearchParams({ ...params, api_token: key }).toString();
+  const url = `${SM_BASE}${path}?${qs}`;
+  return cached("sm:" + url, async () => {
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) return { configured: true as const, ok: false as const, status: r.status, data: [] };
+    const j = await r.json();
+    return { configured: true as const, ok: true as const, data: j.data ?? [] };
+  });
 }

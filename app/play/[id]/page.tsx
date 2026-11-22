@@ -42,7 +42,7 @@ export default function Play() {
           <span className="tag j">CONNECTED</span>
           <span className="tag v">DEMO MODE</span>
           {url && <button className="btn g s" onClick={goFull}><Icon name="bolt" />{full ? "Exit full" : "Fullscreen"}</button>}
-          {url && <button className="btn o s" onClick={() => { setUrl(""); setTimeout(() => setUrl(url), 60); }}><Icon name="refresh" />Reload</button>}
+          {url && <button className="btn o s" onClick={() => { const u = url; setUrl(""); setTimeout(() => setUrl(u), 60); }}><Icon name="refresh" />Reload</button>}
         </div>
       </div>
 
@@ -58,7 +58,7 @@ export default function Play() {
 
       <div className="note g">
         Game served by GameDistribution with the required referrer parameter. In-game credits belong to the provider demo session.
-        Your kahlatchybet wallet is separate and uses virtual CR credits only.
+        Your kahlatchybet wallet is separate and uses virtual TD credits only.
       </div>
     </div>
   );

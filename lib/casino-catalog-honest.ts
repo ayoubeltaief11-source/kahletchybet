@@ -1,0 +1,65 @@
+export type GameType = "internal" | "external" | "placeholder";
+export interface HonestGame {
+  slug: string; name: string; type: GameType; category: string;
+  provider: string; iframeUrl?: string; hue: string; tag: string; rtp: string; label: string;
+}
+const GD = "https://html5.gamedistribution.com/";
+const RF = "?gd_sdk_referrer_url=https://kahletchybet-msxo.vercel.app";
+export const HONEST_CATALOG: HonestGame[] = [
+  { slug: "sugar-storm", name: "Sugar Storm", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#FF6FB5", tag: "HOT", rtp: "96.50", label: "Cluster" },
+  { slug: "candy-nebula", name: "Candy Nebula", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#F472B6", tag: "", rtp: "96.40", label: "Tumble" },
+  { slug: "five-guardians", name: "Five Guardians", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#E8B33C", tag: "HOT", rtp: "96.80", label: "Megaways" },
+  { slug: "golden-lions", name: "Golden Lions", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#F0B429", tag: "", rtp: "96.10", label: "20 Lines" },
+  { slug: "pharaoh-vault", name: "Pharaoh Vault", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#D9A441", tag: "NEW", rtp: "96.55", label: "Cluster" },
+  { slug: "ocean-treasury", name: "Ocean Treasury", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#22D3EE", tag: "", rtp: "96.40", label: "Tumble" },
+  { slug: "dragon-fortune", name: "Dragon Fortune", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#EF4444", tag: "HOT", rtp: "96.80", label: "Megaways" },
+  { slug: "crystal-kingdom", name: "Crystal Kingdom", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#818CF8", tag: "", rtp: "96.10", label: "20 Lines" },
+  { slug: "wild-safari", name: "Wild Safari", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#F59E0B", tag: "", rtp: "96.55", label: "Cluster" },
+  { slug: "emerald-rush", name: "Emerald Rush", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#12D18E", tag: "NEW", rtp: "96.40", label: "Tumble" },
+  { slug: "fruit-fiesta", name: "Fruit Fiesta", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#FB7185", tag: "", rtp: "96.80", label: "Megaways" },
+  { slug: "diamond-bay", name: "Diamond Bay", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#38BDF8", tag: "", rtp: "96.10", label: "20 Lines" },
+  { slug: "sunset-jackpot", name: "Sunset Jackpot", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#FB923C", tag: "HOT", rtp: "96.55", label: "Jackpot" },
+  { slug: "thunder-vault", name: "Thunder Vault", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#6366F1", tag: "", rtp: "96.40", label: "Tumble" },
+  { slug: "mystic-moon", name: "Mystic Moon", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#8B5CF6", tag: "", rtp: "96.80", label: "Megaways" },
+  { slug: "royal-gems", name: "Royal Gems", type: "internal", category: "slots", provider: "kahlatchybet", hue: "#E8B33C", tag: "NEW", rtp: "96.10", label: "20 Lines" },
+  { slug: "american-roulette-gold", name: "American Roulette Gold", type: "internal", category: "roulette", provider: "kahlatchybet", hue: "#E8B33C", tag: "HOT", rtp: "94.74", label: "38 Pockets" },
+  { slug: "roulette-royale", name: "Roulette Royale", type: "internal", category: "roulette", provider: "kahlatchybet", hue: "#12D18E", tag: "", rtp: "94.74", label: "38 Pockets" },
+  { slug: "platinum-wheel", name: "Platinum Wheel", type: "internal", category: "roulette", provider: "kahlatchybet", hue: "#38BDF8", tag: "NEW", rtp: "94.74", label: "38 Pockets" },
+  { slug: "sky-ascent", name: "Sky Ascent", type: "internal", category: "crash", provider: "kahlatchybet", hue: "#FF4757", tag: "HOT", rtp: "97.00", label: "Flight" },
+  { slug: "rocket-vault", name: "Rocket Vault", type: "internal", category: "crash", provider: "kahlatchybet", hue: "#F97316", tag: "", rtp: "97.00", label: "Flight" },
+  { slug: "jet-horizon", name: "Jet Horizon", type: "internal", category: "crash", provider: "kahlatchybet", hue: "#22D3EE", tag: "", rtp: "97.00", label: "Flight" },
+  { slug: "gd-pharaoh", name: "Pharaohs Gold", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"a261dc8c8db44399a9da4ee98a285907/"+RF, hue: "#D9A441", tag: "HOT", rtp: "96.00", label: "HTML5" },
+  { slug: "gd-neon", name: "Neon Cascade", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"2f140d7d57f748059c22c415053a33c5/"+RF, hue: "#EC4899", tag: "", rtp: "96.20", label: "HTML5" },
+  { slug: "gd-sky", name: "Sky Rush", type: "external", category: "crash", provider: "GameDistribution", iframeUrl: GD+"ee9758da2f734a13af3781fbd42c3558/"+RF, hue: "#22D3EE", tag: "HOT", rtp: "97.00", label: "HTML5" },
+  { slug: "gd-lucky", name: "Lucky Vault", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"f8cd62870fbf451394a6093b9fa69553/"+RF, hue: "#F59E0B", tag: "", rtp: "96.40", label: "HTML5" },
+  { slug: "gd-crystal", name: "Crystal Storm", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"bb2a8674b78f47c7a4857aaad3fe6b9d/"+RF, hue: "#818CF8", tag: "NEW", rtp: "96.50", label: "HTML5" },
+  { slug: "gd-mega", name: "Mega Bazaar", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"341a9922b5814ab696ae8e86c8d826da/"+RF, hue: "#FB923C", tag: "", rtp: "96.30", label: "HTML5" },
+  { slug: "gd-vortex", name: "Vortex Spin", type: "external", category: "crash", provider: "GameDistribution", iframeUrl: GD+"6117e3b1665d4bfca6bc3ee51f461a99/"+RF, hue: "#A855F7", tag: "HOT", rtp: "97.00", label: "HTML5" },
+  { slug: "gd-diamond", name: "Diamond Bay", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"88adef5e4b2b4776ac9f6264d3055065/"+RF, hue: "#38BDF8", tag: "", rtp: "96.60", label: "HTML5" },
+  { slug: "gd-royal", name: "Royal Fortune", type: "external", category: "table", provider: "GameDistribution", iframeUrl: GD+"ec1955b8909843d3858d6f4b2aec9afc/"+RF, hue: "#E8B33C", tag: "", rtp: "96.80", label: "HTML5" },
+  { slug: "gd-thunder", name: "Thunder Vault", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"e74a2983137342ab862cb20fb8e71446/"+RF, hue: "#6366F1", tag: "NEW", rtp: "96.40", label: "HTML5" },
+  { slug: "gd-emerald", name: "Emerald Rush", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"713f0709e7574123a6f50d9cd4213949/"+RF, hue: "#12D18E", tag: "", rtp: "96.50", label: "HTML5" },
+  { slug: "gd-sunset", name: "Sunset Jackpot", type: "external", category: "slots", provider: "GameDistribution", iframeUrl: GD+"47f4cfc8491a43b09b31879d249ec6ed/"+RF, hue: "#FB923C", tag: "HOT", rtp: "96.70", label: "HTML5" },
+  { slug: "sweet-bonanza", name: "Sweet Bonanza", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#FF6FB5", tag: "HOT", rtp: "96.48", label: "License Pending" },
+  { slug: "gates-of-olympus", name: "Gates of Olympus", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#A855F7", tag: "HOT", rtp: "96.50", label: "License Pending" },
+  { slug: "big-bass-bonanza", name: "Big Bass Bonanza", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#22D3EE", tag: "", rtp: "96.71", label: "License Pending" },
+  { slug: "the-dog-house", name: "The Dog House", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#F59E0B", tag: "", rtp: "96.51", label: "License Pending" },
+  { slug: "sugar-rush", name: "Sugar Rush", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#EC4899", tag: "NEW", rtp: "96.50", label: "License Pending" },
+  { slug: "starlight-princess", name: "Starlight Princess", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#F472B6", tag: "", rtp: "96.50", label: "License Pending" },
+  { slug: "wild-west-gold", name: "Wild West Gold", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#FB923C", tag: "", rtp: "96.51", label: "License Pending" },
+  { slug: "buffalo-king", name: "Buffalo King", type: "placeholder", category: "slots", provider: "Pragmatic Play", hue: "#92400E", tag: "", rtp: "96.06", label: "License Pending" },
+  { slug: "zeppelin", name: "Zeppelin", type: "placeholder", category: "crash", provider: "BetGames", hue: "#F97316", tag: "HOT", rtp: "97.00", label: "License Pending" },
+  { slug: "aviator", name: "Aviator", type: "placeholder", category: "crash", provider: "Spribe", hue: "#EF4444", tag: "HOT", rtp: "97.00", label: "License Pending" },
+  { slug: "jetx", name: "JetX", type: "placeholder", category: "crash", provider: "SmartSoft", hue: "#22D3EE", tag: "", rtp: "97.00", label: "License Pending" },
+  { slug: "spaceman", name: "Spaceman", type: "placeholder", category: "crash", provider: "Pragmatic Play", hue: "#A855F7", tag: "NEW", rtp: "96.50", label: "License Pending" },
+];
+export const byHonestSlug = (s: string) => HONEST_CATALOG.find(g => g.slug === s) ?? null;
+export const HONEST_CATS = [
+  { key: "all", label: "All" },
+  { key: "slots", label: "Slots" },
+  { key: "crash", label: "Crash" },
+  { key: "roulette", label: "Roulette" },
+  { key: "table", label: "Table" },
+  { key: "hot", label: "Popular" },
+  { key: "new", label: "New" },
+];

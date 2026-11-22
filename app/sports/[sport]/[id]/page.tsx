@@ -21,7 +21,7 @@ export default function FixturePage() {
       .catch(() => setLoading(false));
   }, [id]);
 
-  const groups = useMemo(() => ["All", ...Array.from(new Set((f?.markets ?? []).map((m: any) => m.group)))], [f]);
+  const groups = useMemo<string[]>(() => ["All", ...Array.from(new Set<string>((f?.markets ?? []).map((m: any) => String(m.group ?? "Main"))))], [f]);
   const markets = (f?.markets ?? []).filter((m: any) => group === "All" || m.group === group);
   const count = (f?.markets ?? []).reduce((a: number, m: any) => a + m.picks.length, 0);
 

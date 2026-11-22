@@ -52,7 +52,7 @@ export default function Admin() {
     <div className="col">
       <div className="bt wrap">
         <h1 className="h2" style={{ margin: 0 }}><Icon name="shield" />Admin console</h1>
-        <span className="tag g">SERVER-PROTECTED</span>
+        <span className="tag g">SERVER-PROTECTED</span><Link href="/admin/td" className="btn g s">TD Control Center</Link><Link href="/admin/kb-rtp" className="btn g s">House Edge</Link><Link href="/admin/rtp" className="btn o s">RTP Control</Link>
       </div>
 
       <div className="tabs">

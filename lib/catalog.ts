@@ -49,4 +49,4 @@ const T: Record<string, Record<Lang, string>> = {
   },
 };
 export const tr = (l: Lang, k: keyof typeof T) => T[k]?.[l] ?? String(k);
-export const fmt = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " CR";
+export const fmt = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " TD";

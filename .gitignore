@@ -8,3 +8,10 @@ out
 .vercel
 *.log
 next-env.d.ts
+.backup-*
+.next
+node_modules
+.backup*
+.vercelignore
+.DS_Store
+Thumbs.db

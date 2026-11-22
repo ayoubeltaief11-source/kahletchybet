@@ -1,7 +1,3 @@
-/* Entertainment simulation engine.
-   Every value produced here is clearly labelled SIMULATED in the UI.
-   Probabilities are mathematically coherent (Poisson goal model + margin). */
-
 export interface SimPick { label: string; price: number }
 export interface SimMarket { key: string; name: string; group: string; picks: SimPick[] }
 export interface SimFixture {
@@ -148,7 +144,7 @@ export function simFixtureById(id: string): SimFixture | null {
 }
 
 const NAMES = ["Karim", "Yassine", "Amine", "Sofien", "Mehdi", "Nour", "Rami", "Aziz", "Bilel", "Hamza", "Wassim", "Firas", "Skander", "Adem", "Zied"];
-const GAMES = ["Golden Reels", "Neon Cascade", "Sky Rush", "Lucky Vault", "Crystal Storm", "Mega Bazaar", "Vortex Spin", "Diamond Bay"];
+const GAMES = ["Golden Reels", "Neon Cascade", "Sky Rush", "Lucky Vault", "Crystal Storm", "Mega Bazaar", "kahlatchy Spin", "Diamond Bay"];
 export function winnersFeed(n = 18) {
   const r = rng("winners-" + Math.floor(Date.now() / 45000));
   return Array.from({ length: n }).map((_, i) => ({

@@ -1,0 +1,43 @@
+{
+  "version": "1.0",
+  "generated": "2026-11-22",
+  "games": [
+    {"slug":"emerald-roulette","name":"Emerald Roulette","family":"roulette","type":"european","accent":"#0c7a4e","accent2":"#ffd97a","felt":"linear-gradient(170deg,#0a3a24,#0c7a4e 42%,#062a1a)","rtp":0.973,"vol":"Medium","maxWin":"x36","badge":"LIVE","tag":"Single Zero"},
+    {"slug":"crimson-roulette","name":"Crimson Roulette","family":"roulette","type":"american","accent":"#c4202f","accent2":"#fff6d8","felt":"linear-gradient(170deg,#1a0505,#4a0b0b 42%,#0d0202)","rtp":0.947,"vol":"Medium","maxWin":"x36","badge":"HOT","tag":"Double Zero"},
+    {"slug":"royal-velvet","name":"Royal Velvet","family":"roulette","type":"french","accent":"#6b2fa0","accent2":"#f0abfc","felt":"linear-gradient(170deg,#1a0528,#3d1466 42%,#0d0318)","rtp":0.986,"vol":"Low","maxWin":"x36","badge":"VIP","tag":"La Partage"},
+    {"slug":"midnight-wheel","name":"Midnight Wheel","family":"roulette","type":"vip","accent":"#1e3a8a","accent2":"#93c5fd","felt":"linear-gradient(170deg,#020617,#0b1e4d 42%,#01040c)","rtp":0.973,"vol":"High","maxWin":"x36","badge":"NEW","tag":"High Stakes"},
+    {"slug":"golden-crown","name":"Golden Crown","family":"roulette","type":"lightning","accent":"#e8b33c","accent2":"#fff6d8","felt":"linear-gradient(170deg,#1c1403,#4d3a06 42%,#0d0a01)","rtp":0.973,"vol":"High","maxWin":"x500","badge":"LIVE","tag":"Lucky Numbers"},
+
+    {"slug":"candy-cascade","name":"Candy Cascade","family":"slots","engine":"cluster","accent":"#ff6fb5","accent2":"#ffd97a","felt":"linear-gradient(170deg,#3d0f2a,#7a1f4d 45%,#2a0a1c)","rtp":0.965,"vol":"High","maxWin":"x5000","badge":"NEW","tag":"Cluster Tumble"},
+    {"slug":"gemfall-kingdom","name":"Gemfall Kingdom","family":"slots","engine":"cluster","accent":"#22d3ee","accent2":"#9dc4ff","felt":"linear-gradient(170deg,#03151c,#0a3d4d 45%,#020c11)","rtp":0.965,"vol":"High","maxWin":"x5000","badge":"HOT","tag":"Prism Tumble"},
+    {"slug":"fruit-burst-valley","name":"Fruit Burst Valley","family":"slots","engine":"cluster","accent":"#4ade80","accent2":"#fde68a","felt":"linear-gradient(170deg,#04120a,#0d3a1e 45%,#030d07)","rtp":0.965,"vol":"Low","maxWin":"x5000","badge":"NEW","tag":"Fruit Cluster"},
+
+    {"slug":"dragon-peaks","name":"Dragon Peaks","family":"slots","engine":"megaways","accent":"#ff6b3d","accent2":"#ffd24a","felt":"linear-gradient(170deg,#1a0505,#4a1206 45%,#120302)","rtp":0.965,"vol":"High","maxWin":"x8748","badge":"LIVE","tag":"Shifting Reels"},
+    {"slug":"ocean-depths","name":"Ocean Depths","family":"slots","engine":"megaways","accent":"#22d3ee","accent2":"#9dc4ff","felt":"linear-gradient(170deg,#03151c,#0a3d4d 45%,#020c11)","rtp":0.965,"vol":"High","maxWin":"x8748","badge":"NEW","tag":"Flux Ways"},
+    {"slug":"cosmic-rift","name":"Cosmic Rift","family":"slots","engine":"megaways","accent":"#a855f7","accent2":"#f0abfc","felt":"linear-gradient(170deg,#0a0418,#25104a 45%,#070310)","rtp":0.965,"vol":"High","maxWin":"x8748","badge":"HOT","tag":"Twilight Ways"},
+
+    {"slug":"neon-cherry-rush","name":"Neon Cherry Rush","family":"slots","engine":"lines","rows":3,"accent":"#ff4757","accent2":"#ff8b96","felt":"linear-gradient(170deg,#180307,#460b16 45%,#0d0204)","rtp":0.965,"vol":"Medium","maxWin":"x500","badge":"NEW","tag":"20 Lines Neon"},
+    {"slug":"electric-lemon","name":"Electric Lemon","family":"slots","engine":"lines","rows":3,"accent":"#facc15","accent2":"#fef08a","felt":"linear-gradient(170deg,#1c1002,#4d2f04 45%,#100a01)","rtp":0.965,"vol":"Low","maxWin":"x500","badge":"LIVE","tag":"20 Lines Glow"},
+    {"slug":"plasma-bell","name":"Plasma Bell","family":"slots","engine":"lines","rows":3,"accent":"#3b82f6","accent2":"#93c5fd","felt":"linear-gradient(170deg,#020617,#0b1e4d 45%,#01040c)","rtp":0.965,"vol":"Medium","maxWin":"x500","badge":"HOT","tag":"20 Lines Plasma"},
+
+    {"slug":"volcano-vault","name":"Volcano Vault","family":"slots","engine":"holdwin","accent":"#ff6b3d","accent2":"#ffd24a","felt":"linear-gradient(170deg,#2a0604,#7a1f06 42%,#1a0402)","rtp":0.965,"vol":"High","maxWin":"x2075","badge":"HOT","tag":"Lava Coins"},
+    {"slug":"arctic-treasure","name":"Arctic Treasure","family":"slots","engine":"holdwin","accent":"#22d3ee","accent2":"#9dc4ff","felt":"linear-gradient(170deg,#03151c,#0a4d5e 42%,#020c11)","rtp":0.965,"vol":"High","maxWin":"x2075","badge":"NEW","tag":"Deep Coins"},
+    {"slug":"desert-coins","name":"Desert Coins","family":"slots","engine":"holdwin","accent":"#e8b33c","accent2":"#fff6d8","felt":"linear-gradient(170deg,#1c1403,#4d3a06 42%,#0d0a01)","rtp":0.965,"vol":"High","maxWin":"x2075","badge":"LIVE","tag":"Bullion Hold"},
+
+    {"slug":"mystery-pyramid","name":"Mystery Pyramid","family":"slots","engine":"holdwin5","accent":"#e8b33c","accent2":"#fff6d8","felt":"linear-gradient(170deg,#1c1403,#4d3a06 42%,#0d0a01)","rtp":0.965,"vol":"High","maxWin":"x2075","badge":"NEW","tag":"Mystery Symbols"},
+    {"slug":"shadow-relics","name":"Shadow Relics","family":"slots","engine":"holdwin5","accent":"#a855f7","accent2":"#f0abfc","felt":"linear-gradient(170deg,#0a0418,#25104a 42%,#070310)","rtp":0.965,"vol":"High","maxWin":"x2075","badge":"HOT","tag":"Enchanted Relics"},
+    {"slug":"enchanted-forest","name":"Enchanted Forest","family":"slots","engine":"holdwin5","accent":"#12d18e","accent2":"#a7f3d0","felt":"linear-gradient(170deg,#04140f,#0b3a2a 42%,#03100b)","rtp":0.965,"vol":"Medium","maxWin":"x2075","badge":"LIVE","tag":"Forest Mystery"},
+
+    {"slug":"skyward-jet","name":"Skyward Jet","family":"crash","craft":"jet","accent":"#e8b33c","accent2":"#fff6d8","sky":"linear-gradient(180deg,#0d1a30 0%,#1b2a4a 42%,#3a2f52 72%,#0a0f18 100%)","rtp":0.97,"vol":"High","maxWin":"x5000","badge":"LIVE","tag":"Flagship"},
+    {"slug":"ember-rocket","name":"Ember Rocket","family":"crash","craft":"rocket","accent":"#ff6b3d","accent2":"#ffd24a","sky":"linear-gradient(180deg,#1a0505 0%,#4a1206 40%,#8a2a08 70%,#0d0403 100%)","rtp":0.97,"vol":"High","maxWin":"x5000","badge":"HOT","tag":"Booster"},
+    {"slug":"drift-balloon","name":"Drift Balloon","family":"crash","craft":"airship","accent":"#7fb2ff","accent2":"#9dc4ff","sky":"linear-gradient(180deg,#071427 0%,#123a5e 40%,#2f6f96 72%,#050b14 100%)","rtp":0.97,"vol":"Medium","maxWin":"x5000","badge":"NEW","tag":"Cruiser"},
+    {"slug":"rotor-heli","name":"Rotor Heli","family":"crash","craft":"heli","accent":"#12d18e","accent2":"#a7f3d0","sky":"linear-gradient(180deg,#04140f 0%,#0b3a2a 42%,#14624a 72%,#030a08 100%)","rtp":0.97,"vol":"Medium","maxWin":"x5000","badge":"LIVE","tag":"Vertical"},
+    {"slug":"nightglide-stealth","name":"Nightglide Stealth","family":"crash","craft":"jet","accent":"#a855f7","accent2":"#f0abfc","sky":"linear-gradient(180deg,#0a0418 0%,#25104a 42%,#4a1f7a 72%,#06030f 100%)","rtp":0.97,"vol":"High","maxWin":"x5000","badge":"HOT","tag":"Stealth"},
+
+    {"slug":"precision-dice","name":"Precision Dice","family":"instant","engine":"dice","accent":"#3b82f6","accent2":"#93c5fd","felt":"linear-gradient(170deg,#020617,#0b1e4d 42%,#01040c)","rtp":0.97,"vol":"Medium","maxWin":"x9800","badge":"LIVE","tag":"Over/Under"},
+    {"slug":"classic-mines","name":"Classic Mines","family":"instant","engine":"mines","accent":"#12d18e","accent2":"#a7f3d0","felt":"linear-gradient(170deg,#04140f,#0b3a2a 42%,#03100b)","rtp":0.97,"vol":"High","maxWin":"x100","badge":"LIVE","tag":"5x5 Grid"},
+    {"slug":"plinko-low","name":"Plinko Low Risk","family":"instant","engine":"plinko","risk":"low","accent":"#12d18e","accent2":"#a7f3d0","felt":"linear-gradient(170deg,#04140f,#0b3a2a 42%,#03100b)","rtp":0.97,"vol":"Low","maxWin":"x16","badge":"LIVE","tag":"Safe Drops"},
+    {"slug":"hi-lo-classic","name":"Hi-Lo Classic","family":"instant","engine":"hilo","accent":"#12d18e","accent2":"#a7f3d0","felt":"linear-gradient(170deg,#04140f,#0b3a2a 42%,#03100b)","rtp":0.97,"vol":"Medium","maxWin":"x100","badge":"LIVE","tag":"Card Ladder"},
+    {"slug":"limbo-rush","name":"Limbo Rush","family":"instant","engine":"limbo","accent":"#12d18e","accent2":"#a7f3d0","felt":"linear-gradient(170deg,#04140f,#0b3a2a 42%,#03100b)","rtp":0.97,"vol":"High","maxWin":"x1000","badge":"HOT","tag":"Target Multiplier"}
+  ]
+}

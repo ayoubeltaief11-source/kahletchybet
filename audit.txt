@@ -1,0 +1,119 @@
+﻿next        ^16.4.6
+react       ^19.3.1
+pixi.js     not installed
+gsap        not installed
+matter-js   not installed
+howler      not installed
+games       160
+kb engines  10
+kb configs  5
+routes      46
+td kbRtp    True
+td kbRound  True
+admin rtp   True
+pt line     if (v === "wood" || v === "neon" || v === "vip") return (<g transform="translate(160 78)
+
+--- FULL TREE ---
+.env.example
+.env.local
+.gitignore
+.vercelignore
+next-env.d.ts
+next.config.mjs
+package-lock.json
+package.json
+README.md
+tsconfig.json
+.data\store.json
+.vercel\README.txt
+.vercel\repo.json
+app\globals.css
+app\layout.tsx
+app\not-found.tsx
+app\page.tsx
+app\admin\page.tsx
+app\admin\kb-rtp\page.tsx
+app\admin\rtp\page.tsx
+app\admin\td\page.tsx
+app\api\admin\games\route.ts
+app\api\admin\overview\route.ts
+app\api\admin\rtp\route.ts
+app\api\admin\sync-games\route.ts
+app\api\admin\td\route.ts
+app\api\admin\users\route.ts
+app\api\auth\login\route.ts
+app\api\auth\logout\route.ts
+app\api\auth\me\route.ts
+app\api\auth\register\route.ts
+app\api\bets\route.ts
+app\api\casino\rtp\route.ts
+app\api\games\route.ts
+app\api\games\launch\route.ts
+app\api\kb\admin\route.ts
+app\api\kb\round\route.ts
+app\api\kb\rtp\route.ts
+app\api\profile\route.ts
+app\api\sports\route.ts
+app\api\sports\fixture\route.ts
+app\api\wallet\route.ts
+app\api\winners\route.ts
+app\casino\page.tsx
+app\casino\blackjack\page.tsx
+app\casino\play\[id]\page.tsx
+app\casino\roulette\page.tsx
+app\casino\slots\page.tsx
+app\casino\[category]\page.tsx
+app\dashboard\page.tsx
+app\legal\integrations\page.tsx
+app\legal\privacy\page.tsx
+app\legal\responsible\page.tsx
+app\legal\simulation\page.tsx
+app\legal\terms\page.tsx
+app\login\page.tsx
+app\play\[id]\page.tsx
+app\register\page.tsx
+app\sports\page.tsx
+app\sports\[sport]\page.tsx
+app\sports\[sport]\[id]\page.tsx
+app\wallet\page.tsx
+components\BetSlip.tsx
+components\CasinoStage.tsx
+components\CasinoStagePro.tsx
+components\EmbeddedStage.tsx
+components\GameTile.tsx
+components\Icon.tsx
+components\Shell.tsx
+components\SlotSymbols.tsx
+components\Winners.tsx
+components\kb\Art.tsx
+components\kb\audio.ts
+components\kb\CrashGame.tsx
+components\kb\DiceGame.tsx
+components\kb\HiLoGame.tsx
+components\kb\MinesGame.tsx
+components\kb\PlinkoGame.tsx
+components\kb\RouletteGame.tsx
+components\kb\SlotsGame.tsx
+components\kb\Sym.tsx
+components\kb\TableGame.tsx
+lib\auth.ts
+lib\casino-catalog-honest.ts
+lib\casino-catalog.ts
+lib\casino-engine.ts
+lib\casino-massive-catalog.ts
+lib\catalog.ts
+lib\db.ts
+lib\gd-games.ts
+lib\guard.ts
+lib\house.ts
+lib\providers.ts
+lib\rtp-config.ts
+lib\schema.mjs
+lib\sim.ts
+lib\td-store.ts
+lib\kb\catalog.ts
+lib\kb\engine.ts
+lib\kb\rtp.ts
+lib\kb\sig.ts
+lib\kb\wheel.ts
+scripts\migrate.mjs

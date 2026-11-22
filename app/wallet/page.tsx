@@ -90,7 +90,7 @@ export default function Wallet() {
           <div className="modalbox" onClick={e => e.stopPropagation()}>
             <h3 className="h2">{modal === "DEPOSIT" ? "Demo deposit" : "Demo withdrawal"}</h3>
             <div className="note g mb">SIMULATION ONLY  no card, bank, crypto or payment network is involved at any point.</div>
-            <label className="f"><span>Amount (CR)</span><input className="in mono" type="number" min={1} value={amount} onChange={e => setAmount(e.target.value)} autoFocus /></label>
+            <label className="f"><span>Amount (TD)</span><input className="in mono" type="number" min={1} value={amount} onChange={e => setAmount(e.target.value)} autoFocus /></label>
             <label className="f"><span>Simulated method</span>
               <select className="in" value={method} onChange={e => setMethod(e.target.value)}>
                 <option>Demo Card</option><option>Demo Bank Transfer</option><option>Demo Crypto</option><option>Demo Voucher</option>

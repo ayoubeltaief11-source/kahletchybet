@@ -19,7 +19,7 @@ export default function BetSlip({ selections, remove, clear }: { selections: Sel
   const place = async () => {
     if (!me) return toast("Sign in to place a demo bet", "e");
     if (!selections.length) return;
-    if (amt < 10) return toast("Minimum stake is 10 CR", "e");
+    if (amt < 10) return toast("Minimum stake is 10 TD", "e");
     setBusy(true);
     try {
       const r = await fetch("/api/bets", { method: "POST", headers: { "Content-Type": "application/json" },
@@ -56,7 +56,7 @@ export default function BetSlip({ selections, remove, clear }: { selections: Sel
               </div>
             ))}
           </div>
-          <label className="f"><span>{tr(lang, "stake")} (CR)</span>
+          <label className="f"><span>{tr(lang, "stake")} (TD)</span>
             <input className="in mono" type="number" min={10} step={10} value={stake} onChange={e => setStake(e.target.value)} />
           </label>
           <div className="chipline mb">

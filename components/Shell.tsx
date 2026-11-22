@@ -55,7 +55,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <aside className="side">
           <Link href="/" className="brand">
             <div className="crest" />
-            <div className="wordmark">kahlatchy<i>bet</i><small>DEMO PLATFORM</small></div>
+            <div className="wordmark">kahlatchy<i>bet</i><small>DEMO PLATFORM</small></div><span className="kb-demobadge">Demo</span>
           </Link>
           {NAV.map(n => (
             <Link key={n.href} href={n.href} className={"nav" + (on(n.href) ? " on" : "")}>
@@ -79,10 +79,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
         <div className="main">
           <header className="top">
-            <Link href="/" className="wordmark" style={{ fontSize: 16 }}>kahlatchy<i>bet</i></Link>
+            <Link href="/" className="wordmark" style={{ fontSize: 16 }}>kahlatchy<i>bet</i></Link><span className="kb-demobadge">Demo</span>
             <nav className="toplinks">
               {NAV.map(n => <Link key={n.href} href={n.href} className={on(n.href) ? "on" : ""}>{tr(lang, n.key as any)}</Link>)}
-              {me?.role === "admin" && <Link href="/admin" className={on("/admin") ? "on" : ""}>{tr(lang, "admin")}</Link>}
+              {me?.role === "admin" && <Link href="/admin" className={on("/admin") ? "on" : ""}>{tr(lang, "admin")}</Link>}{me?.role === "admin" && <Link href="/admin/td" className={on("/admin/td") ? "on" : ""}>TD Control</Link>}
             </nav>
             <div className="langs">
               {(["en", "ar", "fr"] as Lang[]).map(l => (
@@ -108,7 +108,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <footer className="foot">
             <div>{tr(lang, "demo")}</div>
             <div style={{ marginTop: 6 }}>
-              <Link href="/legal/terms">Terms</Link>-<Link href="/legal/privacy">Privacy</Link>-<Link href="/legal/responsible">Responsible Play</Link>-<Link href="/legal/integrations">Integrations</Link>
+              <Link href="/legal/terms">Terms</Link>-<Link href="/legal/privacy">Privacy</Link>-<Link href="/legal/responsible">Responsible Play</Link>-<Link href="/legal/integrations">Integrations</Link>-<Link href="/legal/simulation">Simulation</Link>
             </div>
             <div style={{ marginTop: 6 }}>(c) {new Date().getFullYear()} kahlatchybet - 18+ educational demonstration.</div>
           </footer>
