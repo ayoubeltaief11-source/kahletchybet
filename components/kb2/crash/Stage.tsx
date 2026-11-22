@@ -25,6 +25,13 @@ export default function Stage({ input, craft }: { input: StageInput; craft: stri
     let t = 0;
 
     const boot = async function () {
+      const mm0 = typeof window !== "undefined" ? window.location.pathname.match(/\/casino\/sky\/([a-z0-9-]+)/) : null;
+      if (mm0 && mm0[1] && host.current) {
+        host.current.style.backgroundImage = "linear-gradient(rgba(5,8,14,.55),rgba(5,8,14,.72)), url(/assets/" + mm0[1] + "/bg.jpg)";
+        host.current.style.backgroundSize = "cover";
+        host.current.style.backgroundPosition = "center";
+        host.current.style.animation = "kb3par 60s ease-in-out infinite alternate";
+      }
       const a = new Application();
       try {
         await a.init({

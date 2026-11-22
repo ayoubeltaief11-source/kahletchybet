@@ -8,6 +8,7 @@ import { fmt } from "@/lib/catalog";
 import { COLS, ROWS, CELLS, JACKPOTS, holdBySlug } from "@/lib/kb2/holdMath";
 import type { HoldResult, Coin } from "@/lib/kb2/holdMath";
 import { getAudio } from "@/lib/kb2/audio";
+import { symbolUrl } from "@/src/kb3/assets/gameAssets";
 import { usePrefs } from "@/lib/kb/prefs";
 
 function CoinArt({ value, jp, size = 62 }: { value: number; jp: number; size?: number }) {
@@ -212,7 +213,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
               {grid.map(function (cc, i) {
                 return (
                   <div key={i} data-h={i} className={"k9-cell" + (cc ? " held" : "") + (fresh.indexOf(i) >= 0 ? " fresh" : "") + (cc && cc.jp >= 0 ? " jackpot" : "")}>
-                    {cc ? <CoinArt value={cc.value} jp={cc.jp}/> : <span className="k9-empty"/>}
+                    {cc ? <span className="kb3-coinwrap"><CoinArt value={cc.value} jp={cc.jp}/><img src={symbolUrl(slug, cc.jp >= 0 ? 8 : 4)} alt="" className="kb3-coin-tex" onError={function (e) { e.currentTarget.style.display = "none"; }}/></span> : <span className="k9-empty"/>}
                   </div>
                 );
               })}
