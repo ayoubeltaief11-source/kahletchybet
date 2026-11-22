@@ -264,7 +264,7 @@ export default function RouletteEngine({ slug }: { slug: string }) {
 
       <div className="kr-body">
         <div className="kr-left">
-          <div className="kr-wheelbox" style={{ background: "radial-gradient(80% 80% at 50% 30%," + cfg.felt.replace("linear-gradient", "rgba").replace(/.*?,/,"").replace(")",",0.3)") + ", #0a1018)" }}>
+          <div className="kr-wheelbox" style={{ background: "radial-gradient(80% 80% at 50% 30%," + cfg.felt.replace("linear-gradient", "rgba").replace(/.*?,/,"").replace(")",",0.3)") + ", #0a1018)" }}><div className="kr-bgimg" style={{ backgroundImage: "url(/assets/" + slug + "/bg.jpg)" }}/>
             <div className="kr-readout">
               {lastResult ? <b className={lastResult.color === "red" ? "r" : lastResult.color === "green" ? "g" : "b"}>{lastResult.number} {lastResult.color.toUpperCase()}</b> : <b className="wait">{spinning ? "SPINNING" : "PLACE BETS"}</b>}
             </div>

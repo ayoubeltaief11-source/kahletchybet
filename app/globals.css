@@ -2559,3 +2559,7 @@ html[lang="ar"] .k2-btn,html[lang="ar"] .k2-chip,html[lang="ar"] .k2-win,html[la
 .k4-craft{position:relative;z-index:2;width:80%;height:80%;display:grid;place-items:center;filter:drop-shadow(0 12px 24px rgba(0,0,0,.6))}
 .k4-card:hover .k4-craft{transform:scale(1.08) translateY(-8px);transition:transform .3s ease-out}
 .k4-card .k4-craft{transition:transform .3s ease-out}
+/* == ROULETTE REAL BACKGROUND == */
+.kr-bgimg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.42;filter:saturate(1.1) brightness(.8);pointer-events:none;z-index:0}
+.kr-wheelbox > *{position:relative;z-index:1}
+.kr-wheelbox > .kr-bgimg{z-index:0}

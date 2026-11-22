@@ -1,4 +1,7 @@
 "use client";
+import { useState, useEffect } from "react";
+import { getPackForGame } from "@/lib/kb2/packMap";
+
 import { GameCharacter } from "@/lib/kb2/imageLoader";
 
 const P: [string, string, string][] = [
@@ -13,6 +16,25 @@ const P: [string, string, string][] = [
 ];
 
 export default function Sym({ k, size = 58 }: { k: number; size?: number }) {
+  const [slug, setSlug] = useState("");
+  const [imgOk, setImgOk] = useState(false);
+  useEffect(function () {
+    try {
+      const m = window.location.pathname.match(/\/casino\/[a-z0-9]+\/([a-z0-9-]+)/);
+      if (m && m[1]) setSlug(m[1]);
+    } catch (e) { /* ignore */ }
+  }, []);
+  const realSrc = slug ? "/assets/packs/" + getPackForGame(slug) + "/s" + ((k % 9) + 1) + ".png" : "";
+  useEffect(function () {
+    if (!realSrc) { setImgOk(false); return; }
+    const img = new Image();
+    img.onload = function () { setImgOk(true); };
+    img.onerror = function () { setImgOk(false); };
+    img.src = realSrc;
+  }, [realSrc]);
+  if (imgOk && realSrc) {
+    return <img src={realSrc} width={size} height={size} alt="" draggable={false} style={{ objectFit: "contain", filter: "drop-shadow(0 3px 6px rgba(0,0,0,.55))" }}/>;
+  }
   const uid = "sy" + k;
   if (k === 8) {
     return (
