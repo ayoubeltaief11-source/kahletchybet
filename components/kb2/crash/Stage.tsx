@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Application, Container, Graphics } from "pixi.js";
+import { Application, Container, Graphics, Sprite, Assets } from "pixi.js";
 import type { CrashPhase } from "@/lib/kb2/crashLoop";
 
 export interface StageInput { phase: CrashPhase; mult: number; progress: number; hue: number; }
@@ -109,6 +109,33 @@ export default function Stage({ input, craft }: { input: StageInput; craft: stri
 
       const drawJet = function () {
         jetBody.clear();
+        const kb = (jetBody as any);
+        if (!kb.__kbStarted) {
+          kb.__kbStarted = true;
+          const mm = typeof window !== "undefined" ? window.location.pathname.match(/\/casino\/sky\/([a-z0-9-]+)/) : null;
+          if (mm && mm[1]) {
+            Assets.load("/assets/" + mm[1] + "/character.png").then(function (tex) {
+              const sp = Sprite.from(tex);
+              sp.anchor.set(0.5, 0.5);
+              sp.scale.set(150 / Math.max(1, tex.width));
+              if (jetBody.parent) jetBody.parent.addChild(sp);
+              kb.__kbSprite = sp;
+              kb.__kbLast = null;
+              jetBody.visible = false;
+            }).catch(function () { /* keep drawn craft */ });
+          }
+        }
+        if (kb.__kbSprite) {
+          const gp = jetBody.getGlobalPosition();
+          if (kb.__kbLast) {
+            const dx = gp.x - kb.__kbLast.x;
+            const dy = gp.y - kb.__kbLast.y;
+            if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
+              kb.__kbSprite.rotation = Math.atan2(dy, dx) * 0.6;
+            }
+          }
+          kb.__kbLast = { x: gp.x, y: gp.y };
+        }
         const c = live.current.hue;
         if (craft === "rocket") {
           jetBody.moveTo(0, -24).quadraticCurveTo(12, -6, 12, 13).lineTo(-12, 13).quadraticCurveTo(-12, -6, 0, -24).fill({ color: 0xfff6d8 }).stroke({ width: 1.4, color: c });
