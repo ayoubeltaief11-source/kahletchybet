@@ -2563,3 +2563,9 @@ html[lang="ar"] .k2-btn,html[lang="ar"] .k2-chip,html[lang="ar"] .k2-win,html[la
 .kr-bgimg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.42;filter:saturate(1.1) brightness(.8);pointer-events:none;z-index:0}
 .kr-wheelbox > *{position:relative;z-index:1}
 .kr-wheelbox > .kr-bgimg{z-index:0}
+/* == KB3 SYMBOL CELL PRO == */
+.k5-cell,.k6-cell,.k7-cell{position:relative;background:linear-gradient(180deg,rgba(8,12,22,.42),rgba(4,6,12,.62));border-radius:8px;overflow:hidden;transition:transform .18s ease-out,box-shadow .18s ease-out}
+.k5-cell img,.k6-cell img,.k7-cell img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.k5-cell.win img,.k6-cell.win img,.k7-cell.win img{filter:drop-shadow(0 0 14px var(--acc,#ffd97a)) drop-shadow(0 0 4px #fff);transform:scale(1.08)}
+.k5-cell.dim,.k6-cell.dim,.k7-cell.dim{opacity:.35}
+.k5-fallback,.k6-fallback,.k7-fallback{width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.18),transparent 60%),linear-gradient(135deg,#2a3550,#0d1220);border-radius:6px;color:#ffd97a;font:900 65% "Orbitron",system-ui;text-shadow:0 0 8px rgba(255,217,122,.6)}
