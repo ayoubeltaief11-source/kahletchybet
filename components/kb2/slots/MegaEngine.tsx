@@ -11,6 +11,7 @@ import { sfx } from "@/src/kb3/audio/sfx";
 import type { SpinResult, WayWin } from "@/lib/kb2/megaMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
+import { WinOverlay } from "@/src/kb3/slots/WinOverlay";
 import { LineSym, LineMascot } from "./LineSym";
 
 interface Auto { left: number; stopWin: number; stopLoss: number; onFeature: boolean; }
@@ -194,7 +195,8 @@ export default function MegaEngine({ slug }: { slug: string }) {
         <div className="k7-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k7-rays"/>
           <div className="k7-mascot"><LineMascot hue={cfg.accent} hue2={cfg.accent2}/></div>
-          <div className="k7-frame" style={{ borderColor: cfg.frame }}>
+          <WinOverlay win={win} accent={cfg.accent} onDismiss={function(){setWin(null)}}>
+<div className="k7-frame" style={{ borderColor: cfg.frame }}>
             <span className="k7-cn tl"/><span className="k7-cn tr"/><span className="k7-cn bl"/><span className="k7-cn br"/>
             <div className="k7-banner">WIN UP TO {cfg.maxWin} YOUR BET</div>
             <div className="k7-heights">
@@ -241,6 +243,7 @@ export default function MegaEngine({ slug }: { slug: string }) {
               </div>
             )}
           </div>
+</WinOverlay>
           <div className="k7-vol">
             <span>VOLATILITY</span>
             <div className="k7-vbar">{[0,1,2,3,4].map(function (i) { return <i key={i} className={i < (cfg.vol === "High" ? 5 : 3) ? "on" : ""}/>; })}</div>

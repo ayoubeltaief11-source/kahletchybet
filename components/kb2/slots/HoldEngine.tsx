@@ -9,7 +9,9 @@ import { COLS, ROWS, CELLS, JACKPOTS, holdBySlug } from "@/lib/kb2/holdMath";
 import type { HoldResult, Coin } from "@/lib/kb2/holdMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { getGame, sym, asset } from "@/src/kb3/registry";
+import { HoldWin } from "@/src/kb3/slots/HoldWin";
 import { usePrefs } from "@/lib/kb/prefs";
+import { WinOverlay } from "@/src/kb3/slots/WinOverlay";
 
 function CoinArt({ value, jp, size = 62 }: { value: number; jp: number; size?: number }) {
   const j = jp >= 0 ? JACKPOTS[jp] : null;
@@ -206,7 +208,8 @@ export default function HoldEngine({ slug }: { slug: string }) {
           <div className="k9-rays"/>
           <div className="k9-cracks"/>
           
-          <div className="k9-frame" style={{ borderColor: cfg.frame }}>
+          <WinOverlay win={win} accent={cfg.accent} onDismiss={function(){setWin(null)}}>
+<div className="k9-frame" style={{ borderColor: cfg.frame }}>
             <span className="k9-cn tl"/><span className="k9-cn tr"/><span className="k9-cn bl"/><span className="k9-cn br"/>
             <div className="k9-banner">FILL ALL {CELLS} POSITIONS FOR THE GRAND</div>
             <div className="k9-meters">
@@ -217,7 +220,8 @@ export default function HoldEngine({ slug }: { slug: string }) {
               <div className="k9-collect"><span>COLLECTED</span><b>{coinSum.toFixed(2)}x</b></div>
               <div className="k9-fill"><span>FILLED</span><b>{filled}/{CELLS}</b></div>
             </div>
-            <div className="k9-grid" ref={boardRef} style={{ gridTemplateColumns: "repeat(" + COLS + ",1fr)" }}>
+            <HoldWin board={board} fresh={fresh} respins={respins} filled={filled} totalCells={CELLS} jackpotHit={lastJp} grandFull={filled>=CELLS} accent={rec.color}>
+<div className="k9-grid" ref={boardRef} style={{ gridTemplateColumns: "repeat(" + COLS + ",1fr)" }}>
               {grid.map(function (cc, i) {
                 return (
                   <div key={i} data-h={i} className={"k9-cell" + (cc ? " held" : "") + (fresh.indexOf(i) >= 0 ? " fresh" : "") + (cc && cc.jp >= 0 ? " jackpot" : "")}>
@@ -229,6 +233,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
                 );
               })}
             </div>
+</HoldWin>
             {noCoin && <div className="kb3-nocoin">NO COINS THIS ROUND</div>}
             {coins.length > 0 && <div className="k9-coins">{coins.map(function (i) { return <i key={i} style={{ left: (i * 2.7 % 100) + "%", animationDelay: (i * 0.05) + "s" }}/>; })}</div>}
             {win && (
@@ -240,6 +245,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
               </div>
             )}
           </div>
+</WinOverlay>
           <div className="k9-vol">
             <span>VOLATILITY</span>
             <div className="k9-vbar">{[0,1,2,3,4].map(function (i) { return <i key={i} className={i < (cfg.vol === "High" ? 5 : 3) ? "on" : ""}/>; })}</div>

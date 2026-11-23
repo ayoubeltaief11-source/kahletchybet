@@ -8,6 +8,7 @@ import { REELS, LINES3, LINES4, PAY, TIER_OF, lineBySlug } from "@/lib/kb2/lineM
 import type { SpinResult, LineWin } from "@/lib/kb2/lineMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
+import { WinOverlay } from "@/src/kb3/slots/WinOverlay";
 import { LineSym, LineMascot } from "./LineSym";
 import { ReelStrip } from "@/src/kb3/slots/ReelStrip";
 import type { ReelStripHandle } from "@/src/kb3/slots/ReelStrip";
@@ -211,7 +212,8 @@ export default function LineEngine({ slug }: { slug: string }) {
         <div className="k6-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k6-rays"/>
           <div className="k6-mascot"><LineMascot hue={cfg.accent} hue2={cfg.accent2}/></div>
-          <div className="k6-frame" style={{ borderColor: cfg.frame }}>
+          <WinOverlay win={win} accent={cfg.accent} onDismiss={function(){setWin(null)}}>
+<div className="k6-frame" style={{ borderColor: cfg.frame }}>
             <span className="k6-cn tl"/><span className="k6-cn tr"/><span className="k6-cn bl"/><span className="k6-cn br"/>
             <div className="k6-banner">WIN UP TO {cfg.maxWin} YOUR BET</div>
             {freeLeft > 0 && <div className="k6-free">FREE SPINS <b>{freeLeft}</b><em>x{freeMult} multiplier</em><span>won {freeTotal.toFixed(2)}x</span></div>}
@@ -259,6 +261,7 @@ export default function LineEngine({ slug }: { slug: string }) {
               </div>
             )}
           </div>
+</WinOverlay>
           <div className="k6-vol">
             <span>VOLATILITY</span>
             <div className="k6-vbar">{[0,1,2,3,4].map(function (i) { return <i key={i} className={i < (cfg.vol === "High" ? 5 : cfg.vol === "Medium" ? 3 : 2) ? "on" : ""}/>; })}</div>

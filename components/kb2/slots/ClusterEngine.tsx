@@ -9,6 +9,7 @@ import type { SpinResult } from "@/lib/kb2/slotMath";
 import { PAYTABLE } from "@/lib/kb2/slotMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
+import { WinOverlay } from "@/src/kb3/slots/WinOverlay";
 import Sym, { Mascot } from "./Sym";
 import { CascadeGrid } from "@/src/kb3/slots/CascadeGrid";
 
@@ -188,7 +189,8 @@ export default function ClusterEngine({ slug }: Props) {
         <div className="k5-stagewrap" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k5-rays"/>
           <div className="k5-mascot"><Mascot hue={cfg.accent} slug={slug}/></div>
-          <div className="k5-frame" style={{ borderColor: cfg.frame }}>
+          <WinOverlay win={win} accent={cfg.accent} onDismiss={function(){setWin(null)}}>
+<div className="k5-frame" style={{ borderColor: cfg.frame }}>
             <span className="k5-corner tl"/><span className="k5-corner tr"/><span className="k5-corner bl"/><span className="k5-corner br"/>
             <div className="k5-banner">WIN UP TO {cfg.maxWin} YOUR BET</div>
             {freeLeft > 0 && <div className="k5-freebar">FREE SPINS LEFT <b>{freeLeft}</b><em>won {freeTotal.toFixed(2)}x</em></div>}
@@ -223,6 +225,7 @@ export default function ClusterEngine({ slug }: Props) {
               </div>
             )}
           </div>
+</WinOverlay>
           <div className="k5-volmeter">
             <span>VOLATILITY</span>
             <div className="k5-vbar">{[0,1,2,3,4].map(function (i) { return <i key={i} className={i < (cfg.vol === "High" ? 5 : cfg.vol === "Medium" ? 3 : 2) ? "on" : ""}/>; })}</div>
