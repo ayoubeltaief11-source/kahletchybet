@@ -82,8 +82,24 @@ export default function LineEngine({ slug }: { slug: string }) {
       const cells = el.querySelectorAll("[data-c]");
       gsap.fromTo(cells, { y: -40, opacity: 0.25 }, { y: 0, opacity: 1, duration: turbo ? 0.2 : 0.4, stagger: { each: 0.014, from: "start" }, ease: "back.out(1.4)" });
     }
-    getAudio().reel();
-    await new Promise(function (res) { window.setTimeout(res, turbo ? 240 : 520); });
+    if (useStrip) {
+      sfx.spinStart();
+      setReelDone(0);
+      const colsArr = [];
+      for (let c = 0; c < REELS; c++) colsArr.push(r.grid.slice(c * rows, c * rows + rows));
+      const anticipate = (r.scatters || []).some(function (idx) { return idx < rows * 2; });
+      await Promise.all(colsArr.map(function (col, ci) {
+        const h = reelRefs.current[ci];
+        if (!h) return Promise.resolve();
+        return new Promise(function (res) { window.setTimeout(function () { h.spin(col, ci, { turbo: turbo, anticipate: anticipate && ci >= 2 }).then(res); }, ci * (turbo ? 60 : 150)); });
+      }));
+      sfx.spinStop();
+    } else {
+      getAudio().reel();
+      const el = boardRef.current;
+      if (el) { const cells = el.querySelectorAll("[data-c]"); gsap.fromTo(cells, { y: -40, opacity: 0.25 }, { y: 0, opacity: 1, duration: turbo ? 0.2 : 0.4, stagger: { each: 0.014, from: "start" }, ease: "back.out(1.4)" }); }
+      await new Promise(function (res) { window.setTimeout(res, turbo ? 240 : 520); });
+    }
     if (r.expandCol >= 0) {
       setExpand(r.expandCol);
       getAudio().scatter();
