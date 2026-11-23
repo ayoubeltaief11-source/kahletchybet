@@ -1,0 +1,16 @@
+﻿const fs = require('fs');
+const p = 'app/globals.css';
+const c = fs.readFileSync(p, 'utf8');
+const L = [];
+L.push('');
+L.push('/* == KB3 HOLD FEEDBACK H1 H3 == */');
+L.push('.kb3-nocoin{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:45;background:rgba(4,6,10,.9);border:1px solid #ff6b6b;color:#ffb4b4;font:900 14px/1 Orbitron,system-ui;letter-spacing:2px;padding:10px 22px;border-radius:12px;animation:kb3nc 1.6s ease-out both;pointer-events:none;}');
+L.push('@keyframes kb3nc{0%{opacity:0;transform:translate(-50%,-50%) scale(.7);}15%{opacity:1;transform:translate(-50%,-50%) scale(1);}80%{opacity:1;}100%{opacity:0;}}');
+L.push('.kb3-hval{font-size:13px !important;padding:3px 9px !important;}');
+L.push('.kb3-hcell.filled .kb3-hsym{width:82% !important;height:82% !important;}');
+fs.writeFileSync(p, c + L.join('\n') + '\n', 'utf8');
+const all = fs.readFileSync(p, 'utf8');
+const o = (all.match(/\{/g) || []).length;
+const cl = (all.match(/\}/g) || []).length;
+console.log('braces balanced=' + (o === cl));
+console.log('has feedback marker=' + all.includes('KB3 HOLD FEEDBACK H1 H3'));

@@ -59,6 +59,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
   const [coins, setCoins] = useState<number[]>([]);
   const [session, setSession] = useState({ spins: 0, bet: 0, won: 0 });
   const [lastJp, setLastJp] = useState(-1);
+  const [noCoin, setNoCoin] = useState(false);
   const boardRef = useRef<HTMLDivElement>(null);
   const busyRef = useRef(false);
   const autoRef = useRef(auto);
@@ -97,6 +98,10 @@ export default function HoldEngine({ slug }: { slug: string }) {
       }
     }
     setRunning(false);
+    if (res.board.length === 0) {
+      setNoCoin(true);
+      window.setTimeout(function () { setNoCoin(false); }, 1600);
+    }
   }, []);
   const spin = useCallback(async function () {
     if (busyRef.current) return;
@@ -224,6 +229,7 @@ export default function HoldEngine({ slug }: { slug: string }) {
                 );
               })}
             </div>
+            {noCoin && <div className="kb3-nocoin">NO COINS THIS ROUND</div>}
             {coins.length > 0 && <div className="k9-coins">{coins.map(function (i) { return <i key={i} style={{ left: (i * 2.7 % 100) + "%", animationDelay: (i * 0.05) + "s" }}/>; })}</div>}
             {win && (
               <div className={"k9-big t" + win.tier}>

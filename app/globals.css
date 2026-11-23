@@ -2706,3 +2706,9 @@ opacity:.4;
 .kb3-sidecol .kb-character{animation:kb-breathe 3s ease-in-out infinite;filter:drop-shadow(0 12px 26px rgba(0,0,0,.6));}
 .k9-mascot{display:none !important;}
 @media(max-width:900px){.k9-body{flex-direction:column;}.kb3-sidecol{flex:0 0 auto;width:100%;padding-top:0;order:-1;}.kb3-sidecol .kb-character{transform:scale(.6);}}
+
+/* == KB3 HOLD FEEDBACK H1 H3 == */
+.kb3-nocoin{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:45;background:rgba(4,6,10,.9);border:1px solid #ff6b6b;color:#ffb4b4;font:900 14px/1 Orbitron,system-ui;letter-spacing:2px;padding:10px 22px;border-radius:12px;animation:kb3nc 1.6s ease-out both;pointer-events:none;}
+@keyframes kb3nc{0%{opacity:0;transform:translate(-50%,-50%) scale(.7);}15%{opacity:1;transform:translate(-50%,-50%) scale(1);}80%{opacity:1;}100%{opacity:0;}}
+.kb3-hval{font-size:13px !important;padding:3px 9px !important;}
+.kb3-hcell.filled .kb3-hsym{width:82% !important;height:82% !important;}

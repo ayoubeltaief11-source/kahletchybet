@@ -1,16 +1,6 @@
-﻿export type Pack = "candy" | "fruit" | "gems" | "myth" | "space" | "volcano";
+export type Pack = "candy" | "fruit" | "gems" | "myth" | "space" | "volcano";
 export type GType = "roulette" | "cluster" | "lines" | "mega" | "hold" | "crash" | "instant";
-
-export interface GameRec {
-  id: string;
-  title: string;
-  type: GType;
-  pack: Pack;
-  assetDir: string;
-  color: string;
-  color2: string;
-}
-
+export interface GameRec { id: string; title: string; type: GType; pack: Pack; assetDir: string; color: string; color2: string; }
 const R: GameRec[] = [
   { id: "emerald-roulette", title: "Emerald Roulette", type: "roulette", pack: "myth", assetDir: "emerald-roulette", color: "#0c7a4e", color2: "#ffd97a" },
   { id: "crimson-roulette", title: "Crimson Roulette", type: "roulette", pack: "myth", assetDir: "crimson-roulette", color: "#c4202f", color2: "#fff6d8" },
@@ -31,7 +21,7 @@ const R: GameRec[] = [
   { id: "desert-coins", title: "Desert Coins", type: "hold", pack: "myth", assetDir: "desert-coins", color: "#e8b33c", color2: "#fff6d8" },
   { id: "mystery-pyramid", title: "Mystery Pyramid", type: "hold", pack: "myth", assetDir: "mystery-pyramid", color: "#e8b33c", color2: "#fff6d8" },
   { id: "shadow-relics", title: "Shadow Relics", type: "hold", pack: "myth", assetDir: "shadow-relics", color: "#a855f7", color2: "#f0abfc" },
-  { id: "enchanted-forest", title: "Enchanted Forest", type: "hold", pack: "myth", assetDir: "enchanted-forest", color: "#12d18e", color2: "#a7f3d0" },
+  { id: "enchanted-forest", title: "Enchanted Forest", type: "hold", pack: "gems", assetDir: "enchanted-forest", color: "#12d18e", color2: "#a7f3d0" },
   { id: "skyward-jet", title: "Skyward Jet", type: "crash", pack: "volcano", assetDir: "skyward-jet", color: "#e8b33c", color2: "#fff6d8" },
   { id: "ember-rocket", title: "Ember Rocket", type: "crash", pack: "volcano", assetDir: "ember-rocket", color: "#ff6b3d", color2: "#ffd24a" },
   { id: "drift-balloon", title: "Drift Balloon", type: "crash", pack: "space", assetDir: "drift-balloon", color: "#7fb2ff", color2: "#9dc4ff" },
@@ -41,25 +31,12 @@ const R: GameRec[] = [
   { id: "classic-mines", title: "Classic Mines", type: "instant", pack: "space", assetDir: "classic-mines", color: "#12d18e", color2: "#a7f3d0" },
   { id: "plinko-low", title: "Plinko Low Risk", type: "instant", pack: "space", assetDir: "plinko-low", color: "#12d18e", color2: "#a7f3d0" },
   { id: "hi-lo-classic", title: "Hi-Lo Classic", type: "instant", pack: "space", assetDir: "hi-lo-classic", color: "#12d18e", color2: "#a7f3d0" },
-  { id: "limbo-rush", title: "Limbo Rush", type: "instant", pack: "space", assetDir: "limbo-rush", color: "#12d18e", color2: "#a7f3d0" }
+  { id: "limbo-rush", title: "Limbo Rush", type: "instant", pack: "space", assetDir: "limbo-rush", color: "#12d18e", color2: "#a7f3d0" },
 ];
-
 export const REGISTRY: Record<string, GameRec> = {};
 for (const g of R) REGISTRY[g.id] = g;
-
-export function getGame(id: string): GameRec {
-  const g = REGISTRY[id];
-  if (!g) throw new Error("Unknown game id: " + id);
-  return g;
-}
+export function getGame(id: string): GameRec { const g = REGISTRY[id]; if (!g) throw new Error("Unknown game id: " + id); return g; }
 export function hasGame(id: string): boolean { return !!REGISTRY[id]; }
 export function allGames(): GameRec[] { return R.slice(); }
-export function sym(id: string, n: number): string {
-  const g = getGame(id);
-  return "/assets/packs/" + g.pack + "/s" + (((n % 9) + 9) % 9 + 1) + ".png";
-}
-export function asset(id: string, kind: "cover" | "bg" | "logo" | "character"): string {
-  const g = getGame(id);
-  const ext = kind === "bg" ? ".jpg" : ".png";
-  return "/assets/" + g.assetDir + "/" + kind + ext;
-}
+export function sym(id: string, n: number): string { const g = getGame(id); return "/assets/packs/" + g.pack + "/s" + ((((n % 9) + 9) % 9) + 1) + ".png"; }
+export function asset(id: string, kind: "cover" | "bg" | "logo" | "character"): string { const g = getGame(id); const ext = kind === "bg" ? ".jpg" : ".png"; return "/assets/" + g.assetDir + "/" + kind + ext; }
