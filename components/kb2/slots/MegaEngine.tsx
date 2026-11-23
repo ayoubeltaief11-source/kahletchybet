@@ -5,6 +5,9 @@ import gsap from "gsap";
 import { useApp } from "@/components/Shell";
 import { fmt } from "@/lib/catalog";
 import { REELS, PAY, TIER_OF, megaBySlug } from "@/lib/kb2/megaMath";
+import { ReelStrip } from "@/src/kb3/slots/ReelStrip";
+import type { ReelStripHandle } from "@/src/kb3/slots/ReelStrip";
+import { sfx } from "@/src/kb3/audio/sfx";
 import type { SpinResult, WayWin } from "@/lib/kb2/megaMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
@@ -37,6 +40,8 @@ export default function MegaEngine({ slug }: { slug: string }) {
   const [coins, setCoins] = useState<number[]>([]);
   const [session, setSession] = useState({ spins: 0, bet: 0, won: 0 });
   const boardRef = useRef<HTMLDivElement>(null);
+  const reelRefs = useRef<(ReelStripHandle | null)[]>([]);
+  const useStrip = ["dragon-peaks", "ocean-depths", "cosmic-rift"].indexOf(slug) >= 0;
   const busyRef = useRef(false);
   const autoRef = useRef(auto);
   const stakeRef = useRef(stake);
@@ -54,15 +59,24 @@ export default function MegaEngine({ slug }: { slug: string }) {
     setGrid(r.grid.slice());
     setWays(r.ways);
     setFreeMult(r.freeMult);
-    getAudio().reel();
-    const el = boardRef.current;
-    if (el) {
-      window.requestAnimationFrame(function () {
-        const cells = el.querySelectorAll("[data-m]");
-        gsap.fromTo(cells, { y: -46, opacity: 0.2 }, { y: 0, opacity: 1, duration: turbo ? 0.22 : 0.44, stagger: { each: 0.012, from: "start" }, ease: "back.out(1.5)" });
-      });
+    if (useStrip) {
+      sfx.spinStart();
+      const colsArr = [];
+      let off = 0;
+      for (let c = 0; c < heights.length; c++) { colsArr.push(r.grid.slice(off, off + heights[c])); off += heights[c]; }
+      const anticipate = (r.scatters || []).some(function (idx) { return idx < 8; });
+      await Promise.all(colsArr.map(function (col, ci) {
+        const h = reelRefs.current[ci];
+        if (!h) return Promise.resolve();
+        return new Promise(function (res) { window.setTimeout(function () { h.spin(col, ci, { turbo: turbo, anticipate: anticipate && ci >= 2 }).then(res); }, ci * (turbo ? 60 : 150)); });
+      }));
+      sfx.spinStop();
+    } else {
+      getAudio().reel();
+      const el = boardRef.current;
+      if (el) { window.requestAnimationFrame(function () { const cells = el.querySelectorAll("[data-m]"); gsap.fromTo(cells, { y: -46, opacity: 0.2 }, { y: 0, opacity: 1, duration: turbo ? 0.22 : 0.44, stagger: { each: 0.012, from: "start" }, ease: "back.out(1.5)" }); }); }
+      await new Promise(function (res) { window.setTimeout(res, turbo ? 260 : 560); });
     }
-    await new Promise(function (res) { window.setTimeout(res, turbo ? 260 : 560); });
     if (r.scatters.length > 0) {
       setLit(r.scatters);
       getAudio().scatter();
@@ -190,6 +204,9 @@ export default function MegaEngine({ slug }: { slug: string }) {
             <div className="k7-board" ref={boardRef}>
               {cols.map(function (col, ci) {
                 return (
+                  useStrip ? (
+                    <ReelStrip key={ci} ref={function (h) { reelRefs.current[ci] = h; }} gameId={slug} rows={col.length} initial={col} />
+                  ) : (
                   <div key={ci} className="k7-reel" style={{ gridTemplateRows: "repeat(" + col.length + ",1fr)" }}>
                     {col.map(function (k, ri) {
                       let idx = 0;
@@ -203,6 +220,7 @@ export default function MegaEngine({ slug }: { slug: string }) {
                       );
                     })}
                   </div>
+                  )
                 );
               })}
             </div>

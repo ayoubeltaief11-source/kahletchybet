@@ -43,7 +43,7 @@ export default function LineEngine({ slug }: { slug: string }) {
   const boardRef = useRef<HTMLDivElement>(null);
   const reelRefs = useRef<(ReelStripHandle | null)[]>([]);
   const [reelDone, setReelDone] = useState(0);
-  const useStrip = slug === "neon-cherry-rush";
+  const useStrip = ["neon-cherry-rush", "electric-lemon", "plasma-bell"].indexOf(slug) >= 0;
   const busyRef = useRef(false);
   const autoRef = useRef(auto);
   const stakeRef = useRef(stake);
