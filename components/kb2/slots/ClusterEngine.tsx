@@ -10,12 +10,15 @@ import { PAYTABLE } from "@/lib/kb2/slotMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
 import Sym, { Mascot } from "./Sym";
+import { CascadeGrid } from "@/src/kb3/slots/CascadeGrid";
+import { sfx } from "@/src/kb3/audio/sfx";
 
 interface Props { slug: string; }
 interface Auto { left: number; stopWin: number; stopLoss: number; onFeature: boolean; }
 
 export default function ClusterEngine({ slug }: Props) {
   const cfg = slotBySlug(slug);
+  const useStrip = ["candy-cascade", "gemfall-kingdom", "fruit-burst-valley"].indexOf(slug) >= 0;
   const { me, refresh, toast } = useApp();
   const { p: prefs, update } = usePrefs();
   const [grid, setGrid] = useState<number[]>(function () { return Array.from({ length: CELLS }, function (_, i) { return i % 8; }); });
@@ -53,20 +56,29 @@ export default function ClusterEngine({ slug }: Props) {
     paint(before);
     setHits(cells);
     setStepMult(mult);
-    getAudio().tumble();
-    const el = boardRef.current;
-    if (el) {
-      const targets = cells.map(function (i) { return el.querySelector('[data-cell="' + i + '"]'); }).filter(Boolean);
-      if (targets.length > 0) gsap.to(targets, { scale: 1.18, duration: 0.16, yoyo: true, repeat: 1, ease: "power2.out" });
+    if (useStrip) {
+      sfx.pop(0);
+      await new Promise(function (r) { window.setTimeout(r, prefs.turbo ? 220 : 460); });
+      setHits([]);
+      paint(after);
+      sfx.pop(1);
+      await new Promise(function (r) { window.setTimeout(r, prefs.turbo ? 130 : 260); });
+    } else {
+      getAudio().tumble();
+      const el = boardRef.current;
+      if (el) {
+        const targets = cells.map(function (i) { return el.querySelector('[data-cell="' + i + '"]'); }).filter(Boolean);
+        if (targets.length > 0) gsap.to(targets, { scale: 1.18, duration: 0.16, yoyo: true, repeat: 1, ease: "power2.out" });
+      }
+      await new Promise(function (r) { window.setTimeout(r, prefs.turbo ? 220 : 460); });
+      setHits([]);
+      paint(after);
+      if (el) {
+        const drop = cells.map(function (i) { return el.querySelector('[data-cell="' + i + '"]'); }).filter(Boolean);
+        if (drop.length > 0) gsap.fromTo(drop, { y: -34, opacity: 0.2 }, { y: 0, opacity: 1, duration: prefs.turbo ? 0.18 : 0.34, stagger: 0.02, ease: "bounce.out" });
+      }
+      await new Promise(function (r) { window.setTimeout(r, prefs.turbo ? 130 : 260); });
     }
-    await new Promise(function (r) { window.setTimeout(r, prefs.turbo ? 220 : 460); });
-    setHits([]);
-    paint(after);
-    if (el) {
-      const drop = cells.map(function (i) { return el.querySelector('[data-cell="' + i + '"]'); }).filter(Boolean);
-      if (drop.length > 0) gsap.fromTo(drop, { y: -34, opacity: 0.2 }, { y: 0, opacity: 1, duration: prefs.turbo ? 0.18 : 0.34, stagger: 0.02, ease: "bounce.out" });
-    }
-    await new Promise(function (r) { window.setTimeout(r, prefs.turbo ? 130 : 260); });
   }, [paint, prefs.turbo]);
 
   const runRound = useCallback(async function (r: SpinResult) {
@@ -191,6 +203,9 @@ export default function ClusterEngine({ slug }: Props) {
             <span className="k5-corner tl"/><span className="k5-corner tr"/><span className="k5-corner bl"/><span className="k5-corner br"/>
             <div className="k5-banner">WIN UP TO {cfg.maxWin} YOUR BET</div>
             {freeLeft > 0 && <div className="k5-freebar">FREE SPINS LEFT <b>{freeLeft}</b><em>won {freeTotal.toFixed(2)}x</em></div>}
+            useStrip ? (
+              <CascadeGrid gameId={slug} grid={grid} hits={hits} stepMult={stepMult} bombs={bombs} cols={COLS} rows={ROWS} turbo={prefs.turbo} />
+            ) : (
             <div className="k5-board" ref={boardRef}>
               {cols.map(function (col, ci) {
                 return (
@@ -209,6 +224,7 @@ export default function ClusterEngine({ slug }: Props) {
                 );
               })}
             </div>
+            )
             {stepMult > 0 && <div className="k5-stepwin">+{stepMult.toFixed(2)}x</div>}
             {coins.length > 0 && <div className="k5-coins">{coins.map(function (i) { return <i key={i} style={{ left: (i * 2.9 % 100) + "%", animationDelay: (i * 0.055) + "s" }}/>; })}</div>}
             {win && (

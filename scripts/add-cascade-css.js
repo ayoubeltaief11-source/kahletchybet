@@ -1,0 +1,26 @@
+﻿const fs = require('fs');
+const p = 'app/globals.css';
+const c = fs.readFileSync(p, 'utf8');
+if (c.includes('KB3 CASCADEGRID')) { console.log('already present'); process.exit(0); }
+const L = [];
+L.push('');
+L.push('/* == KB3 CASCADEGRID == */');
+L.push('.kb3-cascade-wrap{position:relative;width:100%;}');
+L.push('.kb3-mult-bar{position:absolute;top:-38px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:10px;background:rgba(4,6,10,.85);border:1px solid var(--acc,#ffd97a);border-radius:20px;padding:6px 18px;z-index:10;}');
+L.push('.kb3-mult-label{font:800 11px/1 system-ui;color:#93a6c0;letter-spacing:1px;}');
+L.push('.kb3-mult-val{font:900 18px/1 Orbitron,system-ui;color:#fff;text-shadow:0 0 12px rgba(255,217,122,.6);}');
+L.push('.kb3-mult-step{font:800 12px/1 system-ui;color:#ffd97a;animation:kb3step .5s ease-out;}');
+L.push('@keyframes kb3step{from{transform:scale(1.4);opacity:0;}to{transform:scale(1);opacity:1;}}');
+L.push('.kb3-casc-board{display:grid;gap:6px;width:100%;}');
+L.push('.kb3-casc-cell{position:relative;aspect-ratio:1/1;display:grid;place-items:center;background:linear-gradient(180deg,rgba(10,14,24,.7),rgba(4,6,12,.85));border-radius:10px;overflow:hidden;}');
+L.push('.kb3-casc-cell.hit{box-shadow:0 0 0 2px var(--acc,#ffd97a),0 0 18px rgba(255,217,122,.5);z-index:2;}');
+L.push('.kb3-casc-cell.bomb{box-shadow:0 0 0 2px #ff6b3d,0 0 22px rgba(255,107,61,.6);}');
+L.push('.kb3-casc-cell img{width:72%;height:72%;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,.5));}');
+L.push('.kb3-bombval{position:absolute;bottom:4px;right:4px;font:900 10px/1 Orbitron,system-ui;color:#fff;background:rgba(255,107,61,.9);border-radius:6px;padding:2px 5px;}');
+L.push('.kb3-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:20;}');
+L.push('.kb3-particle{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--acc,#ffd97a);box-shadow:0 0 6px var(--acc,#ffd97a);}');
+L.push('@media(prefers-reduced-motion:reduce){.kb3-casc-cell.hit{animation:none;}.kb3-particle{display:none;}}');
+fs.writeFileSync(p, c + L.join('\n') + '\n', 'utf8');
+const all = fs.readFileSync(p, 'utf8');
+console.log('braces balanced=' + ((all.match(/\{/g)||[]).length === (all.match(/\}/g)||[]).length));
+console.log('has marker=' + all.includes('KB3 CASCADEGRID'));
