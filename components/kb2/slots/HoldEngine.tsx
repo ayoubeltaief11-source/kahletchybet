@@ -213,7 +213,10 @@ export default function HoldEngine({ slug }: { slug: string }) {
               {grid.map(function (cc, i) {
                 return (
                   <div key={i} data-h={i} className={"k9-cell" + (cc ? " held" : "") + (fresh.indexOf(i) >= 0 ? " fresh" : "") + (cc && cc.jp >= 0 ? " jackpot" : "")}>
-                    {cc ? <span className="kb3-coinwrap"><CoinArt value={cc.value} jp={cc.jp}/><img src={symbolUrl(slug, cc.jp >= 0 ? 8 : 4)} alt="" className="kb3-coin-tex" onError={function (e) { e.currentTarget.style.display = "none"; }}/></span> : <span className="k9-empty"/>}
+                    <span className={"kb3-hcell" + (cc ? " filled" : " idle")}>
+                      <img src={symbolUrl(slug, cc ? (cc.jp >= 0 ? 8 : (cc.cell % 7)) : (i % 9))} alt="" className="kb3-hsym" onError={function (e) { e.currentTarget.style.opacity = "0.12"; }}/>
+                      {cc && <b className="kb3-hval">{cc.jp >= 0 ? JACKPOTS[cc.jp].label : cc.value.toFixed(1)}</b>}
+                    </span>
                   </div>
                 );
               })}

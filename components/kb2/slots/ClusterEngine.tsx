@@ -129,7 +129,7 @@ export default function ClusterEngine({ slug }: Props) {
         const el = boardRef.current;
         if (el) gsap.fromTo(el, { x: -6 }, { x: 0, duration: 0.5, ease: "elastic.out(1,0.3)" });
       } else { getAudio().win(); }
-      toast("WIN " + fmt(d.paid) + "  " + d.totalMult.toFixed(2) + "x  " + d.tx, "j");
+      if (tier === 0) toast("WIN " + fmt(d.paid) + "  " + d.totalMult.toFixed(2) + "x", "j");
       window.setTimeout(function () { setWin(null); }, tier >= 2 ? 3200 : 2000);
     } else { getAudio().lose(); }
     refresh();
