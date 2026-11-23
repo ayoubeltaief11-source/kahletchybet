@@ -9,6 +9,9 @@ import type { SpinResult, LineWin } from "@/lib/kb2/lineMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
 import { LineSym, LineMascot } from "./LineSym";
+import { ReelStrip } from "@/src/kb3/slots/ReelStrip";
+import type { ReelStripHandle } from "@/src/kb3/slots/ReelStrip";
+import { sfx } from "@/src/kb3/audio/sfx";
 
 interface Auto { left: number; stopWin: number; stopLoss: number; onFeature: boolean; }
 
@@ -38,6 +41,9 @@ export default function LineEngine({ slug }: { slug: string }) {
   const [coins, setCoins] = useState<number[]>([]);
   const [session, setSession] = useState({ spins: 0, bet: 0, won: 0 });
   const boardRef = useRef<HTMLDivElement>(null);
+  const reelRefs = useRef<(ReelStripHandle | null)[]>([]);
+  const [reelDone, setReelDone] = useState(0);
+  const useStrip = slug === "neon-cherry-rush";
   const busyRef = useRef(false);
   const autoRef = useRef(auto);
   const stakeRef = useRef(stake);
@@ -196,6 +202,9 @@ export default function LineEngine({ slug }: { slug: string }) {
             <div className="k6-board" ref={boardRef}>
               {cols.map(function (col, ci) {
                 return (
+                  useStrip ? (
+                    <ReelStrip key={ci} ref={function (h) { reelRefs.current[ci] = h; }} gameId={slug} rows={rows} initial={col} />
+                  ) : (
                   <div key={ci} className={"k6-reel" + (expand === ci ? " expanding" : "")}>
                     {col.map(function (k, ri) {
                       const i = ci * rows + ri;
@@ -208,6 +217,7 @@ export default function LineEngine({ slug }: { slug: string }) {
                       );
                     })}
                   </div>
+                  )
                 );
               })}
               {path && (
