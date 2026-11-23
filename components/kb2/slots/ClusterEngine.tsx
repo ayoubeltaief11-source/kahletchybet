@@ -10,6 +10,7 @@ import { PAYTABLE } from "@/lib/kb2/slotMath";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
 import Sym, { Mascot } from "./Sym";
+import { CascadeGrid } from "@/src/kb3/slots/CascadeGrid";
 
 interface Props { slug: string; }
 interface Auto { left: number; stopWin: number; stopLoss: number; onFeature: boolean; }
@@ -191,6 +192,7 @@ export default function ClusterEngine({ slug }: Props) {
             <span className="k5-corner tl"/><span className="k5-corner tr"/><span className="k5-corner bl"/><span className="k5-corner br"/>
             <div className="k5-banner">WIN UP TO {cfg.maxWin} YOUR BET</div>
             {freeLeft > 0 && <div className="k5-freebar">FREE SPINS LEFT <b>{freeLeft}</b><em>won {freeTotal.toFixed(2)}x</em></div>}
+            <CascadeGrid hits={hits} stepMult={stepMult} turbo={prefs.turbo} accent={cfg.accent}>
             <div className="k5-board" ref={boardRef}>
               {cols.map(function (col, ci) {
                 return (
@@ -209,6 +211,7 @@ export default function ClusterEngine({ slug }: Props) {
                 );
               })}
             </div>
+            </CascadeGrid>
             {stepMult > 0 && <div className="k5-stepwin">+{stepMult.toFixed(2)}x</div>}
             {coins.length > 0 && <div className="k5-coins">{coins.map(function (i) { return <i key={i} style={{ left: (i * 2.9 % 100) + "%", animationDelay: (i * 0.055) + "s" }}/>; })}</div>}
             {win && (
