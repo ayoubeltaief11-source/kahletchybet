@@ -1,0 +1,22 @@
+﻿const fs = require('fs');
+const p = 'app/globals.css';
+const c = fs.readFileSync(p, 'utf8');
+if (c.includes('KB3 REELSTRIP')) { console.log('already present'); process.exit(0); }
+const L = [];
+L.push('');
+L.push('/* == KB3 REELSTRIP == */');
+L.push('.kb3-reel{position:relative;overflow:hidden;border-radius:10px;background:linear-gradient(180deg,rgba(8,12,22,.6),rgba(4,6,12,.8));}');
+L.push('.kb3-strip{will-change:transform;}');
+L.push('.kb3-strip.kb3-blur{filter:blur(3px);}');
+L.push('.kb3-strip-cell{display:grid;place-items:center;}');
+L.push('.kb3-strip-cell img{width:60px;height:60px;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,.5));}');
+L.push('.kb3-fade{position:absolute;left:0;right:0;height:24%;pointer-events:none;z-index:3;}');
+L.push('.kb3-fade-t{top:0;background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);}');
+L.push('.kb3-fade-b{bottom:0;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent);}');
+L.push('.kb3-reel.kb3-ant{box-shadow:0 0 0 3px #ffd97a,0 0 26px rgba(255,217,122,.7);animation:kb3antp .5s ease-in-out infinite;}');
+L.push('@keyframes kb3antp{0%,100%{box-shadow:0 0 0 3px #ffd97a,0 0 18px rgba(255,217,122,.5);}50%{box-shadow:0 0 0 4px #fff0b8,0 0 34px rgba(255,217,122,.9);}}');
+L.push('@media(prefers-reduced-motion:reduce){.kb3-strip.kb3-blur{filter:none;}.kb3-reel.kb3-ant{animation:none;}}');
+fs.writeFileSync(p, c + L.join('\n') + '\n', 'utf8');
+const all = fs.readFileSync(p, 'utf8');
+console.log('braces balanced=' + ((all.match(/\{/g)||[]).length === (all.match(/\}/g)||[]).length));
+console.log('has marker=' + all.includes('KB3 REELSTRIP'));

@@ -35,8 +35,20 @@ const R: GameRec[] = [
 ];
 export const REGISTRY: Record<string, GameRec> = {};
 for (const g of R) REGISTRY[g.id] = g;
-export function getGame(id: string): GameRec { const g = REGISTRY[id]; if (!g) throw new Error("Unknown game id: " + id); return g; }
+export function getGame(id: string): GameRec {
+  const g = REGISTRY[id];
+  if (!g) throw new Error("Unknown game id: " + id);
+  return g;
+}
 export function hasGame(id: string): boolean { return !!REGISTRY[id]; }
 export function allGames(): GameRec[] { return R.slice(); }
-export function sym(id: string, n: number): string { const g = getGame(id); return "/assets/packs/" + g.pack + "/s" + ((((n % 9) + 9) % 9) + 1) + ".png"; }
-export function asset(id: string, kind: "cover" | "bg" | "logo" | "character"): string { const g = getGame(id); const ext = kind === "bg" ? ".jpg" : ".png"; return "/assets/" + g.assetDir + "/" + kind + ext; }
+export function sym(id: string, n: number): string {
+  const g = getGame(id);
+  const i = (((n % 9) + 9) % 9) + 1;
+  return "/assets/packs/" + g.pack + "/s" + i + ".png";
+}
+export function asset(id: string, kind: "cover" | "bg" | "logo" | "character"): string {
+  const g = getGame(id);
+  const ext = kind === "bg" ? ".jpg" : ".png";
+  return "/assets/" + g.assetDir + "/" + kind + ext;
+}

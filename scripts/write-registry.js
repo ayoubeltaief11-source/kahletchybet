@@ -1,9 +1,4 @@
 ﻿const fs = require('fs');
-const L = [];
-L.push('export type Pack = "candy" | "fruit" | "gems" | "myth" | "space" | "volcano";');
-L.push('export type GType = "roulette" | "cluster" | "lines" | "mega" | "hold" | "crash" | "instant";');
-L.push('export interface GameRec { id: string; title: string; type: GType; pack: Pack; assetDir: string; color: string; color2: string; }');
-L.push('const R: GameRec[] = [');
 const rows = [
 ["emerald-roulette","Emerald Roulette","roulette","myth","#0c7a4e","#ffd97a"],
 ["crimson-roulette","Crimson Roulette","roulette","myth","#c4202f","#fff6d8"],
@@ -36,19 +31,34 @@ const rows = [
 ["hi-lo-classic","Hi-Lo Classic","instant","space","#12d18e","#a7f3d0"],
 ["limbo-rush","Limbo Rush","instant","space","#12d18e","#a7f3d0"]
 ];
-for (const r of rows) {
-  L.push('  { id: "' + r[0] + '", title: "' + r[1] + '", type: "' + r[2] + '", pack: "' + r[3] + '", assetDir: "' + r[0] + '", color: "' + r[4] + '", color2: "' + r[5] + '" },');
-}
+const L = [];
+L.push('export type Pack = "candy" | "fruit" | "gems" | "myth" | "space" | "volcano";');
+L.push('export type GType = "roulette" | "cluster" | "lines" | "mega" | "hold" | "crash" | "instant";');
+L.push('export interface GameRec { id: string; title: string; type: GType; pack: Pack; assetDir: string; color: string; color2: string; }');
+L.push('const R: GameRec[] = [');
+for (const r of rows) L.push('  { id: "' + r[0] + '", title: "' + r[1] + '", type: "' + r[2] + '", pack: "' + r[3] + '", assetDir: "' + r[0] + '", color: "' + r[4] + '", color2: "' + r[5] + '" },');
 L.push('];');
 L.push('export const REGISTRY: Record<string, GameRec> = {};');
 L.push('for (const g of R) REGISTRY[g.id] = g;');
-L.push('export function getGame(id: string): GameRec { const g = REGISTRY[id]; if (!g) throw new Error("Unknown game id: " + id); return g; }');
+L.push('export function getGame(id: string): GameRec {');
+L.push('  const g = REGISTRY[id];');
+L.push('  if (!g) throw new Error("Unknown game id: " + id);');
+L.push('  return g;');
+L.push('}');
 L.push('export function hasGame(id: string): boolean { return !!REGISTRY[id]; }');
 L.push('export function allGames(): GameRec[] { return R.slice(); }');
-L.push('export function sym(id: string, n: number): string { const g = getGame(id); return "/assets/packs/" + g.pack + "/s" + ((((n % 9) + 9) % 9) + 1) + ".png"; }');
-L.push('export function asset(id: string, kind: "cover" | "bg" | "logo" | "character"): string { const g = getGame(id); const ext = kind === "bg" ? ".jpg" : ".png"; return "/assets/" + g.assetDir + "/" + kind + ext; }');
+L.push('export function sym(id: string, n: number): string {');
+L.push('  const g = getGame(id);');
+L.push('  const i = (((n % 9) + 9) % 9) + 1;');
+L.push('  return "/assets/packs/" + g.pack + "/s" + i + ".png";');
+L.push('}');
+L.push('export function asset(id: string, kind: "cover" | "bg" | "logo" | "character"): string {');
+L.push('  const g = getGame(id);');
+L.push('  const ext = kind === "bg" ? ".jpg" : ".png";');
+L.push('  return "/assets/" + g.assetDir + "/" + kind + ext;');
+L.push('}');
 fs.writeFileSync('src/kb3/registry.ts', L.join('\n') + '\n', 'utf8');
 const t = fs.readFileSync('src/kb3/registry.ts', 'utf8');
 console.log('entries=' + (t.match(/id: "/g) || []).length);
-console.log('has desert-coins=' + t.includes('"desert-coins"'));
-console.log('has shadow-relics=' + t.includes('"shadow-relics"'));
+console.log('has getGame=' + t.includes('export function getGame'));
+console.log('braces balanced=' + ((t.match(/\{/g)||[]).length === (t.match(/\}/g)||[]).length));
