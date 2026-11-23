@@ -2696,3 +2696,13 @@ opacity:.4;
 .k5-cell.dim,.k6-cell.dim,.k7-cell.dim{opacity:.55 !important;}
 .k7-cell{aspect-ratio:1/1;display:grid;place-items:center;}
 @media(max-width:760px){.k9-mascot{right:auto !important;left:50% !important;top:-2% !important;transform:translateX(-50%) scale(.55) !important;opacity:.5 !important;}}
+
+/* == KB3 REGISTRY FIX G3 G4 == */
+.kb3-hcell.empty .kb3-hsym{display:none !important;}
+.kb3-hcell.empty{background:linear-gradient(180deg,rgba(8,12,22,.5),rgba(4,6,12,.7));border:1px dashed rgba(255,255,255,.12);}
+.kb3-hcell.filled .kb3-hsym{opacity:1 !important;transform:scale(1) !important;}
+.k9-body{display:flex;gap:14px;align-items:flex-start;}
+.kb3-sidecol{flex:0 0 200px;display:flex;justify-content:center;align-items:flex-start;padding-top:40px;pointer-events:none;}
+.kb3-sidecol .kb-character{animation:kb-breathe 3s ease-in-out infinite;filter:drop-shadow(0 12px 26px rgba(0,0,0,.6));}
+.k9-mascot{display:none !important;}
+@media(max-width:900px){.k9-body{flex-direction:column;}.kb3-sidecol{flex:0 0 auto;width:100%;padding-top:0;order:-1;}.kb3-sidecol .kb-character{transform:scale(.6);}}

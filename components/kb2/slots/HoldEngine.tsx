@@ -8,7 +8,7 @@ import { fmt } from "@/lib/catalog";
 import { COLS, ROWS, CELLS, JACKPOTS, holdBySlug } from "@/lib/kb2/holdMath";
 import type { HoldResult, Coin } from "@/lib/kb2/holdMath";
 import { getAudio } from "@/lib/kb2/audio";
-import { symbolUrl } from "@/src/kb3/assets/gameAssets";
+import { getGame, sym, asset } from "@/src/kb3/registry";
 import { usePrefs } from "@/lib/kb/prefs";
 
 function CoinArt({ value, jp, size = 62 }: { value: number; jp: number; size?: number }) {
@@ -37,7 +37,9 @@ function CoinArt({ value, jp, size = 62 }: { value: number; jp: number; size?: n
 interface Auto { left: number; stopWin: number; stopLoss: number; }
 
 export default function HoldEngine({ slug }: { slug: string }) {
-  const cfg = holdBySlug(slug);
+  const rec = getGame(slug);
+  const base = holdBySlug(slug);
+  const cfg = Object.assign({}, base, { name: rec.title, accent: rec.color, accent2: rec.color2, slug: slug });
   const { me, refresh, toast } = useApp();
   const { p: prefs, update } = usePrefs();
   const [board, setBoard] = useState<Coin[]>([]);
@@ -194,10 +196,11 @@ export default function HoldEngine({ slug }: { slug: string }) {
       </div>
 
       <div className="k9-body">
+        <div className="kb3-sidecol"><GameCharacter slug={slug} hue={rec.color} size={200} mood="idle"/></div>
         <div className="k9-stage" style={{ backgroundImage: "linear-gradient(rgba(5,8,14,.58),rgba(5,8,14,.74)), url(/assets/" + slug + "/bg.jpg)", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#0a0f18" }}>
           <div className="k9-rays"/>
           <div className="k9-cracks"/>
-          <div className="k9-mascot"><GameCharacter slug={slug} hue={cfg.accent} size={210} mood="idle"/></div>
+          
           <div className="k9-frame" style={{ borderColor: cfg.frame }}>
             <span className="k9-cn tl"/><span className="k9-cn tr"/><span className="k9-cn bl"/><span className="k9-cn br"/>
             <div className="k9-banner">FILL ALL {CELLS} POSITIONS FOR THE GRAND</div>
@@ -213,8 +216,8 @@ export default function HoldEngine({ slug }: { slug: string }) {
               {grid.map(function (cc, i) {
                 return (
                   <div key={i} data-h={i} className={"k9-cell" + (cc ? " held" : "") + (fresh.indexOf(i) >= 0 ? " fresh" : "") + (cc && cc.jp >= 0 ? " jackpot" : "")}>
-                    <span className={"kb3-hcell" + (cc ? " filled" : " idle")}>
-                      <img src={symbolUrl(slug, cc ? (cc.jp >= 0 ? 8 : (cc.cell % 7)) : (i % 9))} alt="" className="kb3-hsym" onError={function (e) { e.currentTarget.style.opacity = "0.12"; }}/>
+                    <span className={"kb3-hcell" + (cc ? " filled" : " empty")}>
+                      {cc && <img src={sym(slug, cc.jp >= 0 ? 8 : (cc.cell % 7))} alt="" className="kb3-hsym" onError={function (e) { e.currentTarget.style.display = "none"; }}/>}
                       {cc && <b className="kb3-hval">{cc.jp >= 0 ? JACKPOTS[cc.jp].label : cc.value.toFixed(1)}</b>}
                     </span>
                   </div>
