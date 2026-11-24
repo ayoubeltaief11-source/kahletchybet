@@ -92,7 +92,17 @@ export function stateAt(now: number, rtp: number): LiveRound {
 export interface BotBet { name: string; stake: number; cash: number; won: number; bot: true; }
 const BOT_NAMES = ["Nova_88", "Kai_R", "Mira", "Orion", "Luna_X", "Raf_21", "Zed", "Ayla", "Titan", "Vex", "Sora", "Nyx", "Pyra", "Echo", "Juno", "Rook"];
 
-export function botsOf(index: number): BotBet[] {
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return function () {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export function botsOf(index: number, gameId?: string): BotBet[] {
   const out: BotBet[] = [];
   const n = 9 + (fnv("count" + index, 7) % 8);
   for (let i = 0; i < n; i++) {

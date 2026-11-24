@@ -142,7 +142,7 @@ export default function CrashLive() {
       setLive(s);
       if (s.index !== idxRef.current) {
         idxRef.current = s.index;
-        setBots(botsOf(s.index));
+        setBots(botsOf(s.index, slug));
         setPanels(function (old) {
           return old.map(function (p) {
             if (p.state === "queued" && p.index === s.index) return Object.assign({}, p, { state: "live" });
@@ -152,7 +152,7 @@ export default function CrashLive() {
           });
         });
         getAudio().count(3);
-        setBots(botsOf(s.index));
+        setBots(botsOf(s.index, slug));
       }
       if (s.phase !== phaseRef.current) {
         if (s.phase === "flying") { getAudio().launch(); getAudio().hum(true); }
