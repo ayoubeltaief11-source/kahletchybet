@@ -12,6 +12,7 @@ import ClientOnly from "@/components/kb2/ClientOnly";
 import Stage from "./Stage";
 import { usePathname } from "next/navigation";
 import { crashBySlug } from "@/lib/kb2/crashConfig";
+import { getGame } from "@/src/kb3/registry";
 
 interface Panel {
   stake: number;
@@ -31,7 +32,8 @@ function fresh(stake: number): Panel {
 
 export default function CrashLive() {
   const route = usePathname();
-  const cfg = crashBySlug(route.split("/").pop() || "skyward");
+  const slug = route.split("/").pop() || "skyward-jet";
+  const cfg = crashBySlug(slug);
   const { me, refresh, toast } = useApp();
   const { p: prefs, update } = usePrefs();
   const [rtp, setRtp] = useState(0.97);
@@ -250,7 +252,7 @@ export default function CrashLive() {
       <div className="kb3-top">
         <Link href="/casino" className="kb3-back">Lobby</Link>
         <span className="kb3-demo">DEMO - no real money</span>
-        <b className="kb3-title">{cfg.name} <span className="kb3-live-tag">LIVE</span></b>
+        <b className="kb3-title">{getGame(slug).title} <span className="kb3-live-tag">LIVE</span></b>
         <div className="kb3-sp"/>
         <div className="kb3-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)}</b></div>
         <button className={"kb3-ico" + (prefs.sound ? " on" : "")} onClick={function () { update({ sound: !prefs.sound }); }}>{prefs.sound ? "SND" : "MUTE"}</button>
