@@ -31,3 +31,4 @@
 .kb3-chip.mega{background:linear-gradient(160deg,#ff4fa3,#9d174d);}
 .kb3-go.cash{animation:kb3cash 1s ease-in-out infinite;}
 @keyframes kb3cash{0%,100%{box-shadow:0 0 0 0 rgba(124,227,139,.5);}50%{box-shadow:0 0 0 10px rgba(124,227,139,0);}}
+.rcs-logo{position:absolute;top:10px;left:10px;width:90px;opacity:.85;z-index:4;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6));}

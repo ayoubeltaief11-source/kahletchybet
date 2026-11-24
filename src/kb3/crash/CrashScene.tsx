@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useRef, useState } from "react";
 import { getGame, asset } from "../registry";
 import "./crash.css";
@@ -49,7 +49,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
   const lastIntRef = useRef(1);
   const [sticks, setSticks] = useState<{ id: number; x: number; y: number; amt: string }[]>([]);
   const [craftSrc, setCraftSrc] = useState(asset(gameId, "character"));
-  const stateRef = useRef({ phase: phase, mult: multiplier, progress: -1, cx: 0, cy: 0, angle: 0, fall: 0, scroll: 0, bob: 0, emit: 0 });
+  const stateRef = useRef({ phase: phase, mult: multiplier, progress: -1, cx: 0, cy: 0, fade: 0, angle: 0, fall: 0, scroll: 0, bob: 0, emit: 0 });
   stateRef.current.phase = phase;
   stateRef.current.mult = multiplier;
   stateRef.current.progress = progress === undefined ? -1 : progress;
@@ -109,12 +109,15 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
     for (let i = 0; i < 7; i++) clouds.push({ x: Math.random(), y: 0.15 + Math.random() * 0.4, s: 0.6 + Math.random() * 0.9 });
     const near: { x: number; y: number; k: number }[] = [];
     for (let i = 0; i < 5; i++) near.push({ x: Math.random(), y: 0.5 + Math.random() * 0.35, k: i % 2 });
-    const imgs: Record<string, HTMLImageElement | null> = { far: null, mid: null, near: null, smoke: null };
+    const imgs: Record<string, HTMLImageElement | null> = { far: null, farL: null, mid: null, near: null, smoke: null, spark: null, launch: null };
     function tryLoad(key: string, url: string) { const im = new Image(); im.onload = function () { imgs[key] = im; }; im.src = url; }
     tryLoad("far", asset(gameId, "bg"));
+    tryLoad("farL", "/assets/" + gameId + "/layer-far.png");
+    tryLoad("launch", "/assets/" + gameId + "/launch-scene.png");
     tryLoad("mid", "/assets/" + gameId + "/layer-mid.png");
     tryLoad("near", "/assets/" + gameId + "/layer-near.png");
     tryLoad("smoke", "/assets/crash/smoke.png");
+    tryLoad("spark", "/assets/crash/spark.png");
     function resize() { w = host!.clientWidth; h = host!.clientHeight; cv!.width = w; cv!.height = h; }
     resize();
     const ro = new ResizeObserver(resize);
@@ -142,14 +145,18 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
       grad.addColorStop(0, skyTop); grad.addColorStop(1, skyBot);
       ctx!.fillStyle = grad; ctx!.fillRect(0, 0, w, h);
       const starA = Math.max(0, (t - 0.55) / 0.45);
+      if (imgs.launch && st.fade < 1) { ctx!.globalAlpha = 1 - st.fade; ctx!.drawImage(imgs.launch, 0, 0, w, h); ctx!.globalAlpha = 1; }
+      if (st.phase === "betting") st.fade = 0; else st.fade = Math.min(1, st.fade + dt / 0.6);
       if (starA > 0) { ctx!.fillStyle = "rgba(255,255,255," + (starA * 0.9).toFixed(2) + ")"; for (const s of stars) { ctx!.beginPath(); ctx!.arc(s.x * w, s.y * h, s.r, 0, 6.283); ctx!.fill(); } }
-      if (imgs.far) { const off = (st.scroll * 0.15) % w; ctx!.globalAlpha = 0.4; ctx!.drawImage(imgs.far, -off, 0, w, h); ctx!.drawImage(imgs.far, w - off, 0, w, h); ctx!.globalAlpha = 1; ctx!.fillStyle = "rgba(4,7,12," + (0.35 + t * 0.3).toFixed(2) + ")"; ctx!.fillRect(0, 0, w, h); }
+      if (imgs.far) { ctx!.globalAlpha = 1; ctx!.drawImage(imgs.far, 0, 0, w, h); ctx!.fillStyle = "rgba(4,7,12," + (0.35 + t * 0.3).toFixed(2) + ")"; ctx!.fillRect(0, 0, w, h); }
+      if (imgs.farL) { const off = (st.scroll * 0.05) % w; ctx!.globalAlpha = 0.6; ctx!.drawImage(imgs.farL, -off, h * 0.25, w * 1.3, h * 0.75); ctx!.drawImage(imgs.farL, w * 1.3 - off, h * 0.25, w * 1.3, h * 0.75); ctx!.globalAlpha = 1; }
       ctx!.globalAlpha = 0.55;
-      if (imgs.mid) { const mw = w * 1.4; const off = (st.scroll * 0.4) % mw; ctx!.drawImage(imgs.mid, -off, h * 0.1, mw, h * 0.6); ctx!.drawImage(imgs.mid, mw - off, h * 0.1, mw, h * 0.6); }
+      if (imgs.mid) { const mw = w * 1.4; const off = (st.scroll * 0.15) % mw; ctx!.drawImage(imgs.mid, -off, h * 0.1, mw, h * 0.6); ctx!.drawImage(imgs.mid, mw - off, h * 0.1, mw, h * 0.6); }
       else { ctx!.fillStyle = "rgba(255,255,255,0.16)"; for (const c of clouds) { const cx = ((c.x * w - st.scroll * 0.4) % (w + 200) + w + 200) % (w + 200) - 100; ctx!.beginPath(); ctx!.ellipse(cx, c.y * h, 60 * c.s, 18 * c.s, 0, 0, 6.283); ctx!.fill(); } }
       ctx!.globalAlpha = 1;
-      if (imgs.near) { const nw = w * 1.2; const off = (st.scroll * 0.9) % nw; ctx!.drawImage(imgs.near, -off, h * 0.35, nw, h * 0.65); ctx!.drawImage(imgs.near, nw - off, h * 0.35, nw, h * 0.65); }
-      else { for (const n of near) { const nx = ((n.x * w - st.scroll * 0.9) % (w + 120) + w + 120) % (w + 120) - 60; const ny = n.y * h; if (n.k === 0) { ctx!.strokeStyle = "rgba(20,26,36,0.7)"; ctx!.lineWidth = 2; ctx!.beginPath(); ctx!.moveTo(nx - 8, ny); ctx!.quadraticCurveTo(nx - 3, ny - 5, nx, ny); ctx!.quadraticCurveTo(nx + 3, ny - 5, nx + 8, ny); ctx!.stroke(); } else { ctx!.fillStyle = "rgba(196,106,58,0.5)"; ctx!.beginPath(); ctx!.ellipse(nx, ny, 9, 11, 0, 0, 6.283); ctx!.fill(); } } }
+      if (imgs.near && !g.hideNear) { const nw = w * 1.2; const off = (st.scroll * 0.35) % nw; ctx!.globalAlpha = 0.35; ctx!.drawImage(imgs.near, -off, h * 0.35, nw, h * 0.65); ctx!.drawImage(imgs.near, nw - off, h * 0.35, nw, h * 0.65); ctx!.globalAlpha = 1; }
+      ctx!.globalCompositeOperation = "soft-light"; ctx!.globalAlpha = 0.4; ctx!.fillStyle = g.color; ctx!.fillRect(0, 0, w, h); ctx!.globalCompositeOperation = "source-over"; ctx!.globalAlpha = 1;
+      if (!imgs.near && !g.hideNear) { for (const n of near) { const nx = ((n.x * w - st.scroll * 0.9) % (w + 120) + w + 120) % (w + 120) - 60; const ny = n.y * h; if (n.k === 0) { ctx!.strokeStyle = "rgba(20,26,36,0.7)"; ctx!.lineWidth = 2; ctx!.beginPath(); ctx!.moveTo(nx - 8, ny); ctx!.quadraticCurveTo(nx - 3, ny - 5, nx, ny); ctx!.quadraticCurveTo(nx + 3, ny - 5, nx + 8, ny); ctx!.stroke(); } else { ctx!.fillStyle = "rgba(196,106,58,0.5)"; ctx!.beginPath(); ctx!.ellipse(nx, ny, 9, 11, 0, 0, 6.283); ctx!.fill(); } } }
       if (st.phase === "betting") { ctx!.fillStyle = "rgba(16,20,28,0.95)"; ctx!.fillRect(0, h * 0.86, w, h * 0.14); ctx!.strokeStyle = "rgba(255,217,122,0.5)"; ctx!.lineWidth = 2; ctx!.setLineDash([18, 14]); ctx!.beginPath(); ctx!.moveTo(0, h * 0.9); ctx!.lineTo(w, h * 0.9); ctx!.stroke(); ctx!.setLineDash([]); trailRef.current = []; }
       const p = st.phase === "flying" ? (st.progress >= 0 ? clamp(st.progress, 0, 1) : clamp(Math.log(Math.max(1, m)) / Math.log(30), 0, 1)) : 0;
       const pos = pathPos(p);
@@ -199,8 +206,8 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
         if (q.kind === 0) { q.vy -= 10 * dt; q.size += 14 * dt; }
         if (q.kind === 2) q.vy += 220 * dt;
         const a = q.life / q.max;
-        if (q.kind === 0) { ctx!.globalAlpha = a * 0.4; if (imgs.smoke) { ctx!.drawImage(imgs.smoke, q.x - q.size, q.y - q.size, q.size * 2, q.size * 2); } else { ctx!.fillStyle = q.col + (a * 0.4).toFixed(2) + ")"; ctx!.beginPath(); ctx!.arc(q.x, q.y, q.size, 0, 6.283); ctx!.fill(); } }
-        else { ctx!.globalCompositeOperation = "lighter"; ctx!.globalAlpha = a; ctx!.fillStyle = q.kind === 1 ? q.col + a.toFixed(2) + ")" : q.col; ctx!.beginPath(); ctx!.arc(q.x, q.y, q.size * (q.kind === 1 ? a : 1), 0, 6.283); ctx!.fill(); ctx!.globalCompositeOperation = "source-over"; }
+        if (q.kind === 0) { ctx!.globalCompositeOperation = "lighter"; ctx!.globalAlpha = a * 0.5; if (imgs.smoke) { ctx!.drawImage(imgs.smoke, q.x - q.size, q.y - q.size, q.size * 2, q.size * 2); } else { ctx!.fillStyle = q.col + (a * 0.5).toFixed(2) + ")"; ctx!.beginPath(); ctx!.arc(q.x, q.y, q.size, 0, 6.283); ctx!.fill(); } ctx!.globalCompositeOperation = "source-over"; }
+        else { ctx!.globalCompositeOperation = "lighter"; ctx!.globalAlpha = a; if (imgs.spark) { const ss = q.size * 3; ctx!.drawImage(imgs.spark, q.x - ss / 2, q.y - ss / 2, ss, ss); } else { ctx!.fillStyle = q.kind === 1 ? q.col + a.toFixed(2) + ")" : q.col; ctx!.beginPath(); ctx!.arc(q.x, q.y, q.size * (q.kind === 1 ? a : 1), 0, 6.283); ctx!.fill(); } ctx!.globalCompositeOperation = "source-over"; }
       }
       ctx!.globalAlpha = 1;
       if (parts.length > 220) parts.splice(0, parts.length - 220);
@@ -229,6 +236,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
     <div className={"rcs-host" + (shake ? " rcs-shake" : "")} ref={hostRef}>
       <canvas ref={canvasRef} className="rcs-canvas"/>
       {sticks.map(function (s) { return <div key={s.id} className="rcs-sticker" style={{ left: s.x + "%", top: s.y + "%" }}>+{s.amt} TD<i>SIM</i></div>; })}
+      <img className="rcs-logo" src={asset(gameId, "logo")} alt="" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
       <button className="rcs-mute" onClick={function () { crashSfx.unlock(); setMuted(crashSfx.toggleMute()); }}>{muted ? "MUTED" : "MUTE"}</button>
       <img ref={craftRef} className="rcs-craft" src={craftSrc} alt="" onLoad={function () { setImgOk(true); }} style={{ opacity: 0 }}/>
       {flash && <div className="rcs-flash"/>}

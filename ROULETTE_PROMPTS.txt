@@ -1,41 +1,27 @@
-﻿=== CHIP 1 -> save as: chip-1.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color ivory white, six equally spaced rectangular edge inserts in light sky blue, matching thin inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+﻿=== CHIP 1 -> save as:  ===
 
-=== CHIP 2 -> save as: chip-2.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color cobalt blue, six equally spaced rectangular edge inserts in white, matching thin inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+=== CHIP 2 -> save as:  ===
 
-=== CHIP 5 -> save as: chip-5.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color casino red, six equally spaced rectangular edge inserts in white, matching thin inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+=== CHIP 5 -> save as:  ===
 
-=== CHIP 10 -> save as: chip-10.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color emerald green, six equally spaced rectangular edge inserts in white, matching thin inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+=== CHIP 10 -> save as:  ===
 
-=== CHIP 25 -> save as: chip-25.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color royal purple, six equally spaced rectangular edge inserts in white, matching thin inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+=== CHIP 25 -> save as:  ===
 
-=== CHIP 50 -> save as: chip-50.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color burnt orange, six equally spaced rectangular edge inserts in white, matching thin inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+=== CHIP 50 -> save as:  ===
 
-=== CHIP 100 -> save as: chip-100.png ===
-Top-down studio product photograph of a single round casino gaming chip, perfectly centered, filling 90 percent of the frame, viewed exactly from above with zero perspective tilt. Premium glossy ceramic composite, body color jet black, six equally spaced rectangular edge inserts in metallic gold, thin gold inner ring, blank smooth center medallion with no text and no numbers, crisp serrated rim, soft top-left studio highlight, gentle contact shadow, isolated on a pure solid white background, no table, no props, no watermark, square 1:1, ultra sharp macro detail.
+=== CHIP 100 -> save as:  ===
 
-=== FELT EMERALD -> save as: felt-emerald.jpg ===
-Seamless tileable texture of premium casino table felt, deep emerald green baize, fine short wool fibers visible at macro scale, subtle woven grain, perfectly even diffuse lighting with no vignette, no shadows, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== FELT EMERALD -> save as:  ===
 
-=== FELT CRIMSON -> save as: felt-crimson.jpg ===
-Seamless tileable texture of premium casino table felt, deep crimson red baize, fine short wool fibers visible at macro scale, subtle woven grain, perfectly even diffuse lighting with no vignette, no shadows, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== FELT CRIMSON -> save as:  ===
 
-=== FELT VELVET -> save as: felt-velvet.jpg ===
-Seamless tileable texture of royal purple velvet casino table cloth, soft plush pile with gentle directional sheen, fine fiber detail, perfectly even diffuse lighting with no vignette, no shadows, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== FELT VELVET -> save as:  ===
 
-=== FELT MIDNIGHT -> save as: felt-midnight.jpg ===
-Seamless tileable texture of premium casino table felt, midnight navy blue baize, fine short wool fibers visible at macro scale, subtle woven grain, perfectly even diffuse lighting with no vignette, no shadows, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== FELT MIDNIGHT -> save as: ===
 
-=== FELT GOLDEN -> save as: felt-golden.jpg ===
-Seamless tileable texture of premium casino table felt, antique gold ochre baize, fine short wool fibers visible at macro scale, subtle woven grain, perfectly even diffuse lighting with no vignette, no shadows, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== FELT GOLDEN -> save as: ===
 
-=== WHEEL WOOD -> save as: wheel-wood.jpg ===
-Seamless tileable texture of polished dark walnut wood, rich chocolate brown with subtle amber grain figure, satin varnish sheen, straight fine grain running horizontally, perfectly even lighting, no knots larger than subtle, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== WHEEL WOOD -> save as:  ===
 
-=== WHEEL METAL -> save as: wheel-metal.jpg ===
-Seamless tileable texture of brushed stainless steel, fine horizontal machining lines, cool silver tone with faint warm reflections, satin anisotropic sheen, perfectly even lighting, no scratches deeper than hairline, no objects, no text, edges wrap seamlessly, photorealistic material scan, square 1:1.
+=== WHEEL METAL -> save as: ===
