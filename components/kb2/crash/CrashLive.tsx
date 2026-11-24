@@ -250,7 +250,7 @@ export default function CrashLive() {
       <div className="kb3-top">
         <Link href="/casino" className="kb3-back">Lobby</Link>
         <span className="kb3-demo">DEMO - no real money</span>
-        <b className="kb3-title">{cfg.name}</b>
+        <b className="kb3-title">{cfg.name} <span className="kb3-live-tag">LIVE</span></b>
         <div className="kb3-sp"/>
         <div className="kb3-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)}</b></div>
         <button className={"kb3-ico" + (prefs.sound ? " on" : "")} onClick={function () { update({ sound: !prefs.sound }); }}>{prefs.sound ? "SND" : "MUTE"}</button>

@@ -1,167 +1,81 @@
-﻿const sharp = require('sharp');
-const fs = require('fs');
-const path = require('path');
+﻿const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
 
-const ASSETS_DIR = path.join(__dirname, '..', 'public', 'assets');
-const ORIGINAL_DIR = path.join(__dirname, '..', 'public', 'assets_original');
-const THRESHOLD = 240;
+const games = ["skyward-jet", "ember-rocket", "drift-balloon", "rotor-heli", "nightglide-stealth"];
+const files = ["character-side.png", "character.png"];
+const threshold = 238;
+const edgeSmooth = 2;
 
-const TARGET_FILES = ['character.png', 'logo.png'];
-const SYMBOL_PATTERN = /^s\d+\.png$/i;
-
-function isNearWhite(r, g, b) {
-  return r >= THRESHOLD && g >= THRESHOLD && b >= THRESHOLD;
-}
-
-function floodFill(width, height, data, startX, startY) {
-  const visited = new Uint8Array(width * height);
-  const result = [];
-  const stack = [[startX, startY]];
-  while (stack.length > 0) {
-    const [x, y] = stack.pop();
-    if (x < 0 || y < 0 || x >= width || y >= height) continue;
-    const idx = y * width + x;
-    if (visited[idx]) continue;
-    visited[idx] = 1;
-    const pIdx = idx * 4;
-    const r = data[pIdx], g = data[pIdx + 1], b = data[pIdx + 2];
-    if (!isNearWhite(r, g, b)) continue;
-    result.push(idx);
-    stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+async function removeBg(srcPath, dstPath) {
+  const img = sharp(srcPath).ensureAlpha();
+  const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
+  const w = info.width, h = info.height, ch = info.channels;
+  
+  const mask = new Uint8Array(w * h);
+  const stack = [];
+  
+  function isBg(i) {
+    const r = data[i * ch], g = data[i * ch + 1], b = data[i * ch + 2];
+    return r >= threshold && g >= threshold && b >= threshold;
   }
-  return result;
-}
-
-async function processImage(inputPath, outputPath) {
-  const image = sharp(inputPath);
-  const meta = await image.metadata();
-  if (!meta.width || !meta.height) return { changed: false, reason: 'no dimensions' };
-  const { data, info } = await image.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const { width, height, channels } = info;
-  const bgSet = new Set();
-  const seeds = [
-    [0, 0], [width - 1, 0], [0, height - 1], [width - 1, height - 1],
-    [Math.floor(width / 2), 0], [Math.floor(width / 2), height - 1],
-    [0, Math.floor(height / 2)], [width - 1, Math.floor(height / 2)],
-    [Math.floor(width / 4), 0], [Math.floor(width * 3 / 4), 0],
-    [Math.floor(width / 4), height - 1], [Math.floor(width * 3 / 4), height - 1],
-    [0, Math.floor(height / 4)], [0, Math.floor(height * 3 / 4)],
-    [width - 1, Math.floor(height / 4)], [width - 1, Math.floor(height * 3 / 4)]
-  ];
-  for (const [x, y] of seeds) {
-    const filled = floodFill(width, height, data, x, y);
-    for (const i of filled) bgSet.add(i);
-  }
-  if (bgSet.size === 0) return { changed: false, reason: 'no white background at edges' };
-  const isBg = new Uint8Array(width * height);
-  for (const i of bgSet) isBg[i] = 1;
-  const output = Buffer.alloc(width * height * 4);
-  for (let i = 0; i < width * height; i++) {
-    const p = i * 4;
-    const r = data[p], g = data[p + 1], b = data[p + 2], a = data[p + 3];
-    if (isBg[i]) {
-      output[p] = 0; output[p + 1] = 0; output[p + 2] = 0; output[p + 3] = 0;
-    } else {
-      const x = i % width, y = Math.floor(i / width);
-      let nearBg = 0;
-      for (let dy = -2; dy <= 2; dy++) {
-        for (let dx = -2; dx <= 2; dx++) {
-          if (dx === 0 && dy === 0) continue;
-          const nx = x + dx, ny = y + dy;
-          if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-            if (isBg[ny * width + nx]) nearBg++;
-          }
-        }
-      }
-      if (nearBg > 0 && isNearWhite(r, g, b)) {
-        const fade = Math.max(0.3, 1 - nearBg / 24);
-        output[p] = r; output[p + 1] = g; output[p + 2] = b;
-        output[p + 3] = Math.round(255 * fade);
-      } else {
-        output[p] = r; output[p + 1] = g; output[p + 2] = b; output[p + 3] = a;
-      }
+  
+  function push(x, y) {
+    if (x < 0 || y < 0 || x >= w || y >= h) return;
+    const p = y * w + x;
+    if (!mask[p] && isBg(p)) {
+      mask[p] = 1;
+      stack.push(p);
     }
   }
-  await sharp(output, { raw: { width: width, height: height, channels: 4 } }).png().toFile(outputPath);
-  return { changed: true, bgPixels: bgSet.size, total: width * height };
-}
-
-function copyRecursive(src, dst) {
-  fs.mkdirSync(dst, { recursive: true });
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const e of entries) {
-    if (e.name === 'assets_original') continue;
-    const s = path.join(src, e.name);
-    const d = path.join(dst, e.name);
-    if (e.isDirectory()) copyRecursive(s, d);
-    else fs.copyFileSync(s, d);
+  
+  for (let x = 0; x < w; x++) { push(x, 0); push(x, h - 1); }
+  for (let y = 0; y < h; y++) { push(0, y); push(w - 1, y); }
+  
+  while (stack.length) {
+    const p = stack.pop();
+    const x = p % w, y = Math.floor(p / w);
+    push(x + 1, y); push(x - 1, y); push(x, y + 1); push(x, y - 1);
   }
-}
-
-async function main() {
-  if (!fs.existsSync(ORIGINAL_DIR)) {
-    copyRecursive(ASSETS_DIR, ORIGINAL_DIR);
-    console.log('Copied assets -> assets_original');
-  } else {
-    console.log('assets_original already exists, using it as source');
-  }
-  const files = [];
-  function collect(dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    for (const e of entries) {
-      const full = path.join(dir, e.name);
-      if (e.isDirectory()) {
-        if (e.name === 'assets_original') continue;
-        collect(full);
-      } else {
-        const shouldProcess =
-          TARGET_FILES.includes(e.name.toLowerCase()) ||
-          SYMBOL_PATTERN.test(e.name);
-        if (shouldProcess) {
-          const rel = path.relative(ASSETS_DIR, full);
-          files.push({ full: full, rel: rel });
-        }
+  
+  for (let p = 0; p < w * h; p++) {
+    if (mask[p]) { data[p * ch + 3] = 0; continue; }
+    const x = p % w, y = Math.floor(p / w);
+    let edge = false;
+    for (let dx = -edgeSmooth; dx <= edgeSmooth; dx++) {
+      for (let dy = -edgeSmooth; dy <= edgeSmooth; dy++) {
+        const nx = x + dx, ny = y + dy;
+        if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+        if (mask[ny * w + nx]) edge = true;
       }
     }
-  }
-  collect(ASSETS_DIR);
-  console.log('Found ' + files.length + ' images to process');
-  const stats = { processed: 0, changed: 0, skipped: 0, errors: 0 };
-  const skippedList = [];
-  const changedList = [];
-  for (const f of files) {
-    const originalPath = path.join(ORIGINAL_DIR, f.rel);
-    try {
-      const info = await processImage(originalPath, f.full);
-      stats.processed++;
-      if (info.changed) {
-        stats.changed++;
-        const pct = ((info.bgPixels / info.total) * 100).toFixed(1);
-        console.log('  OK  ' + f.rel + ' (' + info.bgPixels + ' bg px, ' + pct + '%)');
-        changedList.push(f.rel);
-      } else {
-        stats.skipped++;
-        console.log('  --  ' + f.rel + ' (' + info.reason + ')');
-        skippedList.push(f.rel + ' :: ' + info.reason);
-      }
-    } catch (err) {
-      stats.errors++;
-      console.error('  ERR ' + f.rel + ' -> ' + err.message);
+    if (edge) {
+      const r = data[p * ch], g = data[p * ch + 1], b = data[p * ch + 2];
+      const mn = Math.min(r, g, b);
+      if (mn > 200) data[p * ch + 3] = Math.max(0, Math.min(255, 255 - Math.round((mn - 200) * 4)));
     }
   }
-  console.log('');
-  console.log('='.repeat(70));
-  console.log('SUMMARY');
-  console.log('='.repeat(70));
-  console.log('Processed: ' + stats.processed);
-  console.log('Changed:   ' + stats.changed);
-  console.log('Skipped:   ' + stats.skipped);
-  console.log('Errors:    ' + stats.errors);
-  if (skippedList.length > 0) {
-    console.log('');
-    console.log('SKIPPED (no changes applied):');
-    for (const s of skippedList) console.log('  - ' + s);
-  }
+  
+  await sharp(data, { raw: { width: w, height: h, channels: ch } }).png().toFile(dstPath);
 }
 
-main().catch(function (err) { console.error(err); process.exit(1); });
+(async function () {
+  let count = 0;
+  for (const gameId of games) {
+    for (const file of files) {
+      const src = path.join("public", "assets", gameId, file);
+      const orig = path.join("public", "assets_original", gameId, file);
+      const dst = src;
+      if (!fs.existsSync(src)) { console.log("SKIP " + src); continue; }
+      if (!fs.existsSync(path.join("public", "assets_original", gameId))) {
+        fs.mkdirSync(path.join("public", "assets_original", gameId), { recursive: true });
+      }
+      if (!fs.existsSync(orig)) fs.copyFileSync(src, orig);
+      await removeBg(src, dst);
+      console.log("PROCESSED " + gameId + "/" + file);
+      count++;
+    }
+  }
+  console.log("Total: " + count + " images processed");
+  console.log("Revert: Copy-Item -Recurse -Path public\\assets_original\\* -Destination public\\assets\\ -Force");
+})();

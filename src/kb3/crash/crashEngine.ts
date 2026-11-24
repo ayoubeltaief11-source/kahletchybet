@@ -31,11 +31,11 @@ export function getEngine(gameId: string): { round: number; seed: number; rtp: n
   let e = engines.get(gameId);
   if (!e) {
     const g = getGame(gameId);
-    const rtp = 0.95 + Math.random() * 0.02;
-    const seed = hashStr(gameId);
+    const rtp = 0.96;
+    const seed = hashStr(gameId) + Date.now();
     const rng = mulberry32(seed);
     const history: number[] = [];
-    for (let i = 0; i < 15; i++) history.push(crashAtFromR(rng(), rtp));
+    for (let i = 0; i < 15; i++) { let r = rng(); if (i % 3 === 0) r = rng() * 0.3; else if (i % 5 === 0) r = 0.7 + rng() * 0.29; history.push(crashAtFromR(r, rtp)); }
     e = { round: 1, seed: seed, rtp: rtp, history: history };
     engines.set(gameId, e);
   }

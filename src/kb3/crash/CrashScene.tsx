@@ -48,7 +48,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
   const [muted, setMuted] = useState(false);
   const lastIntRef = useRef(1);
   const [sticks, setSticks] = useState<{ id: number; x: number; y: number; amt: string }[]>([]);
-  const [craftSrc, setCraftSrc] = useState(asset(gameId, "character"));
+  const [craftSrc, setCraftSrc] = useState("/assets/" + gameId + "/character-side.png");
   const stateRef = useRef({ phase: phase, mult: multiplier, progress: -1, cx: 0, cy: 0, fade: 0, angle: 0, fall: 0, scroll: 0, bob: 0, emit: 0 });
   stateRef.current.phase = phase;
   stateRef.current.mult = multiplier;
@@ -76,7 +76,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
     return function () { window.clearTimeout(t1); window.clearTimeout(t2); };
   }, [phase, gameId, reduced, g.color2]);
 
-  useEffect(function () { setMuted(crashSfx.isMuted()); const im = new Image(); im.onload = function () { setCraftSrc("/assets/" + gameId + "/character-side.png"); }; im.src = "/assets/" + gameId + "/character-side.png"; }, [gameId]);
+  useEffect(function () { setMuted(crashSfx.isMuted()); const im = new Image(); im.onload = function () { setCraftSrc("/assets/" + gameId + "/character-side.png"); }; im.onerror = function () { setCraftSrc(asset(gameId, "character")); }; im.src = "/assets/" + gameId + "/character-side.png"; }, [gameId]);
 
   useEffect(function () {
     if (countdown === undefined || countdown > 3 || countdown <= 0) return;
@@ -148,16 +148,15 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
       if (imgs.launch && st.fade < 1) { ctx!.globalAlpha = 1 - st.fade; ctx!.drawImage(imgs.launch, 0, 0, w, h); ctx!.globalAlpha = 1; }
       if (st.phase === "betting") st.fade = 0; else st.fade = Math.min(1, st.fade + dt / 0.6);
       if (starA > 0) { ctx!.fillStyle = "rgba(255,255,255," + (starA * 0.9).toFixed(2) + ")"; for (const s of stars) { ctx!.beginPath(); ctx!.arc(s.x * w, s.y * h, s.r, 0, 6.283); ctx!.fill(); } }
-      if (imgs.far) { ctx!.globalAlpha = 1; ctx!.drawImage(imgs.far, 0, 0, w, h); ctx!.fillStyle = "rgba(4,7,12," + (0.35 + t * 0.3).toFixed(2) + ")"; ctx!.fillRect(0, 0, w, h); }
-      if (imgs.farL) { const off = (st.scroll * 0.05) % w; ctx!.globalAlpha = 0.6; ctx!.drawImage(imgs.farL, -off, h * 0.25, w * 1.3, h * 0.75); ctx!.drawImage(imgs.farL, w * 1.3 - off, h * 0.25, w * 1.3, h * 0.75); ctx!.globalAlpha = 1; }
+      if (imgs.far) { ctx!.globalAlpha = 1; ctx!.drawImage(imgs.far, 0, 0, w, h); ctx!.fillStyle = "rgba(4,7,12," + (0.25 + t * 0.2).toFixed(2) + ")"; ctx!.fillRect(0, 0, w, h); }
+      if (imgs.farL) { const off = (st.scroll * 0.05) % w; ctx!.globalAlpha = 0.7; ctx!.drawImage(imgs.farL, -off, h * 0.55, w * 1.5, h * 0.45); ctx!.drawImage(imgs.farL, w * 1.5 - off, h * 0.55, w * 1.5, h * 0.45); ctx!.globalAlpha = 1; }
       ctx!.globalAlpha = 0.55;
-      if (imgs.mid) { const mw = w * 1.4; const off = (st.scroll * 0.15) % mw; ctx!.drawImage(imgs.mid, -off, h * 0.1, mw, h * 0.6); ctx!.drawImage(imgs.mid, mw - off, h * 0.1, mw, h * 0.6); }
+      if (imgs.mid) { const mw = w * 1.6; const off = (st.scroll * 0.15) % mw; ctx!.globalAlpha = 0.55; ctx!.drawImage(imgs.mid, -off, 0, mw, h * 0.35); ctx!.drawImage(imgs.mid, mw - off, 0, mw, h * 0.35); ctx!.globalAlpha = 1; }
       else { ctx!.fillStyle = "rgba(255,255,255,0.16)"; for (const c of clouds) { const cx = ((c.x * w - st.scroll * 0.4) % (w + 200) + w + 200) % (w + 200) - 100; ctx!.beginPath(); ctx!.ellipse(cx, c.y * h, 60 * c.s, 18 * c.s, 0, 0, 6.283); ctx!.fill(); } }
       ctx!.globalAlpha = 1;
-      if (imgs.near && !g.hideNear) { const nw = w * 1.2; const off = (st.scroll * 0.35) % nw; ctx!.globalAlpha = 0.35; ctx!.drawImage(imgs.near, -off, h * 0.35, nw, h * 0.65); ctx!.drawImage(imgs.near, nw - off, h * 0.35, nw, h * 0.65); ctx!.globalAlpha = 1; }
-      ctx!.globalCompositeOperation = "soft-light"; ctx!.globalAlpha = 0.4; ctx!.fillStyle = g.color; ctx!.fillRect(0, 0, w, h); ctx!.globalCompositeOperation = "source-over"; ctx!.globalAlpha = 1;
+      if (imgs.near && !g.hideNear) { const nw = w * 1.3; const off = (st.scroll * 0.35) % nw; ctx!.globalAlpha = 0.25; ctx!.drawImage(imgs.near, -off, h * 0.7, nw, h * 0.3); ctx!.drawImage(imgs.near, nw - off, h * 0.7, nw, h * 0.3); ctx!.globalAlpha = 1; }
+      ctx!.globalCompositeOperation = "soft-light"; ctx!.globalAlpha = 0.15; ctx!.fillStyle = g.color; ctx!.fillRect(0, 0, w, h); ctx!.globalCompositeOperation = "source-over"; ctx!.globalAlpha = 1;
       if (!imgs.near && !g.hideNear) { for (const n of near) { const nx = ((n.x * w - st.scroll * 0.9) % (w + 120) + w + 120) % (w + 120) - 60; const ny = n.y * h; if (n.k === 0) { ctx!.strokeStyle = "rgba(20,26,36,0.7)"; ctx!.lineWidth = 2; ctx!.beginPath(); ctx!.moveTo(nx - 8, ny); ctx!.quadraticCurveTo(nx - 3, ny - 5, nx, ny); ctx!.quadraticCurveTo(nx + 3, ny - 5, nx + 8, ny); ctx!.stroke(); } else { ctx!.fillStyle = "rgba(196,106,58,0.5)"; ctx!.beginPath(); ctx!.ellipse(nx, ny, 9, 11, 0, 0, 6.283); ctx!.fill(); } } }
-      if (st.phase === "betting") { ctx!.fillStyle = "rgba(16,20,28,0.95)"; ctx!.fillRect(0, h * 0.86, w, h * 0.14); ctx!.strokeStyle = "rgba(255,217,122,0.5)"; ctx!.lineWidth = 2; ctx!.setLineDash([18, 14]); ctx!.beginPath(); ctx!.moveTo(0, h * 0.9); ctx!.lineTo(w, h * 0.9); ctx!.stroke(); ctx!.setLineDash([]); trailRef.current = []; }
       const p = st.phase === "flying" ? (st.progress >= 0 ? clamp(st.progress, 0, 1) : clamp(Math.log(Math.max(1, m)) / Math.log(30), 0, 1)) : 0;
       const pos = pathPos(p);
       const nxt = pathPos(Math.min(1, p + 0.01));
