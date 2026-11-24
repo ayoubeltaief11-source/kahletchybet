@@ -1,0 +1,26 @@
+﻿const path = require("path");
+const eng = require(path.join(__dirname, "..", ".tmp-rltsc", "engine.js"));
+const b = require(path.join(__dirname, "..", ".tmp-rltsc", "bets.js"));
+let s = b.createBetState();
+s = b.addPlacement("european", s, "straight", ["17"], 5);
+s = b.addPlacement("european", s, "split", ["17", "20"], 2);
+s = b.addPlacement("european", s, "red", eng.outsideNumbers("red"), 10);
+console.log("total after 3 places = " + b.totalStake(s) + " (expect 17)");
+s = b.undo(s);
+console.log("after undo = " + b.totalStake(s) + " (expect 7)");
+s = b.doubleBets(s);
+console.log("after x2 = " + b.totalStake(s) + " (expect 14)");
+s = b.confirmBets(s);
+console.log("after confirm = " + b.totalStake(s) + " (expect 0)");
+s = b.rebet(s);
+console.log("after rebet = " + b.totalStake(s) + " (expect 14)");
+const st = eng.settle("european", b.toBets(s), "17");
+console.log("settle on 17: return=" + st.totalReturn + " (expect 432) net=" + st.net);
+const fr = eng.settle("french", [eng.makeBet("french", "red", eng.outsideNumbers("red"), 10)], "0");
+console.log("french partage on 0: return=" + fr.totalReturn + " (expect 5)");
+let rejected = false;
+try { eng.makeBet("european", "split", ["17", "19"], 1); } catch (e) { rejected = true; }
+console.log("invalid split rejected = " + rejected);
+const ok = b.totalStake(s) === 14 && st.totalReturn === 432 && fr.totalReturn === 5 && rejected;
+console.log(ok ? "BETS LOGIC OK" : "BETS LOGIC FAIL");
+if (!ok) process.exit(1);
