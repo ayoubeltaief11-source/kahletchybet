@@ -1,0 +1,14 @@
+﻿const fs = require("fs");
+const f = "src/kb3/crash/CrashScene.tsx";
+let t = fs.readFileSync(f, "utf8");
+t = t.replace("  multiplier: number;", "  multiplier: number;\n  progress?: number;");
+t = t.replace("export default function CrashScene({ gameId, phase, multiplier, countdown, betCount }: CrashSceneProps) {", "export default function CrashScene({ gameId, phase, multiplier, progress, countdown, betCount }: CrashSceneProps) {");
+t = t.replace("const stateRef = useRef({ phase: phase, mult: multiplier, angle: 0, fall: 0, scroll: 0, bob: 0, emit: 0 });", "const stateRef = useRef({ phase: phase, mult: multiplier, progress: -1, cx: 0, cy: 0, angle: 0, fall: 0, scroll: 0, bob: 0, emit: 0 });");
+t = t.replace("stateRef.current.mult = multiplier;", "stateRef.current.mult = multiplier;\n  stateRef.current.progress = progress === undefined ? -1 : progress;");
+t = t.replace("const p = st.phase === \"flying\" ? clamp(Math.log(Math.max(1, m)) / Math.log(30), 0, 1) : 0;", "const p = st.phase === \"flying\" ? (st.progress >= 0 ? clamp(st.progress, 0, 1) : clamp(Math.log(Math.max(1, m)) / Math.log(30), 0, 1)) : 0;");
+t = t.replace("const cx = pos.x / 100 * w;\n      const cy = (pos.y + bobY) / 100 * h;", "const cx = pos.x / 100 * w;\n      const cy = (pos.y + bobY) / 100 * h;\n      st.cx = cx; st.cy = cy;");
+t = t.replace("const cx = (8 + 47) / 100 * w;", "const cx = st.cx || (55 / 100 * w);");
+t = t.replace("const cy = (82 - 37) / 100 * h;", "const cy = st.cy || (45 / 100 * h);");
+fs.writeFileSync(f, t, "utf8");
+console.log("progress synced: " + t.includes("st.progress >= 0"));
+console.log("explosion at craft: " + t.includes("st.cx ||"));

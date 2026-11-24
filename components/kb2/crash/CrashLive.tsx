@@ -42,6 +42,7 @@ export default function CrashLive() {
   const [clientSeed, setClientSeed] = useState("player-seed-01");
   const [err, setErr] = useState("");
   const [bots, setBots] = useState<BotBet[]>([]);
+  const [viewers, setViewers] = useState(1180);
   const rtpRef = useRef(0.97);
   const offRef = useRef(0);
   const panRef = useRef<Panel[]>(panels);
@@ -71,6 +72,8 @@ export default function CrashLive() {
     const iv = window.setInterval(function () { void sync(); }, 5000);
     return function () { clearInterval(iv); };
   }, [sync]);
+
+  useEffect(function () { setViewers(function (v) { return Math.max(700, Math.min(2600, v + Math.floor(Math.random() * 121) - 60)); }); }, [live.index]);
 
   const cash = useCallback(async function (i: number, at: number) {
     const p = panRef.current[i];
@@ -195,7 +198,7 @@ export default function CrashLive() {
     const p = panels[i];
     const inRound = p.state === "live" && live.phase === "flying";
     const canBet = p.state === "none" && !p.busy;
-    let label = "PLACE BET";
+    let label = "BET " + fmt(p.stake) + " TD";
     if (inRound) label = "CASH OUT";
     else if (p.state === "queued") label = "QUEUED";
     else if (p.state === "cashed") label = "CASHED";
@@ -260,18 +263,9 @@ export default function CrashLive() {
       <div className="kb3-main">
         <div className="kb3-scene" style={{ background: cfg.sky }}>
           <ClientOnly minHeight={380}>
-            <Stage input={{ phase: live.phase, mult: live.mult, progress: live.progress, hue: cfg.hue }} craft={cfg.craft}/>
+            <Stage input={{ phase: live.phase, mult: live.mult, progress: live.progress, hue: cfg.hue, countdown: Math.ceil(live.betLeft / 1000), betCount: bots.length + liveCount }} craft={cfg.craft}/>
           </ClientOnly>
           <div className="kb3-overlay">
-            {live.phase === "betting" && (
-              <div className="kb3-count">
-                <span>NEXT ROUND IN</span>
-                <b>{(live.betLeft / 1000).toFixed(1)}s</b>
-                <div className="kb3-bar"><i style={{ width: (100 - (live.betLeft / BET_MS) * 100) + "%" }}/></div>
-              </div>
-            )}
-            <div className={"kb3-mult " + live.phase}>{live.mult.toFixed(2)}<i>x</i></div>
-            {live.phase === "crashed" && <div className="kb3-busted">FLEW AWAY @ {live.crashAt.toFixed(2)}x</div>}
             <div className="kb3-bets">{bots.length + liveCount} bets this round</div>
           </div>
           {fair && (
@@ -301,6 +295,7 @@ export default function CrashLive() {
             return <button key={o[0]} className={tab === o[0] ? "on" : ""} onClick={function () { setTab(o[0]); }}>{o[1]}</button>;
           })}
           <div className="kb3-sp"/>
+          <span className="kb3-sum">~{viewers} watching</span>
           <span className="kb3-sum">{bots.length} players</span>
           <span className="kb3-sum">{fmt(totalBets)} TD staked</span>
           <span className="kb3-sum win">{fmt(totalWin)} TD paid</span>

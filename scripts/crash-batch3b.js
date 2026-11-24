@@ -1,0 +1,20 @@
+﻿const fs = require("fs");
+let t = fs.readFileSync("components/kb2/crash/Stage.tsx", "utf8");
+t = t.replace("export interface StageInput { phase: CrashPhase; mult: number; progress: number; hue: number; }", "export interface StageInput { phase: CrashPhase; mult: number; progress: number; hue: number; countdown?: number; betCount?: number; }");
+t = t.replace("<CrashScene gameId={slug} phase={input.phase} multiplier={input.mult} progress={input.progress}/>", "<CrashScene gameId={slug} phase={input.phase} multiplier={input.mult} progress={input.progress} countdown={input.countdown} betCount={input.betCount}/>");
+fs.writeFileSync("components/kb2/crash/Stage.tsx", t, "utf8");
+console.log("stage forwards: " + t.includes("countdown={input.countdown}"));
+
+let c = fs.readFileSync("components/kb2/crash/CrashLive.tsx", "utf8");
+c = c.replace('let label = "PLACE BET";', 'let label = "BET " + fmt(p.stake) + " TD";');
+c = c.replace('            {live.phase === "betting" && (\n              <div className="kb3-count">\n                <span>NEXT ROUND IN</span>\n                <b>{(live.betLeft / 1000).toFixed(1)}s</b>\n                <div className="kb3-bar"><i style={{ width: (100 - (live.betLeft / BET_MS) * 100) + "%" }}/></div>\n              </div>\n            )}\n', '');
+c = c.replace('            <div className={"kb3-mult " + live.phase}>{live.mult.toFixed(2)}<i>x</i></div>\n', '');
+c = c.replace('            {live.phase === "crashed" && <div className="kb3-busted">FLEW AWAY @ {live.crashAt.toFixed(2)}x</div>}\n', '');
+c = c.replace('<Stage input={{ phase: live.phase, mult: live.mult, progress: live.progress, hue: cfg.hue }} craft={cfg.craft}/>', '<Stage input={{ phase: live.phase, mult: live.mult, progress: live.progress, hue: cfg.hue, countdown: Math.ceil(live.betLeft / 1000), betCount: bots.length + liveCount }} craft={cfg.craft}/>');
+c = c.replace('const [bots, setBots] = useState<BotBet[]>([]);', 'const [bots, setBots] = useState<BotBet[]>([]);\n  const [viewers, setViewers] = useState(1180);');
+c = c.replace('  }, [sync]);', '  }, [sync]);\n\n  useEffect(function () { setViewers(function (v) { return Math.max(700, Math.min(2600, v + Math.floor(Math.random() * 121) - 60)); }); }, [live.index]);');
+c = c.replace('<span className="kb3-sum">{bots.length} players</span>', '<span className="kb3-sum">~{viewers} watching</span>\n          <span className="kb3-sum">{bots.length} players</span>');
+fs.writeFileSync("components/kb2/crash/CrashLive.tsx", c, "utf8");
+console.log("label fixed: " + c.includes('"BET " + fmt(p.stake)'));
+console.log("overlay dedup: " + !c.includes("kb3-mult "));
+console.log("viewers: " + c.includes("watching"));
