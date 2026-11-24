@@ -32,7 +32,7 @@ export function ChipFace({ v, size }: { v: number; size?: number }) {
   const [ok, setOk] = useState(false);
   const s = size || 30;
   return (
-    <span className="rl-chip" style={{ background: CHIP_COLORS[v] || "#888", width: s, height: s }}>
+    <span className={"rl-chip" + (ok ? " rl-chip-img" : "")} style={{ background: CHIP_COLORS[v] || "#888", width: s, height: s }}>
       <i className="rl-chipval" style={{ fontSize: Math.max(9, s * 0.34) }}>{v}</i>
       <img src={"/assets/roulette/chips/chip-" + v + ".png"} alt="" onLoad={function () { setOk(true); }} style={{ opacity: ok ? 1 : 0 }}/>
     </span>
