@@ -181,7 +181,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
       // 3. layer-mid (clouds, top half, h*0.35, y=0, opacity 55%)
       drawLayer(imgs.mid, 0, 0.35, 0.55, 0.15, false);
       // 4. layer-near (bottom only, h*0.3, y=h*0.7, opacity 25%, hidden in some)
-      drawLayer(imgs.near, 0.7, 0.3, 0.25, 0.35, g.hideNear);
+      drawLayer(imgs.near, 0.7, 0.3, 0.25, 0.35, !!g.hideNear);
 
       // 5. Light color overlay from registry.color (15%)
       ctx!.globalCompositeOperation = "soft-light";

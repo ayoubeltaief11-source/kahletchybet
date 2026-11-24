@@ -38,7 +38,6 @@ export default function CrashLive() {
   const { p: prefs, update } = usePrefs();
   const [rtp, setRtp] = useState(0.97);
   const [offset, setOffset] = useState(0);
-  const slug = route.split("/").pop() || "skyward-jet";
   const [live, setLive] = useState<LiveRound>(function () { return stateAt(Date.now(), 0.97); });
   const [panels, setPanels] = useState<Panel[]>(function () { return [fresh(20), fresh(50)]; });
   const [tab, setTab] = useState("players");
