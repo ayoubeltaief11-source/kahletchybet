@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useRef, useState } from "react";
 import "./roulette.css";
 import { getGame } from "../registry";
@@ -16,8 +16,9 @@ interface Props {
   highlight: string | null;
   lastWin: number;
   bets: BetApi;
-  onSpin: () => void;
-  onAuto: (n: number) => void;
+  onSpin?: () => void;
+  onAuto?: (n: number) => void;
+  autoMode?: boolean;
 }
 
 function fa(n: number): string { return n % 1 === 0 ? String(n) : n.toFixed(2); }
@@ -32,7 +33,7 @@ export function ChipFace({ v, size }: { v: number; size?: number }) {
   const s = size || 30;
   return (
     <span className="rl-chip" style={{ background: CHIP_COLORS[v] || "#888", width: s, height: s }}>
-      <i style={{ color: v === 1 ? "#1a1d23" : "#fff", fontSize: Math.max(9, s * 0.34) }}>{v}</i>
+      <i className="rl-chipval" style={{ fontSize: Math.max(9, s * 0.34) }}>{v}</i>
       <img src={"/assets/roulette/chips/chip-" + v + ".png"} alt="" onLoad={function () { setOk(true); }} style={{ opacity: ok ? 1 : 0 }}/>
     </span>
   );
@@ -50,7 +51,7 @@ function Stack({ amount, small }: { amount: number; small?: boolean }) {
 
 interface HS { type: BetType; numbers: string[]; left: number; top: number; label: string; }
 
-export default function RouletteTable({ gameId, variant, balance, locked, message, highlight, lastWin, bets, onSpin, onAuto }: Props) {
+export default function RouletteTable({ gameId, variant, balance, locked, message, highlight, lastWin, bets, onSpin, onAuto, autoMode }: Props) {
   const g = getGame(gameId);
   const rootRef = useRef<HTMLDivElement>(null);
   const flyRef = useRef<HTMLDivElement>(null);
@@ -58,6 +59,7 @@ export default function RouletteTable({ gameId, variant, balance, locked, messag
   const trayEls = useRef<Record<number, HTMLButtonElement | null>>({});
   const [autoOpen, setAutoOpen] = useState(false);
   const amer = variant === "american";
+  const feltName = gameId === "crimson-roulette" ? "crimson" : gameId === "royal-velvet" ? "velvet" : gameId === "midnight-wheel" ? "midnight" : gameId === "golden-crown" ? "golden" : "emerald";
 
   const hotspots: HS[] = [];
   for (let c = 0; c < 12; c++) {
@@ -119,6 +121,7 @@ export default function RouletteTable({ gameId, variant, balance, locked, messag
 
   return (
     <div className="rl-table" style={vars} ref={rootRef}>
+      <img className="rl-felt-tex" src={"/assets/roulette/felt-" + feltName + ".jpg"} alt="" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
       <div className="rl-msg">{message}</div>
       <div className="rl-scroll">
         <div className="rl-layout">
@@ -228,13 +231,14 @@ export default function RouletteTable({ gameId, variant, balance, locked, messag
           <button className="rl-btn" disabled={locked} onClick={bets.clear}>CLEAR</button>
           <button className="rl-btn" disabled={locked} onClick={bets.rebet}>REBET</button>
           <button className="rl-btn" disabled={locked} onClick={bets.double}>x2</button>
-          <button className="rl-btn" disabled={locked} onClick={function () { setAutoOpen(!autoOpen); }}>AUTO</button>
-          <button className="rl-spin" disabled={!bets.canSpin} onClick={onSpin}>{locked ? "..." : "SPIN"}</button>
+          {!autoMode && <button className="rl-btn" disabled={locked} onClick={function () { setAutoOpen(!autoOpen); }}>AUTO</button>}
+          {!autoMode && <button className="rl-spin" disabled={!bets.canSpin} onClick={onSpin}>{locked ? "..." : "SPIN"}</button>}
+          {autoMode && <span className="rl-autolabel">AUTO ROUND</span>}
         </div>
         {autoOpen && (
           <div className="rl-autopop">
             {[10, 25, 50, 100].map(function (n) {
-              return <button key={n} className="rl-btn" onClick={function () { setAutoOpen(false); onAuto(n); }}>{n} SPINS</button>;
+              return <button key={n} className="rl-btn" onClick={function () { setAutoOpen(false); if (onAuto) onAuto(n); }}>{n} SPINS</button>;
             })}
           </div>
         )}

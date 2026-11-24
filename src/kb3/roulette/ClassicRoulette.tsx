@@ -10,6 +10,7 @@ import { spinOnce, randomSeed, settle, colorOf } from "./engine";
 import type { Bet, PocketColor, RouletteVariant, Settlement, SpinOutcome } from "./engine";
 import { rlSfx } from "./sfx";
 import { WinOverlay } from "../slots/WinOverlay";
+import RouletteIntro from "./RouletteIntro";
 
 const WheelScene = dynamic(() => import("./WheelScene"), { ssr: false, loading: function () { return <div className="rlc-boot">LOADING WHEEL</div>; } });
 
@@ -40,6 +41,7 @@ export default function ClassicRoulette({ slug }: { slug: string }) {
   const [highlight, setHighlight] = useState<string | null>(null);
   const [history, setHistory] = useState<{ pocket: string; color: PocketColor }[]>([]);
   const [muted, setMuted] = useState(false);
+  const [intro, setIntro] = useState(true);
   const [jump, setJump] = useState(false);
   const [autoLeft, setAutoLeft] = useState(0);
   const [bigWin, setBigWin] = useState<{ amt: number; mult: number; tx: string; tier: number } | null>(null);
@@ -55,6 +57,7 @@ export default function ClassicRoulette({ slug }: { slug: string }) {
 
   useEffect(function () { if (me) setBal(me.balance); }, [me]);
   useEffect(function () { setMuted(rlSfx.isMuted()); }, []);
+  useEffect(function () { try { if (window.localStorage.getItem("kb3_rl_intro_" + slug) === "1") setIntro(false); } catch (e) { /* ignore */ } }, [slug]);
 
   const doSpin = useCallback(function () {
     if (phaseRef.current !== "table") return;
@@ -134,6 +137,7 @@ export default function ClassicRoulette({ slug }: { slug: string }) {
     <div className="rlc-root" style={vars}>
       <div className="rlc-bg" style={{ backgroundImage: "url(" + asset(slug, "bg") + ")" }}/>
       <div className="rlc-scrim"/>
+      {intro && <RouletteIntro slug={slug} onPlay={function () { setIntro(false); rlSfx.unlock(); }}/>}
       <header className="rlc-head">
         <img className="rlc-logo" src={asset(slug, "logo")} alt="" onError={hideImg}/>
         <b className="rlc-title">{g.title}</b>
