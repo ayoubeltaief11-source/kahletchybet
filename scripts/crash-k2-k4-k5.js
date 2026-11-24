@@ -1,0 +1,17 @@
+﻿const fs = require("fs");
+const f = "components/kb2/crash/CrashLive.tsx";
+let t = fs.readFileSync(f, "utf8");
+t = t.replace('import { stateAt, historyOf, botsOf, seedHash, roundHash, BET_MS } from "@/lib/kb2/crashLoop";', 'import { stateAt, historyOf, botsOf, seedHash, roundHash, BET_MS } from "@/lib/kb2/crashLoop";\nimport { stateAt as localStateAt, cleanupEngine } from "@/src/kb3/crash/crashEngine";');
+t = t.replace("const [live, setLive] = useState<LiveRound>(function () { return stateAt(Date.now(), 0.97); });", "const slug = route.split(\"/\").pop() || \"skyward-jet\";\n  const [live, setLive] = useState<LiveRound>(function () { return stateAt(Date.now(), 0.97); });");
+t = t.replace('getAudio().count(3);', 'getAudio().count(3);\n        setBots(botsOf(s.index));');
+t = t.replace('const hist = historyOf(live.index, rtp, 16);', 'const hist = historyOf(live.index, rtp, 16).map(function (h) { const cls = h.crash >= 10 ? "mega" : h.crash >= 2 ? "hi" : h.crash >= 1.3 ? "mid" : "lo"; return { ...h, cls: cls }; });');
+t = t.replace('const cls = h.crash >= 10 ? "mega" : h.crash >= 2 ? "hi" : h.crash >= 1.3 ? "mid" : "lo";', '');
+t = t.replace('<b className="kb3-title">{cfg.name.toUpperCase()}</b>', '<b className="kb3-title">{cfg.name}</b>');
+t = t.replace('<div className="kb3-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)} TD</b></div>', '<div className="kb3-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)}</b></div>');
+t = t.replace('toast("CASHED " + d.mult.toFixed(2) + "x  +" + fmt(d.paid) + "  " + d.tx, "j");', 'toast("CASHED " + d.mult.toFixed(2) + "x +" + fmt(d.paid) + " " + d.tx, "j");');
+t = t.replace('return function () {\n      cancelAnimationFrame(raf);\n      getAudio().hum(false);\n      getAudio().riseStop();\n    };', 'return function () {\n      cancelAnimationFrame(raf);\n      getAudio().hum(false);\n      getAudio().riseStop();\n      cleanupEngine(slug);\n    };');
+fs.writeFileSync(f, t, "utf8");
+console.log("local engine: " + t.includes("localStateAt"));
+console.log("title from registry: " + t.includes("{cfg.name}</b>"));
+console.log("TD removed: " + !t.includes("TD</b>"));
+console.log("cleanup: " + t.includes("cleanupEngine(slug)"));

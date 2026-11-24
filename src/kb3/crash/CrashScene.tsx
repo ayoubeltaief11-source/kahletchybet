@@ -238,7 +238,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
       {sticks.map(function (s) { return <div key={s.id} className="rcs-sticker" style={{ left: s.x + "%", top: s.y + "%" }}>+{s.amt} TD<i>SIM</i></div>; })}
       <img className="rcs-logo" src={asset(gameId, "logo")} alt="" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
       <button className="rcs-mute" onClick={function () { crashSfx.unlock(); setMuted(crashSfx.toggleMute()); }}>{muted ? "MUTED" : "MUTE"}</button>
-      <img ref={craftRef} className="rcs-craft" src={craftSrc} alt="" onLoad={function () { setImgOk(true); }} style={{ opacity: 0 }}/>
+      <img ref={craftRef} className="rcs-craft" src={craftSrc} alt="" onLoad={function () { setImgOk(true); }} style={{ opacity: 0, width: "16%" }}/>
       {flash && <div className="rcs-flash"/>}
       {phase !== "betting" && (
         <div className="rcs-mult" key={intPart} style={{ color: multColor(m) }}>{m.toFixed(2)}x</div>
@@ -246,7 +246,7 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
       {phase === "betting" && (
         <div className="rcs-betmsg"><b>PLACE YOUR BET</b><span className="rcs-ring"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" className="rcs-ring-bg" pathLength={100}/><circle cx="20" cy="20" r="16" className="rcs-ring-fg" pathLength={100} strokeDasharray="100" style={{ strokeDashoffset: String(100 - clamp((countdown || 0) / 20, 0, 1) * 100) }}/></svg><b>{countdown !== undefined ? countdown : ""}</b></span><em>{betCount !== undefined ? betCount + " bets" : ""}</em></div>
       )}
-      {phase === "crashed" && <div className="rcs-crashed">CRASHED @ {m.toFixed(2)}x</div>}
+      {phase === "crashed" && <div className="rcs-crashed"><b>CRASHED</b><strong>{m.toFixed(2)}x</strong></div>}
     </div>
   );
 }

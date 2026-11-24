@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useApp } from "@/components/Shell";
 import { fmt } from "@/lib/catalog";
 import { stateAt, historyOf, botsOf, seedHash, roundHash, BET_MS } from "@/lib/kb2/crashLoop";
+import { stateAt as localStateAt, cleanupEngine } from "@/src/kb3/crash/crashEngine";
 import type { LiveRound, BotBet } from "@/lib/kb2/crashLoop";
 import { getAudio } from "@/lib/kb2/audio";
 import { usePrefs } from "@/lib/kb/prefs";
@@ -35,6 +36,7 @@ export default function CrashLive() {
   const { p: prefs, update } = usePrefs();
   const [rtp, setRtp] = useState(0.97);
   const [offset, setOffset] = useState(0);
+  const slug = route.split("/").pop() || "skyward-jet";
   const [live, setLive] = useState<LiveRound>(function () { return stateAt(Date.now(), 0.97); });
   const [panels, setPanels] = useState<Panel[]>(function () { return [fresh(20), fresh(50)]; });
   const [tab, setTab] = useState("players");
@@ -89,7 +91,7 @@ export default function CrashLive() {
       if (d.ok) {
         setPanel(i, { state: "cashed", paid: d.paid, tx: d.tx, busy: false });
         if (d.mult >= 5) getAudio().mega(); else getAudio().cash();
-        toast("CASHED " + d.mult.toFixed(2) + "x  +" + fmt(d.paid) + "  " + d.tx, "j");
+        toast("CASHED " + d.mult.toFixed(2) + "x +" + fmt(d.paid) + " " + d.tx, "j");
         refresh();
       } else {
         setPanel(i, { busy: false });
@@ -106,8 +108,8 @@ export default function CrashLive() {
     const p = panRef.current[i];
     if (p.busy) return;
     if (!me) { setErr("Sign in to place a bet"); getAudio().warn(); return; }
-    if (p.stake < 1) { setErr("Minimum stake is 1 TD"); getAudio().warn(); return; }
-    if (p.stake > me.balance) { setErr("Insufficient TD balance"); getAudio().warn(); return; }
+    if (p.stake < 1) { setErr("Minimum stake is 1"); getAudio().warn(); return; }
+    if (p.stake > me.balance) { setErr("Insufficient balance"); getAudio().warn(); return; }
     setErr("");
     setPanel(i, { busy: true });
     getAudio().chip();
@@ -150,6 +152,7 @@ export default function CrashLive() {
           });
         });
         getAudio().count(3);
+        setBots(botsOf(s.index));
       }
       if (s.phase !== phaseRef.current) {
         if (s.phase === "flying") { getAudio().launch(); getAudio().hum(true); }
@@ -179,6 +182,7 @@ export default function CrashLive() {
       cancelAnimationFrame(raf);
       getAudio().hum(false);
       getAudio().riseStop();
+      cleanupEngine(slug);
     };
   }, [cash]);
 
@@ -198,7 +202,7 @@ export default function CrashLive() {
     const p = panels[i];
     const inRound = p.state === "live" && live.phase === "flying";
     const canBet = p.state === "none" && !p.busy;
-    let label = "BET " + fmt(p.stake) + " TD";
+    let label = "BET " + fmt(p.stake);
     if (inRound) label = "CASH OUT";
     else if (p.state === "queued") label = "QUEUED";
     else if (p.state === "cashed") label = "CASHED";
@@ -233,10 +237,10 @@ export default function CrashLive() {
         </div>
         <button className={"kb3-go" + (inRound ? " cash" : "") + (p.state === "cashed" ? " done" : "") + (p.state === "lost" ? " dead" : "")} disabled={locked} onClick={function () { if (inRound) void cash(i, live.mult); else void bet(i); }}>
           <span>{p.busy ? "WORKING" : label}</span>
-          <b>{fmt(amount)} TD</b>
+          <b>{fmt(amount)}</b>
           {inRound && <i>@ {live.mult.toFixed(2)}x</i>}
         </button>
-        {p.state === "cashed" && <div className="kb3-receipt">+{fmt(p.paid)} TD<em>{p.tx}</em></div>}
+        {p.state === "cashed" && <div className="kb3-receipt">+{fmt(p.paid)}<em>{p.tx}</em></div>}
       </div>
     );
   };
@@ -246,9 +250,9 @@ export default function CrashLive() {
       <div className="kb3-top">
         <Link href="/casino" className="kb3-back">Lobby</Link>
         <span className="kb3-demo">DEMO - no real money</span>
-        <b className="kb3-title">{cfg.name.toUpperCase()}</b>
+        <b className="kb3-title">{cfg.name}</b>
         <div className="kb3-sp"/>
-        <div className="kb3-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)} TD</b></div>
+        <div className="kb3-bal"><span>BALANCE</span><b>{fmt(me ? me.balance : 0)}</b></div>
         <button className={"kb3-ico" + (prefs.sound ? " on" : "")} onClick={function () { update({ sound: !prefs.sound }); }}>{prefs.sound ? "SND" : "MUTE"}</button>
         <button className={"kb3-ico" + (fair ? " on" : "")} onClick={function () { setFair(function (v) { return !v; }); }}>FAIR</button>
       </div>
@@ -297,8 +301,8 @@ export default function CrashLive() {
           <div className="kb3-sp"/>
           <span className="kb3-sum">~{viewers} watching</span>
           <span className="kb3-sum">{bots.length} players</span>
-          <span className="kb3-sum">{fmt(totalBets)} TD staked</span>
-          <span className="kb3-sum win">{fmt(totalWin)} TD paid</span>
+          <span className="kb3-sum">{fmt(totalBets)} staked</span>
+          <span className="kb3-sum win">{fmt(totalWin)} paid</span>
           <span className="kb3-sim">SIMULATED</span>
         </div>
         <div className="kb3-table">
@@ -308,9 +312,9 @@ export default function CrashLive() {
             return (
               <div key={i} className={"kb3-row" + (won ? " win" : "")}>
                 <span className="kb3-user">{b.name}<em>BOT</em></span>
-                <span>{fmt(b.stake)} TD</span>
+                <span>{fmt(b.stake)}</span>
                 <span className={out || won ? "ok" : ""}>{out || won ? b.cash.toFixed(2) + "x" : "-"}</span>
-                <span className={won ? "ok" : ""}>{won ? fmt(b.stake * b.cash) + " TD" : "-"}</span>
+                <span className={won ? "ok" : ""}>{won ? fmt(b.stake * b.cash) : "-"}</span>
               </div>
             );
           })}
@@ -328,14 +332,14 @@ export default function CrashLive() {
             return (
               <div key={i} className="kb3-row win">
                 <span className="kb3-user">{b.name}<em>BOT</em></span>
-                <span>{fmt(b.stake)} TD</span>
+                <span>{fmt(b.stake)}</span>
                 <span className="ok">{b.cash.toFixed(2)}x</span>
-                <span className="ok">{fmt(b.stake * b.cash)} TD</span>
+                <span className="ok">{fmt(b.stake * b.cash)}</span>
               </div>
             );
           })}
         </div>
-        <p className="kb3-note">{winners} of {bots.length} simulated players cashed before the crash. House edge {((1 - rtp) * 100).toFixed(1)}% means the long-run result is always negative. TD has no monetary value.</p>
+        <p className="kb3-note">{winners} of {bots.length} simulated players cashed before the crash. House edge {((1 - rtp) * 100).toFixed(1)}% means the long-run result is always negative. Virtual currency has no monetary value.</p>
       </div>
     </div>
   );
