@@ -70,3 +70,5 @@
 .at-cell.at-win{background:url(/assets/atlas-skyfall/fx/glow.png) center/contain no-repeat, rgba(11,21,48,.6);}
 .at-bigwin::before{content:"";position:absolute;inset:0;background:url(/assets/atlas-skyfall/fx/flash.png) center/cover no-repeat;opacity:.5;pointer-events:none;}
 .at-frame{inset:-42px;opacity:1;}
+
+.at-grid{border:18px solid transparent;border-image-source:url(/assets/atlas-skyfall/frame.png);border-image-slice:0;border-image-repeat:stretch;}

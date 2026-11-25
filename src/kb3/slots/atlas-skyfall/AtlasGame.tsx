@@ -264,7 +264,6 @@ export default function AtlasGame() {
               return <div key={c + "-" + r} className="at-cell" data-c={c} data-r={r}><SymIcon sym={cell.sym} mult={cell.mult}/></div>;
             }); })}
           </div>
-          <img className="at-frame" src="/assets/atlas-skyfall/frame.png" alt="" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
           <div className="at-msg">{msg}</div>
         </div>
         <aside className="at-char">
