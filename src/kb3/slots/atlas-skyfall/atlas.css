@@ -72,3 +72,5 @@
 .at-frame{inset:-42px;opacity:1;}
 
 .at-grid{border:18px solid transparent;border-image-source:url(/assets/atlas-skyfall/frame.png);border-image-slice:0;border-image-repeat:stretch;}
+
+.at-grid{border:24px solid transparent;border-image-source:url(/assets/atlas-skyfall/frame.png);border-image-slice:18%;border-image-width:24px;border-image-repeat:stretch;}
