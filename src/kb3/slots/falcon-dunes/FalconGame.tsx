@@ -1,7 +1,7 @@
 ﻿"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { makeGrid, mulberry32, REEL_WEIGHTS, evaluateRound, FS_MODES } from "./engine";
+import { makeGrid, mulberry32, REEL_WEIGHTS, evaluateRound, FS_MODES, PAYS } from "./engine";
 import type { Cell, SymId, Win } from "./engine";
 import { sfx } from "../shared/sfx";
 import "./falcon.css";
