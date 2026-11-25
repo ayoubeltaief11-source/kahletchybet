@@ -95,7 +95,7 @@ export default function KBLobby() {
       </header>
 
             <Row title="Falcon Dunes" count={1} badge="NEW - 243 WAYS" href="/casino/falcon-dunes">
-        <GameCard href="/casino/falcon-dunes" name="Falcon Dunes" tag="243 WAYS + WILD MULTS + FREE SPINS" badge="NEW" maxWin="x5000" vol="High" felt="linear-gradient(170deg,#2a1a0a,#1a1206)" accent="#C98A3C" slug="falcon-dunes" cover={<Cover kind="reels" hue="#C98A3C" hue2="#2DD4D4"/>}
+        <GameCard href="/casino/falcon-dunes" name="Falcon Dunes" tag="243 WAYS + WILD MULTS + FREE SPINS" badge="NEW" maxWin="x5000" vol="High" felt="linear-gradient(170deg,#2a1a0a,#1a1206)" accent="#C98A3C" slug="falcon-dunes" cover={<Cover kind="reels" hue="#C98A3C" hue2="#2DD4D4"/>} />
       </Row>
       <Row title="Atlas Skyfall" count={1} badge="NEW - PAYS ANYWHERE" href="/casino/atlas-skyfall">
         <GameCard href="/casino/atlas-skyfall" name="Atlas Skyfall" tag="PAYS ANYWHERE + TUMBLE + MULT BALLS" badge="NEW" maxWin="x25000" vol="High" felt="linear-gradient(170deg,#0B1530,#060b1a)" accent="#2DD4D4" slug="atlas-skyfall" cover={<Cover kind="cluster" hue="#2DD4D4" hue2="#C98A3C"/>}/>
