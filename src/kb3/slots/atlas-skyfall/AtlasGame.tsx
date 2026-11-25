@@ -37,6 +37,8 @@ export default function AtlasGame() {
   const [bigWin, setBigWin] = useState<{ amt: number; mult: number } | null>(null);
   const [intro, setIntro] = useState(true);
   const [introHide, setIntroHide] = useState(false);
+  const [vidOk, setVidOk] = useState(false);
+  const [imgOk, setImgOk] = useState(false);
   const [showPay, setShowPay] = useState(false);
   const [autoLeft, setAutoLeft] = useState(0);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -267,9 +269,11 @@ export default function AtlasGame() {
         </div>
         <aside className="at-char">
           <div className="at-atlas" ref={charRef}>
-            <span className="at-charfallback">🗿</span>
-            <img className="at-charimg" src="/assets/atlas-skyfall/character.png" alt="" onError={function (e) { e.currentTarget.style.display = "none"; }} style={{ opacity: spinning ? 0 : 1 }}/>
-            <img className="at-charimg" src="/assets/atlas-skyfall/character-cast.png" alt="" onError={function (e) { e.currentTarget.style.display = "none"; }} style={{ opacity: spinning ? 1 : 0 }}/>
+            {!vidOk && !imgOk && <span className="at-charfallback">🗿</span>}
+            <video className="at-charvid" autoPlay muted loop playsInline src="/assets/atlas-skyfall/video/character-idle.webm" onLoadedData={function () { setVidOk(true); }} onError={function () { setVidOk(false); }} style={{ opacity: vidOk && !spinning && !bigWin && !inFree ? 1 : 0 }}/>
+            <video className="at-charvid" autoPlay muted loop playsInline src="/assets/atlas-skyfall/video/character-win.webm" onLoadedData={function () { setVidOk(true); }} onError={function () { setVidOk(false); }} style={{ opacity: vidOk && (bigWin || inFree) ? 1 : 0 }}/>
+            <img className="at-charimg" src="/assets/atlas-skyfall/character.png" alt="" onLoadedData={function () { setImgOk(true); }} onError={function () { setImgOk(false); }} style={{ opacity: !vidOk && imgOk && !spinning ? 1 : 0 }}/>
+            <img className="at-charimg" src="/assets/atlas-skyfall/character-cast.png" alt="" onLoadedData={function () { setImgOk(true); }} onError={function () { setImgOk(false); }} style={{ opacity: !vidOk && imgOk && spinning ? 1 : 0 }}/>
           </div>
         </aside>
       </div>
