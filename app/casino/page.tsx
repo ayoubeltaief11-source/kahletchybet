@@ -94,7 +94,10 @@ export default function KBLobby() {
         </div>
       </header>
 
-            <Row title="New Roulette" count={newGamesByFamily("roulette").length} badge="EXCLUSIVE" href={"/casino/roulette2/" + newGamesByFamily("roulette")[0].slug}>
+            <Row title="Atlas Skyfall" count={1} badge="NEW - PAYS ANYWHERE" href="/casino/atlas-skyfall">
+        <GameCard href="/casino/atlas-skyfall" name="Atlas Skyfall" tag="PAYS ANYWHERE + TUMBLE + MULT BALLS" badge="NEW" maxWin="x25000" vol="High" felt="linear-gradient(170deg,#0B1530,#060b1a)" accent="#2DD4D4" slug="atlas-skyfall" cover={<Cover kind="cluster" hue="#2DD4D4" hue2="#C98A3C"/>}/>
+      </Row>
+      <Row title="New Roulette" count={newGamesByFamily("roulette").length} badge="EXCLUSIVE" href={"/casino/roulette2/" + newGamesByFamily("roulette")[0].slug}>
         {newGamesByFamily("roulette").map(function (g) {
           return <GameCard key={g.slug} href={hrefFor(g)} name={g.name} tag={g.tag} badge={g.badge} maxWin={g.maxWin} vol={g.vol} felt={g.felt || "linear-gradient(170deg,#0a1018,#04060a)"} accent={g.accent} slug={g.slug} cover={<Cover kind="reels" hue={g.accent} hue2={g.accent2}/>}/>;
         })}
