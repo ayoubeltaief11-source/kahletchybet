@@ -19,7 +19,7 @@ function SymIcon({ sym, mult }: { sym: SymId; mult?: number }) {
 }
 
 export default function AtlasGame() {
-  const g = getGame("atlas-skyfall");
+  const g = (function () { try { return getGame("atlas-skyfall"); } catch (e) { return { id: "atlas-skyfall", title: "Atlas Skyfall", type: "cluster", pack: "myth", assetDir: "atlas-skyfall", color: "#2DD4D4", color2: "#C98A3C" }; } })();
   const { me, refresh } = useApp();
   const [bal, setBal] = useState(0);
   const [bet, setBet] = useState(20);
