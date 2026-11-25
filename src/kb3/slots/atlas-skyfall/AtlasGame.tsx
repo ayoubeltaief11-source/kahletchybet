@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useApp } from "@/components/Shell";
-import { getGame, asset } from "../../registry";
 import { COLS, ROWS, computeSteps, makeGrid, mulberry32, NORMAL_WEIGHTS, PAYS } from "./engine";
 import type { Cell, SymId } from "./engine";
 import "./atlas.css";
@@ -19,7 +18,7 @@ function SymIcon({ sym, mult }: { sym: SymId; mult?: number }) {
 }
 
 export default function AtlasGame() {
-  const g = (function () { try { return getGame("atlas-skyfall"); } catch (e) { return { id: "atlas-skyfall", title: "Atlas Skyfall", type: "cluster", pack: "myth", assetDir: "atlas-skyfall", color: "#2DD4D4", color2: "#C98A3C" }; } })();
+  const g = { color: "#2DD4D4", color2: "#C98A3C" };
   const { me, refresh } = useApp();
   const [bal, setBal] = useState(0);
   const [bet, setBet] = useState(20);
@@ -237,10 +236,10 @@ export default function AtlasGame() {
 
   return (
     <div className="at-root" ref={hostRef} style={{ ["--at-teal" as string]: g.color, ["--at-bronze" as string]: g.color2 }}>
-      <div className="at-bg" style={{ backgroundImage: "url(" + asset("atlas-skyfall", "bg") + ")" }}/>
+      <div className="at-bg" style={{ backgroundImage: "url(" + "/assets/atlas-skyfall/bg.jpg" + ")" }}/>
       <div className="at-scrim"/>
       <header className="at-head">
-        <img className="at-logo" src={asset("atlas-skyfall", "logo")} alt="" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
+        <img className="at-logo" src={"/assets/atlas-skyfall/logo.png"} alt="" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
         <b className="at-title">ATLAS SKYFALL</b>
         <span className="at-vol">HIGH VOLATILITY</span>
         {inFree && <span className="at-freebanner">FREE SPINS {fsLeft} | x{fsMult} | {fsTotal.toFixed(2)}</span>}
