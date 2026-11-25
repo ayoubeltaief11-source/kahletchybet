@@ -1,0 +1,28 @@
+﻿=== Atlas Skyfall - Expected Assets ===
+All paths under: public\assets\atlas-skyfall\
+
+symbols\s1.png         512x512 transparent   (hexagram star - low)
+symbols\s2.png         512x512 transparent   (crescent moon - low)
+symbols\s3.png         512x512 transparent   (sun disc - low)
+symbols\s4.png         512x512 transparent   (comet - low)
+symbols\s5.png         512x512 transparent   (cosmic hourglass - high)
+symbols\s6.png         512x512 transparent   (astrolabe - high)
+symbols\s7.png         512x512 transparent   (star crown - high)
+symbols\s8.png         512x512 transparent   (meteor dagger - high)
+symbols\s9.png         512x512 transparent   (SCATTER: Atlas face in planet ring)
+symbols\mult-ball.png  512x512 transparent   (multiplier planet ball)
+
+character.png          1024x1536 transparent (Atlas idle - bronze giant with glowing sky orb)
+character-cast.png     1024x1536 transparent (Atlas casting/ready pose)
+
+bg.jpg                 1920x1080             (ancient observatory above clouds, night sky)
+frame.png              1400x1200 transparent (ornate bronze frame with center opening)
+logo.png               1024x512 transparent  (Atlas Skyfall logo)
+cover.png              600x800               (lobby cover art)
+
+fx\spark.png           256x256 transparent   (spark particle)
+fx\glow.png            256x256 transparent   (glow halo)
+fx\flash.png           256x256 transparent   (flash burst)
+
+video\character-idle.webm  (optional - idle loop)
+video\character-win.webm   (optional - win celebration)
