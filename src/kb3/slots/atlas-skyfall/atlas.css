@@ -69,3 +69,4 @@
 .at-spark{background:url(/assets/atlas-skyfall/fx/spark.png) center/contain no-repeat, radial-gradient(circle,#fff,#2DD4D4);}
 .at-cell.at-win{background:url(/assets/atlas-skyfall/fx/glow.png) center/contain no-repeat, rgba(11,21,48,.6);}
 .at-bigwin::before{content:"";position:absolute;inset:0;background:url(/assets/atlas-skyfall/fx/flash.png) center/cover no-repeat;opacity:.5;pointer-events:none;}
+.at-frame{inset:-42px;opacity:1;}

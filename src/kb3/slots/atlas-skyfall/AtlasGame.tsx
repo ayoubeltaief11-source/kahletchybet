@@ -272,8 +272,8 @@ export default function AtlasGame() {
             {!vidOk && !imgOk && <span className="at-charfallback">🗿</span>}
             <video className="at-charvid" autoPlay muted loop playsInline src="/assets/atlas-skyfall/video/character-idle.webm" onLoadedData={function () { setVidOk(true); }} onError={function () { setVidOk(false); }} style={{ opacity: vidOk && !spinning && !bigWin && !inFree ? 1 : 0 }}/>
             <video className="at-charvid" autoPlay muted loop playsInline src="/assets/atlas-skyfall/video/character-win.webm" onLoadedData={function () { setVidOk(true); }} onError={function () { setVidOk(false); }} style={{ opacity: vidOk && (bigWin || inFree) ? 1 : 0 }}/>
-            <img className="at-charimg" src="/assets/atlas-skyfall/character.png" alt="" onLoadedData={function () { setImgOk(true); }} onError={function () { setImgOk(false); }} style={{ opacity: !vidOk && imgOk && !spinning ? 1 : 0 }}/>
-            <img className="at-charimg" src="/assets/atlas-skyfall/character-cast.png" alt="" onLoadedData={function () { setImgOk(true); }} onError={function () { setImgOk(false); }} style={{ opacity: !vidOk && imgOk && spinning ? 1 : 0 }}/>
+            <img className="at-charimg" src="/assets/atlas-skyfall/character.png?v=2" alt="" onLoad={function () { setImgOk(true); }} onError={function () { setImgOk(false); }} style={{ opacity: !vidOk && imgOk && !spinning ? 1 : 0 }}/>
+            <img className="at-charimg" src="/assets/atlas-skyfall/character-cast.png?v=2" alt="" onLoad={function () { setImgOk(true); }} onError={function () { setImgOk(false); }} style={{ opacity: !vidOk && imgOk && spinning ? 1 : 0 }}/>
           </div>
         </aside>
       </div>
