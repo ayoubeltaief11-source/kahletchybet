@@ -1,7 +1,8 @@
-export type Pack = "candy" | "fruit" | "gems" | "myth" | "space" | "volcano";
-export type GType = "roulette" | "cluster" | "lines" | "mega" | "hold" | "hold3" | "crash" | "instant";
+export type Pack = "candy" | "fruit" | "gems" | "myth" | "space" | "volcano" | "sports";
+export type GType = "roulette" | "cluster" | "lines" | "mega" | "hold" | "hold3" | "crash" | "instant" | "virtual-sports";
 export interface GameRec { id: string; title: string; type: GType; pack: Pack; assetDir: string; color: string; color2: string; facing?: "left" | "right"; baseAngle?: number; hideNear?: boolean; }
 const R: GameRec[] = [
+  { id: "pitch-pulse", title: "Pitch Pulse League", type: "virtual-sports", pack: "sports", assetDir: "pitch-pulse", color: "#2a9d8f", color2: "#e9c46a" },
   { id: "moon-rabbit-mint", title: "Moon Rabbit Mint", type: "hold3", pack: "myth", assetDir: "moon-rabbit-mint", color: "#E0B060", color2: "#2DD4D4" },
   { id: "emerald-roulette", title: "Emerald Roulette", type: "roulette", pack: "myth", assetDir: "emerald-roulette", color: "#0c7a4e", color2: "#ffd97a" },
   { id: "crimson-roulette", title: "Crimson Roulette", type: "roulette", pack: "myth", assetDir: "crimson-roulette", color: "#c4202f", color2: "#fff6d8" },
