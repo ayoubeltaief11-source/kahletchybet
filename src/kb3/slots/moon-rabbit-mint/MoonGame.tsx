@@ -27,9 +27,9 @@ function SymImg({ cell, isMerging }: { cell: Cell; isMerging?: boolean }) {
   return <span className="mm-glyph">{GLYPH[cell.sym as SymId] || "●"}</span>;
 }
 
-export default function MoonGame() {
+export default function MoonGame({ debug }: { debug?: boolean }) {
   const [grid, setGrid] = useState<Cell[][]>(() => makeGrid(mulberry32(1), BASE_WEIGHTS, false));
-  const [strips, setStrips] = useState<Cell[][][]>([]);
+  const [strips, setStrips] = useState<Cell[][]>([]);
   const [msg, setMsg] = useState("PLACE YOUR BET");
   const [bal, setBal] = useState(1000);
   const [bet, setBet] = useState(20);
@@ -232,6 +232,18 @@ export default function MoonGame() {
         <button className="mm-spin" onClick={() => void spin()}>{spinning ? "STOP" : "SPIN"}</button>
       </footer>
 
+      {debug && (
+        <div className="mm-panel">
+          <b>DEBUG - IMAGE STATUS</b>
+          <div className="mm-panel-grid">
+            {["symbols/s1.png","symbols/s2.png","symbols/s3.png","symbols/s4.png","symbols/s5.png","symbols/s6.png","symbols/mystery.png","coins/coin-bronze.png","coins/coin-silver.png","coins/coin-gold.png","coins/coin-jade.png","coins/coin-mythic.png","rabbit.png","lantern.png","corner.png","logo.png","cover.png","bg.jpg","feature-bg.jpg","fx/spark.png","fx/glow.png","fx/flash.png","fx/ring.png","fx/moondust.png"].map(function (u) {
+              const [ok, setOk] = useState<boolean | null>(null);
+              useEffect(function () { const im = new Image(); im.onload = function () { setOk(true); }; im.onerror = function () { setOk(false); }; im.src = A + u; }, []);
+              return <span key={u} className={ok === false ? "bad" : ok === true ? "good" : ""}>{(ok === false ? "MISSING " : ok === true ? "OK " : "... ") + u}</span>;
+            })}
+          </div>
+        </div>
+      )}
       {bigWin && (
         <div className="mm-bigwin">
           <b>{bigWin.mult >= 60 ? "EPIC WIN" : bigWin.mult >= 30 ? "MEGA WIN" : "BIG WIN"}</b>
