@@ -32,6 +32,7 @@ export function Row({ title, count, badge, href, children }: { title: string; co
 }
 
 export function GameCard({ href, name, tag, badge, maxWin, vol, felt, accent, cover, slug }: {
+  accent2?: string;
   href: string; name: string; tag: string; badge: string; maxWin: string; vol: string; felt: string; accent: string; cover?: ReactNode; slug?: string;
 }) {
   const family = href.includes("/sky/") ? "crash" : href.includes("/cluster/") || href.includes("/lines/") || href.includes("/mega/") || href.includes("/hold/") || href.includes("/classic3/") ? "slots" : href.includes("/roulette2/") ? "roulette" : "instant";
@@ -150,3 +151,6 @@ export function Cover({ kind, hue, hue2 }: { kind: string; hue: string; hue2: st
     </svg>
   );
 }
+
+
+
