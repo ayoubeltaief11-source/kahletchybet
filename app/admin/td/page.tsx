@@ -1,10 +1,11 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/components/Shell";
 import Icon from "@/components/Icon";
 import { fmt } from "@/lib/catalog";
 
+// هذه الصفحة مخصصة للإدارة فقط
 export default function AdminTD() {
   const { me, toast } = useApp();
   const [data, setData] = useState<any>(null);
