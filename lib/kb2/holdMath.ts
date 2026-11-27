@@ -1,4 +1,4 @@
-import { randomBytes } from "node:crypto";
+﻿import { randomBytes } from "node:crypto";
 
 const rnd = (): number => randomBytes(4).readUInt32BE(0) / 4294967296;
 const r2 = (n: number): number => Math.round(n * 100) / 100;
@@ -135,7 +135,7 @@ export interface HoldConfig {
 
 export const HOLD_GAMES: HoldConfig[] = [
   { slug: "magmareserve", name: "Magma Reserve", accent: "#ff6b3d", accent2: "#ffd24a", felt: "linear-gradient(170deg,#2a0604,#7a1f06 42%,#1a0402)", frame: "#ff9f43", maxWin: "x2075", vol: "High", tag: "Lava Coins", badge: "HOT" },
-  { slug: "tidalvault", name: "Tidal Vault", accent: "#22d3ee", accent2: "#9dc4ff", felt: "linear-gradient(170deg,#03151c,#0a4d5e 42%,#020c11)", frame: "#7fe3f5", maxWin: "x2075", vol: "High", tag: "Deep Coins", badge: "NEW" },
+  { slug: "tidal-vault", name: "Tidal Vault", accent: "#22d3ee", accent2: "#9dc4ff", felt: "linear-gradient(170deg,#03151c,#0a4d5e 42%,#020c11)", frame: "#7fe3f5", maxWin: "x2075", vol: "High", tag: "Deep Coins", badge: "NEW" },
   { slug: "goldenledger", name: "Golden Ledger", accent: "#e8b33c", accent2: "#fff6d8", felt: "linear-gradient(170deg,#1c1403,#4d3a06 42%,#0d0a01)", frame: "#ffd97a", maxWin: "x2075", vol: "High", tag: "Bullion Hold", badge: "LIVE" },
   { slug: "verdantcache", name: "Verdant Cache", accent: "#4ade80", accent2: "#bef264", felt: "linear-gradient(170deg,#04120a,#0d4d24 42%,#030d07)", frame: "#bef264", maxWin: "x2075", vol: "Medium", tag: "Grove Coins", badge: "NEW" },
   { slug: "duskreserve", name: "Dusk Reserve", accent: "#a855f7", accent2: "#f0abfc", felt: "linear-gradient(170deg,#0a0418,#33145e 42%,#070310)", frame: "#d8b4fe", maxWin: "x2075", vol: "High", tag: "Twilight Hold", badge: "HOT" },

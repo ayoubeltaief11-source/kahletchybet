@@ -27,6 +27,7 @@ function getSymbol(type: string): string {
   return symbols[type.toLowerCase()] || "★";
 }
 
+// fallback: generated SVG cover for games without images
 export default function GameCoverSvg({ gameId, type, color, color2, title, maxWin }: GameCoverSvgProps) {
   const seed = useMemo(() => hashId(gameId), [gameId]);
   const angle = (seed % 360);
@@ -54,3 +55,4 @@ export default function GameCoverSvg({ gameId, type, color, color2, title, maxWi
     </svg>
   );
 }
+
