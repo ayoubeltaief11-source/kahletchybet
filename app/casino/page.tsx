@@ -12,6 +12,8 @@ import WinTicker from "@/components/kb/WinTicker";
 import AudioBoot from "@/components/kb2/AudioBoot";
 import SoundPanel from "@/components/kb2/SoundPanel";
 import { Row, GameCard, Cover } from "@/components/kb2/Row";
+import { FEATURED, EXCLUSIVE_COUNT } from "@/lib/lobby-featured";
+import FeaturedCover from "@/components/kb/FeaturedCover";
 import { CRASH_GAMES } from "@/lib/kb2/crashConfig";
 import { CLUSTER_GAMES } from "@/lib/kb2/slotMath";
 import { LINE_GAMES } from "@/lib/kb2/lineMath";
@@ -79,12 +81,10 @@ export default function KBLobby() {
       <HeroCarousel/>
 
       <section className="kb-section">
-        <h2 className="kb-h2">New Exclusives <span className="kb-badge">6 TITLES</span></h2>
+        <h2 className="kb-h2">New Exclusives <span className="kb-badge">{EXCLUSIVE_COUNT} TITLES</span></h2>
         <div className="kb-row">
-          {["atlas-skyfall", "falcon-dunes", "moon-rabbit-mint", "pitch-pulse", "skyward-jet", "golden-crown"].map(function (id) {
-            const g = KB_GAMES.find(function (x) { return x.id === id; });
-            if (!g) return null;
-            return <GameCard key={g.id} href={"/casino/" + g.id} name={g.name} tag="" badge="EXCLUSIVE" maxWin="" vol="" felt="" accent="#2a9d8f" slug={g.id} cover={<div style={{width:"100%",height:"100%",background:"linear-gradient(135deg,#2a9d8f,#e9c46a)",display:"grid",placeItems:"center",fontSize:24,fontWeight:900,color:"#fff"}}>{g.name}</div>} />;
+          {FEATURED.map(function (g) {
+            return <GameCard key={g.id} href={g.href} name={g.title} tag={g.tag} badge="EXCLUSIVE" maxWin="" vol="" felt={g.color} accent={g.color2} slug={g.id} cover={<FeaturedCover g={g}/>}/>;
           })}
         </div>
       </section>
@@ -95,10 +95,10 @@ export default function KBLobby() {
         <div className="kb-hero-in">
           <span className="kb-demo big">Demo</span>
           <h1>kahlatchy<em>bet</em> casino</h1>
-          <p>{totalCount} simulation titles. {newCount} run on the new studio engines with server-settled rounds, and {KB_GAMES.length} stay available in the classic catalog. Every game shows its RTP because the long-run result is the lesson.</p>
+          <p>{totalCount + EXCLUSIVE_COUNT} simulation titles. {EXCLUSIVE_COUNT} are studio exclusives, {newCount} run on the new studio engines with server-settled rounds, and {KB_GAMES.length} stay available in the classic catalog. Every game shows its RTP because the long-run result is the lesson.</p>
           <div className="kb-stats">
-            <div><b>{totalCount}</b><span>Titles</span></div>
-            <div><b>{newCount}</b><span>Studio</span></div>
+            <div><b>{totalCount + EXCLUSIVE_COUNT}</b><span>Titles</span></div>
+            <div><b>{newCount + EXCLUSIVE_COUNT}</b><span>Studio</span></div>
             <div><b>{KB_GAMES.length}</b><span>Classic</span></div>
             <div><b>0.00</b><span>Start balance</span></div>
           </div>

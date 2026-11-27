@@ -1,54 +1,69 @@
 ﻿"use client";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { KB_GAMES } from "@/lib/kb/catalog";
-import { sigOf, PATH_NAME, FEATURE_NAME } from "@/lib/kb/sig";
+import { useEffect, useRef, useState } from "react";
+import { HERO } from "../../lib/lobby-featured";
 import { useKbFonts } from "@/lib/kb/prefs";
-import Poster from "./Art";
+
+function Art({ id, bg, cover, color, color2, title }: { id: string; bg: string; cover: string; color: string; color2: string; title: string }) {
+  const [stage, setStage] = useState(0);
+  const src = stage === 0 ? bg : stage === 1 ? cover : "";
+  return (
+    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(120deg," + color + "," + color2 + ")" }}>
+      {src ? (
+        <img key={id + stage} src={src} alt={title} decoding="async" onError={function () { setStage(function (s) { return s + 1; }); }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "72% 50%", display: "block" }}/>
+      ) : null}
+    </div>
+  );
+}
 
 export default function HeroCarousel() {
   useKbFonts();
-  const slides = useMemo(function () {
-    const want = ["atlas-skyfall", "falcon-dunes", "moon-rabbit-mint", "pitch-pulse", "skyward-jet", "golden-crown"];
-    const out: typeof KB_GAMES = [];
-    want.forEach(function (v) {
-      const hit = KB_GAMES.find(function (g) { return g.variant === v; });
-      if (hit) out.push(hit);
-    });
-    return out;
-  }, []);
+  const slides = HERO;
   const [i, setI] = useState(0);
   const [hold, setHold] = useState(false);
   const timer = useRef<number>(0);
+
   useEffect(function () {
     if (hold || slides.length < 2) return;
     timer.current = window.setInterval(function () {
       setI(function (v) { return (v + 1) % slides.length; });
     }, 6000);
-    return function () { if (timer.current) clearInterval(timer.current); };
+    return function () { if (timer.current) window.clearInterval(timer.current); };
   }, [hold, slides.length]);
-  if (slides.length === 0) return <div className="k2-skel" style={{ height: 250 }}/>;
+
+  useEffect(function () {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "ArrowLeft") setI(function (v) { return (v - 1 + slides.length) % slides.length; });
+      if (e.key === "ArrowRight") setI(function (v) { return (v + 1) % slides.length; });
+    }
+    window.addEventListener("keydown", onKey);
+    return function () { window.removeEventListener("keydown", onKey); };
+  }, [slides.length]);
+
+  if (slides.length === 0) return null;
   const go = function (d: number) { setI(function (v) { return (v + d + slides.length) % slides.length; }); };
+
   return (
     <section className="k2-hero" onMouseEnter={function () { setHold(true); }} onMouseLeave={function () { setHold(false); }}>
       <div className="k2-hero-track" style={{ transform: "translateX(" + (-i * 100) + "%)" }}>
         {slides.map(function (g) {
-          const s = sigOf(g.id);
-          const tag = g.family === "crash" ? PATH_NAME[s.path] : g.family === "slots" ? FEATURE_NAME[s.feature] : g.family.toUpperCase();
           return (
             <article key={g.id} className="k2-hero-slide">
-              <div className="k2-hero-art"><Poster g={g}/></div>
-              <div className="k2-hero-shade"/>
+              <div className="k2-hero-art">
+                <Art id={g.id} bg={g.bg} cover={g.cover} color={g.color} color2={g.color2} title={g.title}/>
+              </div>
+              <div className="k2-hero-shade" style={{ background: "linear-gradient(90deg, rgba(6,8,14,.94) 0%, rgba(6,8,14,.82) 38%, rgba(6,8,14,.28) 68%, rgba(6,8,14,.05) 100%)" }}/>
               <div className="k2-hero-body">
                 <div className="k2-hero-meta">
                   <span className="k2-demo">Demo - no real money</span>
-                  <span className="k2-hero-tag">{tag}</span>
-                  <span className="k2-hero-tag">{g.vol} volatility</span>
+                  <span className="k2-hero-tag">{g.tag}</span>
+                  <span className="k2-hero-tag">EXCLUSIVE</span>
                 </div>
-                <h2>{g.name}</h2>
-                <p>Server-settled round against your TD wallet. House edge is shown on every game because the long-run result is the lesson.</p>
+                <h2>{g.title}</h2>
+                <p>{g.blurb}</p>
                 <div className="k2-hero-meta">
-                  <Link href={"/casino/play/" + g.id} className="k2-btn k2-btn-gold">PLAY NOW</Link>
+                  <Link href={g.href} className="k2-btn k2-btn-gold">PLAY NOW</Link>
                   <Link href="/learn" className="k2-btn">HOW RTP WORKS</Link>
                 </div>
               </div>
