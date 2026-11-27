@@ -1,0 +1,115 @@
+﻿
+> kahlatchybet@1.0.0 build
+> next build
+
+Ôû▓ Next.js 16.4.6 (Turbopack)
+- Environments: .env.local
+Ô£ô Running next.config.mjs took 29ms
+
+  Creating an optimized production build ...
+Ô£ô Compiled successfully in 9.4s
+  Running TypeScript ...
+  Finished TypeScript in 4.6s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/35) ...
+  Generating static pages using 7 workers (8/35) 
+  Generating static pages using 7 workers (17/35) 
+  Generating static pages using 7 workers (26/35) 
+Ô£ô Generating static pages using 7 workers (35/35) in 1033ms
+  Finalizing page optimization ...
+
+Route (app)
+Ôöî Ôùï /
+Ôö£ Ôùï /_not-found
+Ôö£ Ôùï /admin
+Ôö£ Ôùï /admin/kb-rtp
+Ôö£ Ôùï /admin/rtp
+Ôö£ Ôùï /admin/td
+Ôö£ ãÆ /api/admin/games
+Ôö£ ãÆ /api/admin/overview
+Ôö£ ãÆ /api/admin/rtp
+Ôö£ ãÆ /api/admin/sports-status
+Ôö£ ãÆ /api/admin/sync-games
+Ôö£ ãÆ /api/admin/td
+Ôö£ ãÆ /api/admin/users
+Ôö£ ãÆ /api/auth/login
+Ôö£ ãÆ /api/auth/logout
+Ôö£ ãÆ /api/auth/me
+Ôö£ ãÆ /api/auth/register
+Ôö£ ãÆ /api/bets
+Ôö£ ãÆ /api/casino/rtp
+Ôö£ ãÆ /api/games
+Ôö£ ãÆ /api/games/launch
+Ôö£ ãÆ /api/kb/admin
+Ôö£ ãÆ /api/kb/round
+Ôö£ ãÆ /api/kb/rtp
+Ôö£ ãÆ /api/kb2/baccarat
+Ôö£ ãÆ /api/kb2/bj
+Ôö£ ãÆ /api/kb2/classic
+Ôö£ ãÆ /api/kb2/crash
+Ôö£ ãÆ /api/kb2/dice
+Ôö£ ãÆ /api/kb2/hold
+Ôö£ ãÆ /api/kb2/instant
+Ôö£ ãÆ /api/kb2/instant2
+Ôö£ ãÆ /api/kb2/lines
+Ôö£ ãÆ /api/kb2/mega
+Ôö£ ãÆ /api/kb2/mines
+Ôö£ ãÆ /api/kb2/mines/cash
+Ôö£ ãÆ /api/kb2/plinko
+Ôö£ ãÆ /api/kb2/roulette
+Ôö£ ãÆ /api/kb2/sicbo
+Ôö£ ãÆ /api/kb2/slot
+Ôö£ ãÆ /api/profile
+Ôö£ ãÆ /api/sports
+Ôö£ ãÆ /api/sports/fixture
+Ôö£ ãÆ /api/wallet
+Ôö£ ãÆ /api/winners
+Ôö£ Ôùï /casino
+Ôö£ ãÆ /casino/[category]
+Ôö£ Ôùï /casino/atlas-skyfall
+Ôö£ ãÆ /casino/baccarat/[id]
+Ôö£ Ôùï /casino/blackjack
+Ôö£ Ôùï /casino/blackjack2
+Ôö£ ãÆ /casino/classic3/[id]
+Ôö£ ãÆ /casino/cluster/[id]
+Ôö£ Ôùï /casino/crash-live
+Ôö£ ãÆ /casino/dice/[id]
+Ôö£ Ôùï /casino/falcon-dunes
+Ôö£ Ôùï /casino/falcon-dunes/debug
+Ôö£ ãÆ /casino/hold/[id]
+Ôö£ ãÆ /casino/instant/[id]
+Ôö£ ãÆ /casino/instant2/[id]
+Ôö£ Ôùï /casino/kb3-demo
+Ôö£ ãÆ /casino/lines/[id]
+Ôö£ ãÆ /casino/mega/[id]
+Ôö£ ãÆ /casino/mines/[id]
+Ôö£ Ôùï /casino/moon-rabbit-mint
+Ôö£ Ôùï /casino/moon-rabbit-mint/debug
+Ôö£ Ôùï /casino/pitch-pulse
+Ôö£ Ôùï /casino/pitch-pulse/debug
+Ôö£ ãÆ /casino/play/[id]
+Ôö£ ãÆ /casino/plinko/[id]
+Ôö£ Ôùï /casino/roulette
+Ôö£ ãÆ /casino/roulette2/[id]
+Ôö£ ãÆ /casino/sicbo/[id]
+Ôö£ ãÆ /casino/sky/[id]
+Ôö£ Ôùï /casino/slots
+Ôö£ Ôùï /dashboard
+Ôö£ Ôùï /learn
+Ôö£ Ôùï /legal/integrations
+Ôö£ Ôùï /legal/privacy
+Ôö£ Ôùï /legal/responsible
+Ôö£ Ôùï /legal/simulation
+Ôö£ Ôùï /legal/terms
+Ôö£ Ôùï /login
+Ôö£ ãÆ /play/[id]
+Ôö£ Ôùï /register
+Ôö£ Ôùï /sports
+Ôö£ ãÆ /sports/[sport]
+Ôö£ ãÆ /sports/[sport]/[id]
+Ôöö Ôùï /wallet
+
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+

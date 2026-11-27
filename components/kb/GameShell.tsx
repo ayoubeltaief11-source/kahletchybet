@@ -51,7 +51,7 @@ export default function GameShell({ g, rtp, children }: { g: KBGame; rtp: number
               <dt>RTP</dt><dd>{(rtp * 100).toFixed(1)}% - configured by the administrator and read by the server on every round</dd>
               <dt>House edge</dt><dd>{((1 - rtp) * 100).toFixed(1)}% - the mathematical reason long sessions lose</dd>
               <dt>Volatility</dt><dd>{g.vol} - high means rare large hits, low means frequent small ones</dd>
-              <dt>Currency</dt><dd>TD is a virtual educational point. It cannot be bought, sold, deposited or withdrawn.</dd>
+              <dt>Currency</dt><dd>TD is a virtual educational point. It cannot be bought, sold, رصيدed or سحبn.</dd>
             </dl>
             <p>Every stake is debited once when the round opens. A payout is credited only on a win or a cashout. Rounds are locked after settlement so nothing can be paid twice.</p>
             <button className="k2-btn k2-btn-gold" onClick={function () { setHelp(false); }}>CLOSE</button>
@@ -70,3 +70,4 @@ export default function GameShell({ g, rtp, children }: { g: KBGame; rtp: number
     </div>
   );
 }
+

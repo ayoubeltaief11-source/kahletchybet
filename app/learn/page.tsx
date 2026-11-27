@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { useState } from "react";
 import { useKbFonts } from "@/lib/kb/prefs";
@@ -33,7 +33,7 @@ export default function Learn() {
       </div>
 
       <div className="k8-lead">
-        This platform is a simulator. The unit TD has no monetary value and cannot be bought, sold, deposited or withdrawn.
+        This platform is a simulator. The unit TD has no monetary value and cannot be bought, sold, رصيدed or سحبn.
         Every game here shows its numbers openly, because understanding those numbers is the entire point.
       </div>
 
