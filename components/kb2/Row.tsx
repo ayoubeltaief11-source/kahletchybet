@@ -1,9 +1,10 @@
 ﻿"use client";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { getAudio } from "@/lib/kb2/audio";
 import { GameCover } from "@/lib/kb2/imageLoader";
+import GameCoverSvg from "@/components/kb/GameCoverSvg";
 
 export function Row({ title, count, badge, href, children }: { title: string; count: number; badge?: string; href: string; children: ReactNode }) {
   const strip = useRef<HTMLDivElement>(null);
@@ -34,6 +35,15 @@ export function GameCard({ href, name, tag, badge, maxWin, vol, felt, accent, co
   href: string; name: string; tag: string; badge: string; maxWin: string; vol: string; felt: string; accent: string; cover?: ReactNode; slug?: string;
 }) {
   const family = href.includes("/sky/") ? "crash" : href.includes("/cluster/") || href.includes("/lines/") || href.includes("/mega/") || href.includes("/hold/") || href.includes("/classic3/") ? "slots" : href.includes("/roulette2/") ? "roulette" : "instant";
+  const [imgFailed, setImgFailed] = useState(false);
+  
+  const renderCover = () => {
+    if (imgFailed || !slug) {
+      return <GameCoverSvg gameId={slug || "unknown"} type={family} color={accent} color2={accent} title={name} maxWin={maxWin} />;
+    }
+    return <GameCover slug={slug} name={name} accent={accent} accent2={accent} family={family} />;
+  };
+
   return (
     <Link href={href} className="k4-card" style={{ ["--acc" as string]: accent }}>
       <div className="k4-art" style={{ background: felt }}>
@@ -42,7 +52,7 @@ export function GameCard({ href, name, tag, badge, maxWin, vol, felt, accent, co
         <span className={"k4-badge " + badge.toLowerCase()}>{badge}</span>
         <span className="k4-max">{maxWin}</span>
         <div className="k4-craft">
-          {slug ? <GameCover slug={slug} name={name} accent={accent} accent2={accent} family={family}/> : cover}
+          {renderCover()}
         </div>
         <div className="k4-floor"/>
         <span className="k4-vol">{vol}</span>
