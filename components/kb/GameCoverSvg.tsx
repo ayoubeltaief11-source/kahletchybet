@@ -27,32 +27,43 @@ function getSymbol(type: string): string {
   return symbols[type.toLowerCase()] || "★";
 }
 
-// fallback: generated SVG cover for games without images
 export default function GameCoverSvg({ gameId, type, color, color2, title, maxWin }: GameCoverSvgProps) {
   const seed = useMemo(() => hashId(gameId), [gameId]);
   const angle = (seed % 360);
   const symbol = getSymbol(type);
+  const uniqueId = `cover-${gameId.replace(/[^a-zA-Z0-9]/g, '')}`;
 
   return (
-    <svg viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+    <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%", display: "block" }}>
       <defs>
-        <linearGradient id={`bg-${gameId}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id={`${uniqueId}-bg`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={color} />
-          <stop offset="100%" stopColor={color2} />
+          <stop offset="50%" stopColor={color2} />
+          <stop offset="100%" stopColor={color} stopOpacity="0.8" />
         </linearGradient>
-        <radialGradient id={`glow-${gameId}`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={color2} stopOpacity="0.6" />
+        <radialGradient id={`${uniqueId}-glow`} cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stopColor="#fff" stopOpacity="0.4" />
+          <stop offset="60%" stopColor={color2} stopOpacity="0.2" />
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </radialGradient>
       </defs>
-      <rect width="400" height="600" fill={`url(#bg-${gameId})`} />
-      <circle cx="200" cy="300" r="180" fill={`url(#glow-${gameId})`} />
-      <g transform={`rotate(${angle} 200 300)`}>
-        <text x="200" y="320" fontSize="120" textAnchor="middle" fill="rgba(255,255,255,0.15)">{symbol}</text>
+      <rect width="300" height="400" fill={`url(#${uniqueId}-bg)`} />
+      <circle cx="150" cy="180" r="120" fill={`url(#${uniqueId}-glow)`} />
+      <g transform={`rotate(${angle} 150 180)`} opacity="0.8">
+        <circle cx="150" cy="180" r="90" fill="none" stroke={color2} strokeWidth="1.5" strokeDasharray="6 6" />
+        <circle cx="150" cy="180" r="70" fill="none" stroke={color2} strokeWidth="1" strokeDasharray="4 4" />
       </g>
-      <text x="200" y="520" fontSize="28" fontWeight="900" textAnchor="middle" fill="#fff" style={{ textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>{title}</text>
-      {maxWin && <text x="200" y="560" fontSize="18" fontWeight="700" textAnchor="middle" fill={color2}>{maxWin}</text>}
+      <text x="150" y="200" fontSize="80" textAnchor="middle" fill="#fff" opacity="0.9" style={{ filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.5))" }}>
+        {symbol}
+      </text>
+      <text x="150" y="340" fontSize="24" fontWeight="900" textAnchor="middle" fill="#fff" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.8)" }}>
+        {title}
+      </text>
+      {maxWin && (
+        <text x="150" y="370" fontSize="16" fontWeight="700" textAnchor="middle" fill={color2} style={{ textShadow: "0 2px 8px rgba(0,0,0,0.8)" }}>
+          {maxWin}
+        </text>
+      )}
     </svg>
   );
 }
-
