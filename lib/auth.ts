@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+﻿import { cookies } from "next/headers";
 import { randomBytes } from "node:crypto";
 import { db, ensureSeed, hashToken, nid, now, type User } from "./db";
 

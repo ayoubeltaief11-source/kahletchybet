@@ -1,4 +1,4 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 import { db } from "@/lib/db";
 import { td } from "@/lib/td-store";
 import { needAdmin, bad, ok, logErr } from "@/lib/guard";
@@ -27,8 +27,12 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  const g = await needAdmin(); if (g.res) return g.res;
+  const user = await db.userById(g.user!.id);
+  if (user?.role !== "admin") {
+    return bad("Unauthorized: Admin access required", 403);
+  }
   try {
-    const g = await needAdmin(); if (g.res) return g.res;
     const p = Body.safeParse(await req.json());
     if (!p.success) return bad("Invalid request");
     const { action, userId, amount } = p.data;
