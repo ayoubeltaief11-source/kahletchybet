@@ -1,4 +1,4 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 import { db, verifyPassword } from "@/lib/db";
 import { startSession, publicUser, rateLimit } from "@/lib/auth";
 import { bad, ok, logErr } from "@/lib/guard";
@@ -17,6 +17,11 @@ export async function POST(req: Request) {
     if (!u || !verifyPassword(p.data.password, u.password)) return bad("Email or password is incorrect", 401);
     if (u.banned) return bad("This account is suspended", 403);
     await startSession(u.id);
-    return ok({ user: publicUser(u) });
+    const mustChange = (u as any).must_change_password === true;
+    
+    return ok({ user: publicUser(u), mustChangePassword: mustChange });
+    
   } catch (e) { logErr("login", e); return bad("Sign-in failed", 500); }
 }
+
+
