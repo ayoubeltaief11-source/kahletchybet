@@ -39,10 +39,8 @@ export function GameCard({ href, name, tag, badge, maxWin, vol, felt, accent, co
   const [imgFailed, setImgFailed] = useState(false);
   
   const renderCover = () => {
-    if (imgFailed || !slug) {
-      return <GameCoverSvg gameId={slug || "unknown"} type={family} color={accent} color2={accent} title={name} maxWin={maxWin} />;
-    }
-    return <GameCover slug={slug} name={name} accent={accent} accent2={accent} family={family} />;
+    // استخدام GameCoverSvg دائمًا (لأنه يوفر أغلفة احترافية)
+    return <GameCoverSvg gameId={slug || name} type={family} color={accent} color2={accent} title={name} maxWin={maxWin} />;
   };
 
   return (
@@ -151,6 +149,7 @@ export function Cover({ kind, hue, hue2 }: { kind: string; hue: string; hue2: st
     </svg>
   );
 }
+
 
 
 
