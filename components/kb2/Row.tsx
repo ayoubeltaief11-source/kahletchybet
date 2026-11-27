@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { getAudio } from "@/lib/kb2/audio";
-import { GameCover } from "@/lib/kb2/imageLoader";
-import GameCoverSvg from "@/components/kb/GameCoverSvg";
+import GameCover from "@/components/kb2/GameCover";
+
 
 export function Row({ title, count, badge, href, children }: { title: string; count: number; badge?: string; href: string; children: ReactNode }) {
   const strip = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export function GameCard({ href, name, tag, badge, maxWin, vol, felt, accent, co
   
   const renderCover = () => {
     // استخدام GameCoverSvg دائمًا (لأنه يوفر أغلفة احترافية)
-    return <GameCoverSvg gameId={slug || name} type={family} color={accent} color2={accent} title={name} maxWin={maxWin} />;
+    return <GameCover slug={slug || "unknown"} name={name} accent={accent} accent2={accent} family={family} maxWin={maxWin} />;
   };
 
   return (
@@ -149,6 +149,8 @@ export function Cover({ kind, hue, hue2 }: { kind: string; hue: string; hue2: st
     </svg>
   );
 }
+
+
 
 
 
