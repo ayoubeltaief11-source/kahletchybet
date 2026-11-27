@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { makeGrid, mulberry32, REEL_WEIGHTS, evaluateRound, FS_MODES, PAYS } from "./engine";
 import type { Cell, SymId, Win } from "./engine";
 import { sfx } from "../shared/sfx";
+import { useBalance } from "@/lib/balance-context";
 import "./falcon.css";
 
 const A = "/assets/falcon-dunes/";
@@ -51,7 +52,8 @@ export default function FalconGame({ debug }: { debug?: boolean }) {
     return g.map(function (col, i) { return buildStrip(mulberry32(100 + i), col); });
   });
   const [msg, setMsg] = useState("PLACE YOUR BET");
-  const [bal, setBal] = useState(1000);
+  const { balance: bal, updateBalance: setBal } = useBalance();
+  const setBalFn = (fn: (b: number) => number) => { setBal(fn(bal) - bal); };
   const [bet, setBet] = useState(20);
   const [win, setWin] = useState(0);
   const [spinning, setSpinning] = useState(false);
@@ -153,7 +155,7 @@ export default function FalconGame({ debug }: { debug?: boolean }) {
     const cost = free ? 0 : (anteRef.current ? Math.round(bet * 1.25 * 100) / 100 : bet);
     if (!free && cost > bal) { setMsg("INSUFFICIENT BALANCE"); return; }
     spinRef.current = true; setSpinning(true); abortRef.current = false;
-    if (!free) setBal(function (b) { return Math.round((b - cost) * 100) / 100; });
+    if (!free) setBalFn(function(b){ return Math.round((b - cost) * 100) / 100; });
     setWin(0); setMsg("GOOD LUCK");
     const seed = (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0;
     const r = evaluateRound(seed, bet, free ? false : anteRef.current);
@@ -192,7 +194,7 @@ export default function FalconGame({ debug }: { debug?: boolean }) {
     if (r.wins.length && !abortRef.current) {
       roundWin = Math.round((await highlightWins(r.wins)) * 100) / 100;
       setWin(roundWin);
-      setBal(function (b) { return Math.round((b + roundWin) * 100) / 100; });
+      setBalFn(function(b){ return Math.round((b + roundWin) * 100) / 100; });
       setMsg(roundWin > 0 ? "WIN " + roundWin.toFixed(2) : "243 WAYS TO WIN");
       if (roundWin >= bet * 15) sfx.fanfare();
     } else {
@@ -224,7 +226,7 @@ export default function FalconGame({ debug }: { debug?: boolean }) {
     if (spinning || inFree || pickOpen) return;
     const c = bet * 80;
     if (c > bal) { setMsg("INSUFFICIENT BALANCE"); return; }
-    setBal(function (b) { return Math.round((b - c) * 100) / 100; });
+    setBalFn(function(b){ return Math.round((b - c) * 100) / 100; });
     setPickOpen(true);
   }, [spinning, inFree, pickOpen, bet, bal]);
   useEffect(function () { try { if (window.localStorage.getItem("falcon_intro_hide") === "1") setIntro(false); } catch (e) {} }, []);

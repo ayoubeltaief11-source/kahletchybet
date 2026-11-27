@@ -4,7 +4,7 @@ export default function Terms() {
       <h1 className="h2">Terms of Service</h1>
       <p className="dim">kahlatchybet (project kahlatchyBET) is an educational software demonstration. It is not a gambling operator and does not accept wagers of value.</p>
       <h3 className="h3">1. Nature of the service</h3>
-      <p className="xs dim">All balances, stakes, deposits and withdrawals are simulated. The virtual credit TD has no monetary value, cannot be purchased, transferred, exchanged or redeemed, and creates no entitlement.</p>
+      <p className="xs dim">All balances, stakes, credit movements are simulated. The virtual credit TD has no monetary value, cannot be purchased, transferred, exchanged or redeemed, and creates no entitlement.</p>
       <h3 className="h3">2. No real-money gambling</h3>
       <p className="xs dim">No payment provider, bank, card network or cryptocurrency service is connected. Nothing in this application accepts or pays out real funds.</p>
       <h3 className="h3">3. Eligibility</h3>

@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { makeGrid, mulberry32, BASE_WEIGHTS, MYSTERY_WEIGHTS, evaluateBase, evaluateHoldWin, buyFeaturePrice, mysteryCost } from "./engine";
 import type { Cell, SymId, CoinId } from "./engine";
 import { sfx } from "../shared/sfx";
+import { useBalance } from "@/lib/balance-context";
 import "./moon.css";
 
 const A = "/assets/moon-rabbit-mint/";
@@ -31,7 +32,8 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
   const [grid, setGrid] = useState<Cell[][]>(() => makeGrid(mulberry32(1), BASE_WEIGHTS, false));
   const [strips, setStrips] = useState<Cell[][]>([]);
   const [msg, setMsg] = useState("PLACE YOUR BET");
-  const [bal, setBal] = useState(1000);
+  const { balance: bal, updateBalance } = useBalance();
+  const setBal = (fn: (b: number) => number) => { updateBalance(fn(bal) - bal); };
   const [bet, setBet] = useState(20);
   const [win, setWin] = useState(0);
   const [spinning, setSpinning] = useState(false);
@@ -41,8 +43,12 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
   const [hwSteps, setHwSteps] = useState<{ grid: (Cell | null)[][]; wins: any[] }[]>([]);
   const [hwStepIdx, setHwStepIdx] = useState(0);
   const [respins, setRespins] = useState(3);
+  const [coinCount, setCoinCount] = useState(0);
   const [bigWin, setBigWin] = useState<{ amt: number; mult: number } | null>(null);
   const [intro, setIntro] = useState(true);
+  const [autoLeft, setAutoLeft] = useState(0);
+  const [rabbitJump, setRabbitJump] = useState(false);
+  const [rabbitHammer, setRabbitHammer] = useState(false);
   
   const reelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const stripRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -52,6 +58,15 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
   const skipFns = useRef<(() => void)[]>([]);
 
   useEffect(() => { try { if (localStorage.getItem("mm_intro") === "1") setIntro(false); } catch(e){} }, []);
+
+  useEffect(() => {
+    if (autoLeft <= 0 || spinning || inHoldWin || bigWin) return;
+    const tt = setTimeout(() => {
+      setAutoLeft(a => a - 1);
+      spin();
+    }, 700);
+    return () => clearTimeout(tt);
+  }, [autoLeft, spinning, inHoldWin, bigWin]);
   useEffect(() => {
     const onVis = () => document.hidden ? gsap.globalTimeline.pause() : gsap.globalTimeline.resume();
     document.addEventListener("visibilitychange", onVis);
@@ -66,6 +81,12 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
   }, []);
 
   const animateHoldWin = useCallback(async () => {
+    const timeout = setTimeout(() => {
+      setInHoldWin(false);
+      setMsg("HOLD & WIN TIMEOUT");
+      spinRef.current = false;
+      setSpinning(false);
+    }, 30000);
     for (let i = 0; i < hwSteps.length; i++) {
       if (abortRef.current) break;
       setHwStepIdx(i);
@@ -80,7 +101,7 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
           }
         }
       }
-      sfx.chime();
+      sfx.chime(); setRabbitHammer(true); setTimeout(() => setRabbitHammer(false), 200);
       await new Promise(res => setTimeout(res, turboRef.current ? 300 : 600));
       
       // Moon Merge Animation (mocked visual trigger if wins exist in step)
@@ -103,7 +124,8 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
     setWin(total);
     setBal(b => Math.round((b + total) * 100) / 100);
     setMsg("HOLD & WIN COMPLETE: " + total.toFixed(2));
-    if (total >= bet * 15) { setBigWin({ amt: total, mult: total / bet }); sfx.fanfare(); }
+    if (total >= bet * 15) { setBigWin({ amt: total, mult: total / bet }); sfx.fanfare(); setRabbitJump(true); setTimeout(() => setRabbitJump(false), 1000); }
+    clearTimeout(timeout);
     setInHoldWin(false);
     spinRef.current = false; setSpinning(false);
   }, [hwSteps, bet]);
@@ -145,6 +167,17 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
       setMsg("HOLD & WIN TRIGGERED!");
       sfx.free();
       const hw = evaluateHoldWin(seed ^ 0x9e3779b9, bet, []); // Simplified initial coins for demo
+      
+    const initialCoins = [];
+    for (let c = 0; c < 3; c++) {
+      for (let r = 0; r < 3; r++) {
+        const cell = grid[c]?.[r];
+        if (cell && String(cell.sym).startsWith("c")) {
+          initialCoins.push({ c, r, sym: cell.sym });
+        }
+      }
+    }
+    setCoinCount(initialCoins.length);
       setHwSteps(hw.steps);
       setInHoldWin(true);
       setRespins(3);
@@ -186,6 +219,14 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
       )}
       <div className={"mm-bg" + (inHoldWin ? " mm-bg-free" : "")} style={{ backgroundImage: `url(${inHoldWin ? A + "feature-bg.jpg" : A + "bg.jpg"})` }}/>
       
+      
+      <div className="mm-prize-panels">
+        <div className="mm-prize-item mini"><span>MINI</span><b>x20</b></div>
+        <div className="mm-prize-item minor"><span>MINOR</span><b>x100</b></div>
+        <div className="mm-prize-item major"><span>MAJOR</span><b>x500</b></div>
+        <div className="mm-prize-item grand"><span>GRAND</span><b>x2000</b></div>
+        <div className="mm-prize-item mythic"><span>MYTHIC</span><b>x5000</b></div>
+      </div>
       <div className="mm-stage">
         <div className="mm-prize-panel">
           <div className="mm-prize-item"><span>MINI</span><b>x20</b></div>
@@ -194,7 +235,11 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
           <div className="mm-prize-item"><span>GRAND</span><b>x2000</b></div>
         </div>
 
-        <div className="mm-frame">
+        
+      <div className={`mm-rabbit ${rabbitJump ? "jump" : ""} ${rabbitHammer ? "hammer" : ""}`}>
+        <img src={A + "rabbit.png"} alt="Moon Rabbit" onError={function (e) { e.currentTarget.style.display = "none"; }}/>
+      </div>
+      <div className="mm-frame">
           <img className="mm-lantern left" src={A + "lantern.png"} alt="" onError={hide}/>
           <img className="mm-lantern right" src={A + "lantern.png"} alt="" onError={hide}/>
           <img className="mm-corner tl" src={A + "corner.png"} alt="" onError={hide}/>
@@ -203,31 +248,44 @@ export default function MoonGame({ debug }: { debug?: boolean }) {
           <img className="mm-corner br" src={A + "corner.png"} alt="" onError={hide}/>
           <div className="mm-reels">
             <div className="mm-grid">
-              {(inHoldWin ? hwSteps[hwStepIdx]?.grid : grid).map((col, c) => 
-                (inHoldWin ? col : col).map((cell, r) => 
-                  cell && <div key={c + "-" + r} className="mm-cell" data-c={c} data-r={r}><SymImg cell={cell as Cell}/></div>
-                )
-              )}
+{(inHoldWin ? (hwSteps[hwStepIdx]?.grid || grid) : grid).map((col, c) => col.map((cell, r) => (
+  <div key={c + "-" + r} className="mm-cell" data-c={c} data-r={r}>
+    {cell ? <SymImg cell={cell as Cell}/> : <div className="mm-cell-empty"/>}
+  </div>
+)))}
             </div>
           </div>
         </div>
 
         <div className="mm-side-controls">
-          <button className={"mm-mystery-btn" + (mysteryMode ? " on" : "")} disabled={spinning || inHoldWin} onClick={() => setMysteryMode(!mysteryMode)}>MYSTERY +50%</button>
-          <button className="mm-buy-btn" disabled={spinning || inHoldWin} onClick={buyFeature}>BUY x60</button>
+          <button className={"mm-mystery-btn" + (mysteryMode ? " on" : "")} disabled={spinning || inHoldWin} onClick={() => { if (mysteryMode) setMysteryMode(false); else if (confirm("Enable Mystery Mode for +50% bet cost?")) setMysteryMode(true); }}>
+            <span className="mm-btn-icon">🌙</span><span>MYSTERY</span>
+          </button>
+          <button className="mm-buy-btn" disabled={spinning || inHoldWin} onClick={() => { if (confirm("Buy Bonus for " + (bet * 60).toFixed(2) + " TD?")) buyFeature(); }}>
+            <span className="mm-btn-icon">🎁</span><span>BUY x60</span>
+          </button>
         </div>
       </div>
 
+      
+      <div className="mm-respins-counter">
+        <span>RESPINS:</span>
+        <div className="mm-respins-dots">
+          {[0, 1, 2].map(i => <div key={i} className={`mm-dot ${i < respins ? "lit" : ""}`}/>)}
+        </div>
+        <span className="mm-filled">FILLED {coinCount}/9</span>
+      </div>
       <div className="mm-msg-bar">{inHoldWin ? `RESPINS: ${3 - hwStepIdx}` : msg}</div>
 
       <footer className="mm-foot">
-        <div className="mm-bal"><span>BALANCE</span><b>{bal.toFixed(2)}</b></div>
+        <div className="mm-bal"><span className="mm-bal-label">BALANCE</span><b className="mm-bal-value">{bal.toFixed(2)}</b></div>
         <div className="mm-bet">
           <button onClick={() => setBet(Math.max(1, bet - 5))}>-</button>
           <span>{bet.toFixed(2)}</span>
           <button onClick={() => setBet(bet + 5)}>+</button>
         </div>
         <div className="mm-sp"/>
+        <button className="mm-auto" onClick={() => setAutoLeft(autoLeft > 0 ? 0 : 10)}>{autoLeft > 0 ? "AUTO " + autoLeft : "AUTO"}</button>
         <button className="mm-turbo" onClick={() => setTurbo(!turbo)}>{turbo ? "TURBO ON" : "TURBO"}</button>
         <button className="mm-spin" onClick={() => void spin()}>{spinning ? "STOP" : "SPIN"}</button>
       </footer>

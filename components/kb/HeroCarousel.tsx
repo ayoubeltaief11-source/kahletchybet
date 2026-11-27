@@ -9,7 +9,7 @@ import Poster from "./Art";
 export default function HeroCarousel() {
   useKbFonts();
   const slides = useMemo(function () {
-    const want = ["jet", "mega5", "jackpot5", "vip", "mines", "plinko"];
+    const want = ["atlas-skyfall", "falcon-dunes", "moon-rabbit-mint", "pitch-pulse", "skyward-jet", "golden-crown"];
     const out: typeof KB_GAMES = [];
     want.forEach(function (v) {
       const hit = KB_GAMES.find(function (g) { return g.variant === v; });

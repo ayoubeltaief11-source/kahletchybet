@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     if (id.startsWith("sim-")) {
       const f = simFixtureById(id);
       if (!f) return bad("Fixture not found", 404);
-      return ok({ fixture: f, simulated: true, source: "kahlatchybet Simulation Engine" });
+      return ok({ fixture: f, simulated: true, source: "kahlatchybet Markets" });
     }
     if (id.startsWith("af-")) {
       const fid = id.slice(3);
@@ -38,7 +38,7 @@ export async function GET(req: Request) {
       }
     }
     const anyFix = simFixtures("football", "all").find(f => f.id === id);
-    if (anyFix) return ok({ fixture: anyFix, simulated: true, source: "kahlatchybet Simulation Engine" });
+    if (anyFix) return ok({ fixture: anyFix, simulated: true, source: "kahlatchybet Markets" });
     return bad("Fixture not found", 404);
   } catch (e) { logErr("fixture", e); return bad("Could not load fixture", 500); }
 }

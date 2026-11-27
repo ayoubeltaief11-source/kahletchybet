@@ -1,5 +1,6 @@
 ﻿"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useBalance } from "@/lib/balance-context";
 import gsap from "gsap";
 import { useApp } from "@/components/Shell";
 import { COLS, ROWS, computeSteps, makeGrid, mulberry32, NORMAL_WEIGHTS, PAYS } from "./engine";
@@ -20,7 +21,8 @@ function SymIcon({ sym, mult }: { sym: SymId; mult?: number }) {
 export default function AtlasGame() {
   const g = { color: "#2DD4D4", color2: "#C98A3C" };
   const { me, refresh } = useApp();
-  const [bal, setBal] = useState(0);
+  const { balance: bal, updateBalance: setBal } = useBalance();
+  const setBalFn = (fn: (b: number) => number) => { setBal(fn(bal) - bal); };
   const [bet, setBet] = useState(20);
   const [grid, setGrid] = useState<Cell[][]>(function () { return makeGrid(mulberry32(7), NORMAL_WEIGHTS); });
   const [msg, setMsg] = useState("PLACE YOUR BET");
@@ -153,7 +155,7 @@ export default function AtlasGame() {
     if (total > 25000) total = 25000;
     if (res.multSum > 0 && acc > 0) flyMult(res.multPositions, res.multSum);
     setLastWin(total);
-    setBal(function (b) { return Math.round((b + total) * 100) / 100; });
+    setBalFn(function(b){ return Math.round((b + total) * 100) / 100; });
     if (total >= betRef.current * 15) { setBigWin({ amt: total, mult: total / betRef.current }); coinRain(); atlasSfx.fanfare(); }
     if (isFree) {
       let left = fsLeftRef.current - 1;
@@ -175,7 +177,7 @@ export default function AtlasGame() {
     const cost = isFree ? 0 : (anteRef.current ? Math.round(betRef.current * 1.25 * 100) / 100 : betRef.current);
     if (!isFree && cost > bal) { setMsg("INSUFFICIENT BALANCE"); return; }
     spinRef.current = true; setSpinning(true); abortRef.current = false;
-    if (!isFree) setBal(function (b) { return Math.round((b - cost) * 100) / 100; });
+    if (!isFree) setBalFn(function(b){ return Math.round((b - cost) * 100) / 100; });
     setCascade(0); if (!isFree) setMult(0); setLastWin(0); setMsg(isFree ? "FREE SPIN" : "GOOD LUCK"); atlasSfx.spin();
     const seed = (Date.now() ^ (Math.random() * 0xffffffff)) >>> 0;
     const res = computeSteps(seed, isFree ? false : anteRef.current);
@@ -232,7 +234,7 @@ export default function AtlasGame() {
     if (spinning || inFree) return;
     const cost = betRef.current * 100;
     if (cost > bal) { setMsg("INSUFFICIENT BALANCE"); return; }
-    setBal(function (b) { return Math.round((b - cost) * 100) / 100; });
+    setBalFn(function(b){ return Math.round((b - cost) * 100) / 100; });
     setInFree(true); setFsLeft(15); setFsMult(0); setFsTotal(0); setMsg("FEATURE BOUGHT - 15 FREE SPINS");
   }, [spinning, inFree, bal]);
 

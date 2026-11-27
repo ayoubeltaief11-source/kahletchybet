@@ -77,6 +77,17 @@ export default function KBLobby() {
       <AudioBoot/>
       <SoundPanel/>
       <HeroCarousel/>
+
+      <section className="kb-section">
+        <h2 className="kb-h2">New Exclusives <span className="kb-badge">6 TITLES</span></h2>
+        <div className="kb-row">
+          {["atlas-skyfall", "falcon-dunes", "moon-rabbit-mint", "pitch-pulse", "skyward-jet", "golden-crown"].map(function (id) {
+            const g = KB_GAMES.find(function (x) { return x.id === id; });
+            if (!g) return null;
+            return <GameCard key={g.id} href={"/casino/" + g.id} name={g.name} tag="" badge="EXCLUSIVE" maxWin="" vol="" felt="" accent="#2a9d8f" slug={g.id} cover={<div style={{width:"100%",height:"100%",background:"linear-gradient(135deg,#2a9d8f,#e9c46a)",display:"grid",placeItems:"center",fontSize:24,fontWeight:900,color:"#fff"}}>{g.name}</div>} />;
+          })}
+        </div>
+      </section>
       <WinTicker/>
 
       <header className="kb-hero">

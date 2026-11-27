@@ -37,7 +37,7 @@ export default function Play() {
   return (
     <div className="col">
       <div className="bt wrap">
-        <div className="row"><Link href="/casino" className="btn o s">â† Casino</Link><h1 className="h2" style={{ margin: 0, fontSize: 19 }}>{name || "Game"}</h1></div>
+        <div className="row"><Link href="/casino" className="btn o s">← Casino</Link><h1 className="h2" style={{ margin: 0, fontSize: 19 }}>{name || "Game"}</h1></div>
         <div className="row wrap">
           <span className="tag j">CONNECTED</span>
           <span className="tag v">DEMO MODE</span>

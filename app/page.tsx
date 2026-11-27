@@ -66,7 +66,7 @@ export default function Home() {
       <section>
         <div className="bt wrap mb">
           <h2 className="h2" style={{ margin: 0 }}><Icon name="casino" />{tr(lang, "casino")}</h2>
-          <Link href="/casino" className="btn o s">Open lobby â†’</Link>
+          <Link href="/casino" className="btn o s">Open lobby →</Link>
         </div>
         <div className="grid g4">{games.map(g => <GameTile key={g.id} game={g} />)}</div>
       </section>

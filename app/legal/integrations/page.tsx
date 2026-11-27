@@ -1,7 +1,7 @@
 export default function Integrations() {
   const rows = [
-    ["API-Football", "FOOTBALL_ODDS_API_KEY", "Fixtures, live scores, match odds", "Free tier: 100 requests/day", "https://dashboard.api-football.com/", "https://www.api-football.com/documentation-v3"],
-    ["The Odds API", "ODDS_API_KEY", "Bookmaker prices for basketball, tennis, baseball, hockey, MMA, esports", "Free tier: 500 requests/month", "https://the-odds-api.com/#get-access", "https://the-odds-api.com/liveapi/guides/v4/"],
+    ["API-Football", "Server-side only", "Fixtures, live scores, match odds", "Rate limited", "https://dashboard.api-football.com/", "https://www.api-football.com/documentation-v3"],
+    ["The Odds API", "Server-side only", "Bookmaker prices for basketball, tennis, baseball, hockey, MMA, esports", "Rate limited", "https://the-odds-api.com/#get-access", "https://the-odds-api.com/liveapi/guides/v4/"],
     ["PostgreSQL (Neon)", "POSTGRES_URL", "Production database for accounts, ledger, bets and catalogue", "Free tier, no card required", "https://neon.tech", "https://neon.tech/docs"],
     ["Casino aggregator", "CASINO_AGGREGATOR_KEY", "Licensed game launch URLs and thumbnails", "Commercial agreement required", "https://gamedistribution.com", "https://docs.hub88.io/"],
   ];

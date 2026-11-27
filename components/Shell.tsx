@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { BalanceProvider } from "@/lib/balance-context";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, createContext, useContext, useCallback } from "react";
 import Icon from "./Icon";
@@ -103,7 +104,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             ))}
           </header>
 
-          <main className="body">{children}</main>
+          <main className="main"><BalanceProvider>{children}</BalanceProvider></main>
 
           <footer className="foot">
             <div>{tr(lang, "demo")}</div>

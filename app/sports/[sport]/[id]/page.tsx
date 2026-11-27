@@ -38,7 +38,7 @@ export default function FixturePage() {
   return (
     <div className="split">
       <div className="col">
-        <Link href={"/sports/" + sport} className="btn o s" style={{ alignSelf: "flex-start" }}>â† {sport}</Link>
+        <Link href={"/sports/" + sport} className="btn o s" style={{ alignSelf: "flex-start" }}>← {sport}</Link>
 
         <div className="hero" style={{ padding: "26px 24px" }}>
           <div className="bt xxs" style={{ color: "var(--dim)" }}>

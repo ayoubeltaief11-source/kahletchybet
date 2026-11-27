@@ -16,9 +16,9 @@ export default function SportsIndex() {
             <div className="row mb">
               <div style={{ width: 52, height: 52, borderRadius: 15, display: "grid", placeItems: "center", background: `linear-gradient(140deg,${s.hue}33,transparent)`, border: `1px solid ${s.hue}44`, color: s.hue }}><Icon name={s.icon} /></div>
               <div><b style={{ fontSize: 17 }}>{lang === "ar" ? s.ar : lang === "fr" ? s.fr : s.en}</b>
-                <div className="xxs faint">{s.key === "football" ? "API-Football  fixtures + odds" : "The Odds API  bookmaker prices"}</div></div>
+                <div className="xxs faint">{"Fixtures, live scores and markets"}</div></div>
             </div>
-            <div className="bt"><span className="tag n">{s.key === "football" ? "FOOTBALL_ODDS_API_KEY" : "ODDS_API_KEY"}</span><span className="btn o s">Open </span></div>
+            <div className="bt"><span className="tag n">{"MARKETS"}</span><span className="btn o s">Open </span></div>
           </Link>
         ))}
       </div>

@@ -11,7 +11,7 @@ export async function GET(req: Request) {
   const scope = u.searchParams.get("scope") || "all";
   const fallback = (reason: string, configured: boolean) =>
     ok({ configured, source: "simulated", simulated: true, fixtures: simFixtures(sport, scope),
-      message: reason, notice: "Simulated entertainment data - clearly labelled, not real bookmaker prices." });
+      message: reason, notice: "Educational demo data." });
 
   try {
     if (sport === "football") {
@@ -48,7 +48,7 @@ export async function GET(req: Request) {
         return ok({ configured: true, source: "Sportmonks", simulated: false, fixtures });
       }
 
-      return fallback("Showing intelligent simulation engine (API keys not configured or quota reached).", true);
+      return fallback("Markets temporarily unavailable.", true);
     }
 
     const r = await oddsApi(sport);
@@ -62,9 +62,9 @@ export async function GET(req: Request) {
         return ok({ configured: true, source: "The Odds API", simulated: false, remaining: r.remaining ?? null, fixtures });
       }
     }
-    return fallback("Showing intelligent simulation engine for " + sport + ".", true);
+    return fallback("Markets temporarily unavailable.", true);
   } catch (e) {
     logErr("sports", e);
-    return fallback("Provider network error. Seamless simulation fallback active.", true);
+    return fallback("Markets temporarily unavailable.", true);
   }
 }

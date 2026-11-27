@@ -47,7 +47,7 @@ export default function RouletteGame() {
   return (
     <div className="col">
       <div className="bt wrap mb">
-        <Link href="/casino" className="btn o s">â† Back to Lobby</Link>
+        <Link href="/casino" className="btn o s">← Back to Lobby</Link>
         <span className="kb-demobadge lg">Native Demo</span>
       </div>
 
