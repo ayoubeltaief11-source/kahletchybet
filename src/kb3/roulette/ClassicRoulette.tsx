@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useBalance } from "@/lib/balance-context";
 import dynamic from "next/dynamic";
 import { getGame, asset } from "../registry";
 import { useApp } from "@/components/Shell";
@@ -22,7 +23,7 @@ const VARIANTS: Record<string, RouletteVariant> = {
 
 function r2(n: number): number { return Math.round(n * 100) / 100; }
 function parity(p: string): string { if (p === "0" || p === "00") return "ZERO"; return Number(p) % 2 === 0 ? "EVEN" : "ODD"; }
-function highlow(p: string): string { if (p === "0" || p === "00") return "—"; return Number(p) <= 18 ? "LOW 1-18" : "HIGH 19-36"; }
+function highlow(p: string): string { if (p === "0" || p === "00") return "â€”"; return Number(p) <= 18 ? "LOW 1-18" : "HIGH 19-36"; }
 function hideImg(e: React.SyntheticEvent<HTMLImageElement>) { e.currentTarget.style.display = "none"; }
 
 export default function ClassicRoulette({ slug }: { slug: string }) {
@@ -110,7 +111,7 @@ export default function ClassicRoulette({ slug }: { slug: string }) {
 
   const backToTable = useCallback(function () {
     setPhase("table");
-    setMsg("REBET READY — PLACE YOUR BETS");
+    setMsg("REBET READY â€” PLACE YOUR BETS");
   }, []);
 
   useEffect(function () {
@@ -181,3 +182,4 @@ export default function ClassicRoulette({ slug }: { slug: string }) {
     </div>
   );
 }
+

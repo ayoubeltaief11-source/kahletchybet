@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 import { useEffect, useRef, useState } from "react";
+import { useBalance } from "@/lib/balance-context";
 import { getGame, asset } from "../registry";
 import "./crash.css";
 import { crashSfx } from "./sfx";
@@ -286,3 +287,4 @@ export default function CrashScene({ gameId, phase, multiplier, progress, countd
 }
 
 function slugSafe(id: string): string { return id; }
+

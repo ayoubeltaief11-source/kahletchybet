@@ -1,4 +1,4 @@
-import { randomBytes, scryptSync, timingSafeEqual, createHash } from "node:crypto";
+﻿import { randomBytes, scryptSync, timingSafeEqual, createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { SCHEMA } from "./schema.mjs";
@@ -117,14 +117,15 @@ export const db = {
   async post(uid: string, kind: string, amount: number, note: string): Promise<{ ok: boolean; msg: string; balance: number }> {
     const amt = Math.round(Math.abs(amount) * 100) / 100;
     if (!isFinite(amt)) return { ok: false, msg: "Invalid amount", balance: 0 };
-    const debit = kind === "WITHDRAW" || kind === "BET";
+    const kindUpper = kind.toUpperCase();
+    const debit = kindUpper === "WITHDRAW" || kindUpper === "BET";
     if (MODE === "postgres") {
       const s = await pgInit();
       return await s.begin(async (tx: any) => {
         const r = await tx`SELECT balance FROM users WHERE id=${uid} FOR UPDATE`;
         if (!r[0]) return { ok: false, msg: "Account missing", balance: 0 };
         const before = Number(r[0].balance);
-        const delta = kind === "ADJUST" ? Math.round(amount * 100) / 100 : debit ? -amt : amt;
+        const delta = kindUpper === "ADJUST" ? Math.round(amount * 100) / 100 : debit ? -amt : amt;
         const after = Math.round((before + delta) * 100) / 100;
         if (after < 0) return { ok: false, msg: "Insufficient demo balance", balance: before };
         await tx`UPDATE users SET balance=${after} WHERE id=${uid}`;
@@ -136,7 +137,7 @@ export const db = {
       const d = load(); const u = d.users.find(x => x.id === uid);
       if (!u) return { ok: false, msg: "Account missing", balance: 0 };
       const before = u.balance;
-      const delta = kind === "ADJUST" ? Math.round(amount * 100) / 100 : debit ? -amt : amt;
+      const delta = kindUpper === "ADJUST" ? Math.round(amount * 100) / 100 : debit ? -amt : amt;
       const after = Math.round((before + delta) * 100) / 100;
       if (after < 0) return { ok: false, msg: "Insufficient demo balance", balance: before };
       u.balance = after;
