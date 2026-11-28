@@ -153,7 +153,49 @@ function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number
   const [v, setV] = useState(String(u.cap));
   return (
     <tr>
-      <td><b className="xs">{u.name}</b><div className="xxs faint">{u.email}</div></td>
+      <td><b className="xs">{u.name}</b><div className="xxs faint">{u.email}
+      <div style={{ marginTop: 24, padding: 16, border: "1px solid #333", borderRadius: 8 }}>
+        <h3 style={{ marginBottom: 12 }}>Create New Account</h3>
+        <p style={{ fontSize: 12, color: "#888", marginBottom: 12 }}>Create a new user or secondary admin. They must change password on first login.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8 }}>
+          <input id="new-name" placeholder="Full Name" className="input" />
+          <input id="new-email" placeholder="Email" className="input" type="email" />
+          <input id="new-password" placeholder="Temporary Password" className="input" type="password" />
+          <select id="new-role" className="input">
+            <option value="user">Regular User</option>
+            <option value="secondary_admin">Secondary Admin</option>
+          </select>
+        </div>
+        <button 
+          className="btn" 
+          style={{ marginTop: 12 }} 
+          onClick={async () => {
+            const name = (document.getElementById("new-name") as HTMLInputElement)?.value;
+            const email = (document.getElementById("new-email") as HTMLInputElement)?.value;
+            const password = (document.getElementById("new-password") as HTMLInputElement)?.value;
+            const role = (document.getElementById("new-role") as HTMLSelectElement)?.value;
+            if (!name || !email || !password) return alert("Please fill all fields");
+            try {
+              const res = await fetch("/api/admin/create-user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, role }),
+              });
+              const data = await res.json();
+              if (res.ok) {
+                alert("Account created successfully!");
+                window.location.reload();
+              } else {
+                alert("Error: " + (data.error || "Unknown error"));
+              }
+            } catch (e) {
+              alert("Network error");
+            }
+          }}
+        >
+          Create Account
+        </button>
+      </div></div></td>
       <td className="mono xs">{u.cap} TD</td>
       <td className="mono xs" style={{ color: u.net >= 0 ? "var(--jade)" : "var(--ember)" }}>{u.net.toFixed(2)}</td>
       <td><input className="in mono" style={{ maxWidth: 110, padding: "6px 10px" }} type="number" min={0} value={v} onChange={e => setV(e.target.value)} /></td>
@@ -161,4 +203,6 @@ function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number
     </tr>
   );
 }
+
+
 

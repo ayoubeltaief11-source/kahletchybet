@@ -8,7 +8,7 @@ const Body = z.object({
   name: z.string().min(2).max(50),
   email: z.string().email(),
   password: z.string().min(6).max(100),
-  role: z.enum(["user", "secondary_admin"]).default("user"),
+  role: z.enum(["user", "secondary_admin", "primary_admin"]).default("user"),
 });
 
 export async function POST(req: Request) {
@@ -45,3 +45,4 @@ export async function POST(req: Request) {
     return bad("Failed to create account", 500);
   }
 }
+
