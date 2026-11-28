@@ -146,21 +146,35 @@ export default function AdminTD() {
         </div>
       )}
 
-      <div style={{ marginTop: 24, padding: 16, border: "1px solid #333", borderRadius: 8 }}>
-        <h3 style={{ marginBottom: 12 }}>Create New Account</h3>
-        <p style={{ fontSize: 12, color: "#888", marginBottom: 12 }}>Create a new user or secondary admin. They must change password on first login.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8 }}>
-          <input id="new-name" placeholder="Full Name" className="input" />
-          <input id="new-email" placeholder="Email" className="input" type="email" />
-          <input id="new-password" placeholder="Temporary Password" className="input" type="password" />
-          <select id="new-role" className="input">
-            <option value="user">Regular User</option>
-            <option value="secondary_admin">Secondary Admin</option>
-          </select>
+      <div className="k2-glass" style={{ marginTop: 24, padding: 20 }}>
+        <h3 style={{ marginBottom: 12, fontFamily: "var(--k2-display)", color: "var(--k2-gold2)", fontSize: 16 }}>Create New Account</h3>
+        <p style={{ fontSize: 12, color: "var(--k2-dim)", marginBottom: 16 }}>Create a new user or secondary admin. They must change password on first login.</p>
+        
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10, color: "var(--k2-faint)", letterSpacing: 1, fontFamily: "var(--k2-font)", fontWeight: 800 }}>FULL NAME</span>
+            <input id="new-name" placeholder="e.g. Ahmed Ben Ali" className="k2-btn" style={{ padding: "10px 14px", fontFamily: "var(--k2-font)", fontSize: 13 }} />
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10, color: "var(--k2-faint)", letterSpacing: 1, fontFamily: "var(--k2-font)", fontWeight: 800 }}>EMAIL</span>
+            <input id="new-email" placeholder="ahmed@example.com" className="k2-btn" type="email" style={{ padding: "10px 14px", fontFamily: "var(--k2-font)", fontSize: 13 }} />
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10, color: "var(--k2-faint)", letterSpacing: 1, fontFamily: "var(--k2-font)", fontWeight: 800 }}>TEMPORARY PASSWORD</span>
+            <input id="new-password" placeholder="At least 6 characters" className="k2-btn" type="password" style={{ padding: "10px 14px", fontFamily: "var(--k2-font)", fontSize: 13 }} />
+          </label>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            <span style={{ fontSize: 10, color: "var(--k2-faint)", letterSpacing: 1, fontFamily: "var(--k2-font)", fontWeight: 800 }}>ROLE</span>
+            <select id="new-role" className="k2-btn" style={{ padding: "10px 14px", fontFamily: "var(--k2-font)", fontSize: 13, background: "var(--k2-void)", border: "1px solid var(--k2-line2)", borderRadius: "var(--k2-r-m)", color: "var(--k2-txt)" }}>
+              <option value="user">Regular User</option>
+              <option value="secondary_admin">Secondary Admin</option>
+            </select>
+          </label>
         </div>
+        
         <button 
-          className="btn" 
-          style={{ marginTop: 12 }} 
+          className="k2-btn k2-btn-gold" 
+          style={{ width: "100%", padding: "12px 24px", fontFamily: "var(--k2-font)", fontSize: 13, fontWeight: 900, letterSpacing: 1 }}
           onClick={async () => {
             const name = (document.getElementById("new-name") as HTMLInputElement)?.value;
             const email = (document.getElementById("new-email") as HTMLInputElement)?.value;
@@ -175,7 +189,7 @@ export default function AdminTD() {
               });
               const data = await res.json();
               if (res.ok) {
-                alert("Account created successfully!");
+                alert("Account created successfully!\n\nUser ID: " + data.userId + "\nTemporary Password: " + password);
                 window.location.reload();
               } else {
                 alert("Error: " + (data.error || "Unknown error"));
@@ -204,3 +218,4 @@ function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number
     </tr>
   );
 }
+
