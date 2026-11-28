@@ -62,7 +62,8 @@ export async function POST(req: Request) {
     const kind = action === "deposit" ? "DEPOSIT" : "WITHDRAW";
     const r = await db.post(userId, kind, v, "Admin " + action + " (demo funding)");
     if (!r.ok) return bad(r.msg);
-    await td.log(admin.email, action.toUpperCase(), target.email, v + " TD -> balance " + r.balance);
+    await td.log(admin.email, action.toUpperCase(), target.email, v + " TD (issued by admin: " + admin.email + ") -> balance " + r.balance);
     return ok({ message: (action === "deposit" ? "Credited " : "Debited ") + v + " TD to " + target.name, balance: r.balance });
   } catch (e) { logErr("admin-td", e); return bad("Operation failed", 500); }
 }
+
