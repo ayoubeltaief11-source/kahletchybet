@@ -1,4 +1,4 @@
-import "./globals.css";
+﻿import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Shell from "@/components/Shell";
 
@@ -13,7 +13,7 @@ export const viewport: Viewport = { themeColor: "#06080B", width: "device-width"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head><meta charSet="utf-8" /></head>
       <body><div className="fx" aria-hidden /><Shell>{children}</Shell></body>
     </html>
