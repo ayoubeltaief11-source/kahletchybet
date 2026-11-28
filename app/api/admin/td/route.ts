@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const Body = z.object({
-  action: z.enum(["deposit", "withdraw", "cap", "defaultCap"]),
+  action: z.enum(["admin_credit", "cap", "defaultCap"]),
   userId: z.string().max(80).optional(),
   amount: z.number().optional(),
 });
@@ -58,9 +58,10 @@ export async function POST(req: Request) {
       return ok({ message: "Weekly cap saved for " + target.name });
     }
 
-    const r = await db.post(userId, action === "deposit" ? "DEPOSIT" : "WITHDRAW", v, "Admin " + action + " (demo funding)");
+    // Admin Credit (issued by admin)
+    const r = await db.post(userId, "ADMIN_CREDIT", v, "Admin credit (issued by " + admin.email + ")");
     if (!r.ok) return bad(r.msg);
-    await td.log(admin.email, action.toUpperCase(), target.email, v + " TD -> balance " + r.balance);
-    return ok({ message: (action === "deposit" ? "Credited " : "Debited ") + v + " TD to " + target.name, balance: r.balance });
+    await td.log(admin.email, "ADMIN_CREDIT", target.email, v + " TD -> balance " + r.balance);
+    return ok({ message: "Credited " + v + " TD to " + target.name, balance: r.balance });
   } catch (e) { logErr("admin-td", e); return bad("Operation failed", 500); }
 }
