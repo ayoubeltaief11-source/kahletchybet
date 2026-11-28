@@ -145,15 +145,7 @@ export default function AdminTD() {
           {!(data?.audit ?? []).length && <div className="empty">No administrative actions yet.</div>}
         </div>
       )}
-    </div>
-  );
-}
 
-function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number) => void }) {
-  const [v, setV] = useState(String(u.cap));
-  return (
-    <tr>
-      <td><b className="xs">{u.name}</b><div className="xxs faint">{u.email}
       <div style={{ marginTop: 24, padding: 16, border: "1px solid #333", borderRadius: 8 }}>
         <h3 style={{ marginBottom: 12 }}>Create New Account</h3>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 12 }}>Create a new user or secondary admin. They must change password on first login.</p>
@@ -195,7 +187,16 @@ function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number
         >
           Create Account
         </button>
-      </div></div></td>
+      </div>
+    </div>
+  );
+}
+
+function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number) => void }) {
+  const [v, setV] = useState(String(u.cap));
+  return (
+    <tr>
+      <td><b className="xs">{u.name}</b><div className="xxs faint">{u.email}</div></td>
       <td className="mono xs">{u.cap} TD</td>
       <td className="mono xs" style={{ color: u.net >= 0 ? "var(--jade)" : "var(--ember)" }}>{u.net.toFixed(2)}</td>
       <td><input className="in mono" style={{ maxWidth: 110, padding: "6px 10px" }} type="number" min={0} value={v} onChange={e => setV(e.target.value)} /></td>
@@ -203,5 +204,3 @@ function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number
     </tr>
   );
 }
-
-
