@@ -1,48 +1,76 @@
 ﻿"use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useApp } from "@/components/Shell";
 import Icon from "@/components/Icon";
-import { tr } from "@/lib/catalog";
 
-export default function Login() {
-  const { lang, refresh, toast } = useApp();
+export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState(""); const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false); const [err, setErr] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault(); setErr(""); setBusy(true);
-    const r = await fetch("/api/auth/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
-    const d = await r.json(); setBusy(false);
-    if (!d.ok) return setErr(d.error ?? "Sign-in failed");
-    refresh(); toast("Welcome back, " + d.user.name, "j"); router.push("/dashboard"); router.refresh();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+        setLoading(false);
+        return;
+      }
+      if (data.mustChangePassword) {
+        const confirmChange = confirm("Your account was created by an administrator. It is recommended to change your temporary password now. Do you want to change it?");
+        if (confirmChange) {
+          router.push("/change-password");
+          return;
+        }
+      }
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Network error");
+      setLoading(false);
+    }
   };
 
   return (
-    <div style={{ maxWidth: 470, margin: "26px auto" }}>
-      <div className="card pad fade">
-        <div className="ctr mb">
-          <div className="crest" style={{ width: 58, height: 58, margin: "0 auto 14px" }} />
-          <h1 className="h2" style={{ justifyContent: "center" }}>{tr(lang, "signin")}</h1>
-          <p className="xs dim" style={{ margin: 0 }}>Access your kahlatchybet demo account</p>
-        </div>
-        <form onSubmit={submit}>
-          <label className="f"><span>Email</span><input className="in" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" /></label>
-          <label className="f"><span>Password</span><input className="in" type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="" /></label>
-          {err && <div className="note e mb">{err}</div>}
-          <button className="btn j w" disabled={busy}>{busy ? "Signing in" : tr(lang, "signin")}</button>
-        </form>
-        <div className="ctr mt xs"><span className="dim">No account? </span><Link href="/register" style={{ color: "var(--gold-hi)", fontWeight: 800 }}>{tr(lang, "register")}</Link></div>
-        <div className="card pad mt" style={{ background: "var(--void)" }}>
-          <div className="xxs dim mb" style={{ fontWeight: 800, letterSpacing: 1 }}>SEEDED DEMO ACCOUNTS</div>
-          <div className="xxs mono">player@kahlatchybet.demo  Player123!</div>
-          <div className="xxs mono">admin@kahlatchybet.demo  ChangeMe123!</div>
-        </div>
-        <div className="note g mt">{tr(lang, "demo")}</div>
+    <div className="container" style={{ maxWidth: 400, margin: "80px auto", padding: 20 }}>
+      <h1 className="h2" style={{ marginBottom: 24 }}>Sign In</h1>
+      {error && <div style={{ color: "#f87171", marginBottom: 16, padding: 8, background: "rgba(255,71,87,.1)", borderRadius: 8 }}>{error}</div>}
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="k2-btn"
+          style={{ padding: "12px 16px" }}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="k2-btn"
+          style={{ padding: "12px 16px" }}
+          required
+        />
+        <button type="submit" className="k2-btn k2-btn-gold" style={{ padding: "12px 24px" }} disabled={loading}>
+          {loading ? "Signing in..." : "Sign In"}
+        </button>
+      </form>
+      <div style={{ marginTop: 16, textAlign: "center", fontSize: 14, color: "var(--k2-dim)" }}>
+        Don't have an account? <Link href="/register" style={{ color: "var(--k2-gold2)" }}>Register</Link>
       </div>
     </div>
   );
 }
-
