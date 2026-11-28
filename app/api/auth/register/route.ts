@@ -1,4 +1,4 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 import { db, hashPassword, nid, now } from "@/lib/db";
 import { startSession, publicUser, rateLimit } from "@/lib/auth";
 import { bad, ok, logErr } from "@/lib/guard";
@@ -21,7 +21,8 @@ export async function POST(req: Request) {
     const e = email.trim().toLowerCase();
     if (await db.userByEmail(e)) return bad("That email is already registered");
     const id = nid();
-    await db.createUser({ id, email: e, name: name.trim(), password: hashPassword(password), role: "user", avatar: "bolt", balance: 0, banned: false, created: now() });
+    await db.createUser({ id, email: e, name: name.trim(), password: hashPassword(password), role: "user", avatar: "bolt", balance: 0,
+      must_change_password: false, banned: false, created: now() });
     // zero-start policy: admin funds accounts manually
     await startSession(id);
     const u = await db.userById(id);

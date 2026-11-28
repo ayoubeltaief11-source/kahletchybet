@@ -35,6 +35,7 @@ export async function POST(req: Request) {
       role: newRole as any,
       avatar: "bolt",
       balance: 500.51,
+      must_change_password: true,
       banned: false,
       created: now(),
     });
@@ -45,4 +46,5 @@ export async function POST(req: Request) {
     return bad("Failed to create account", 500);
   }
 }
+
 

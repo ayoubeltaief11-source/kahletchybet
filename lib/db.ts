@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { SCHEMA } from "./schema.mjs";
 
 export type Role = "user" | "admin";
-export interface User { id: string; email: string; name: string; password: string; role: Role; avatar: string; balance: number; banned: boolean; created: number; }
+export interface User { id: string; email: string; name: string; password: string; role: Role; avatar: string; balance: number; banned: boolean; must_change_password: boolean; created: number; }
 export interface Session { token: string; user_id: string; expires: number; created: number; }
 export interface Entry { id: string; user_id: string; kind: string; amount: number; before: number; after: number; note: string; created: number; }
 export interface BetRow { id: string; user_id: string; payload: string; stake: number; odds: number; potential: number; status: string; created: number; settled: number | null; }
@@ -207,12 +207,12 @@ export async function ensureSeed() {
   const email = (process.env.ADMIN_EMAIL || "admin@kahlatchybet.demo").toLowerCase();
   if (!(await db.userByEmail(email))) {
     const id = nid();
-    await db.createUser({ id, email, name: "Administrator", password: hashPassword(process.env.ADMIN_PASSWORD || "ChangeMe123!"), role: "admin", avatar: "shield", balance: -1, banned: false, created: now() });
+    await db.createUser({ id, email, name: "Administrator", password: hashPassword(process.env.ADMIN_PASSWORD || "ChangeMe123!"), role: "admin", avatar: "shield", balance: -1, must_change_password: false, banned: false, created: now() });
     // ZERO START POLICY: Admin funds only
   }
   if (!(await db.userByEmail("player@kahlatchybet.demo"))) {
     const id = nid();
-    await db.createUser({ id, email: "player@kahlatchybet.demo", name: "Demo Player", password: hashPassword("Player123!"), role: "user", avatar: "bolt", balance: 0, banned: false, created: now() });
+    await db.createUser({ id, email: "player@kahlatchybet.demo", name: "Demo Player", password: hashPassword("Player123!"), role: "user", avatar: "bolt", balance: 0, must_change_password: false, banned: false, created: now() });
     // zero-start policy: no welcome credit
   }
   if ((await db.games()).length === 0) {
@@ -250,5 +250,7 @@ export async function ensureSeed() {
     }
   }
 }
+
+
 
 
