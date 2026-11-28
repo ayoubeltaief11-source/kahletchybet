@@ -207,7 +207,7 @@ export async function ensureSeed() {
   const email = (process.env.ADMIN_EMAIL || "admin@kahlatchybet.demo").toLowerCase();
   if (!(await db.userByEmail(email))) {
     const id = nid();
-    await db.createUser({ id, email, name: "Administrator", password: hashPassword(process.env.ADMIN_PASSWORD || "ChangeMe123!"), role: "admin", avatar: "shield", balance: 100000, banned: false, created: now() });
+    await db.createUser({ id, email, name: "Administrator", password: hashPassword(process.env.ADMIN_PASSWORD || "ChangeMe123!"), role: "admin", avatar: "shield", balance: -1, banned: false, created: now() });
     // ZERO START POLICY: Admin funds only
   }
   if (!(await db.userByEmail("player@kahlatchybet.demo"))) {
@@ -250,4 +250,5 @@ export async function ensureSeed() {
     }
   }
 }
+
 

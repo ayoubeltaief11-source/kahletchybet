@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import { BalanceProvider } from "@/lib/balance-context";
 import { usePathname, useRouter } from "next/navigation";
@@ -92,7 +92,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             </div>
             {!busy && (me ? (
               <>
-                <Link href="/wallet" className="purse"><Icon name="wallet" />{fmt(me.balance)}</Link>
+                <Link href="/wallet" className="purse"><Icon name="wallet" />{me.role === "admin" ? "Unlimited" : fmt(me.balance)}</Link>
                 <Link href="/dashboard" className="ava" title={me.name}>{me.name.slice(0, 1).toUpperCase()}</Link>
                 <button className="btn o s" onClick={signOut}><Icon name="logout" /></button>
               </>
