@@ -64,7 +64,8 @@ export default function AdminTD() {
             </div>
             <div className="chipline mb">{[10,20,50,100].map(v => <button key={v} className="btn o s" onClick={() => setAmt(String(v))}>{v} TD</button>)}</div>
             <div className="row wrap">
-              <button className="btn j" disabled={busy || !uid} onClick={() => act("admin_credit", uid, Number(amt))}>Admin Credit TD</button>
+              <button className="btn j" disabled={busy || !uid} onClick={() => act("deposit", uid, Number(amt))}>Deposit TD</button>
+              <button className="btn d" disabled={busy || !uid} onClick={() => act("withdraw", uid, Number(amt))}>Withdraw TD</button>
             </div>
           </div>
           <div className="card pad">
@@ -217,5 +218,6 @@ function CapRow({ u, busy, onSave }: { u: any; busy: boolean; onSave: (v: number
     </tr>
   );
 }
+
 
 
